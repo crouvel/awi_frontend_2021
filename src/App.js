@@ -4,7 +4,7 @@ import './App.css';
 import Home from './components/Home/Home';
 import TechnichalSheets from './components/TechnichalSheets/TechnichalSheets';
 import Mercurials from './components/Mercurials/Mercurials';
-import AllergenList from './components/AllergenList/AllergenList';
+// import AllergenList from './components/AllergenList/AllergenList';
 
 import {
   BrowserRouter as Router,
@@ -30,9 +30,9 @@ function App() {
                     <li>
                     <Link to="/mercurials" className="li-element"><p >Mercurials</p></Link>
                     </li>
-                    <li>
-                    <Link to="/allergens" className="li-element"><p>Allergènes</p></Link>
-                    </li>
+                    {/* <li> */}
+                    {/* <Link to="/allergens" className="li-element"><p>Allergènes</p></Link> */}
+                    {/* </li> */}
                    
                 </ul>
             </nav>
@@ -44,9 +44,9 @@ function App() {
               <Route path="/sheets">
                 <TechnichalSheets />
               </Route>
-              <Route path="/allergens">
-                <AllergenList />
-              </Route>
+              {/* <Route path="/allergens"> */}
+                {/* <AllergenList /> */}
+              {/* </Route> */}
               <Route path="/">
                 <Home />
               </Route>
