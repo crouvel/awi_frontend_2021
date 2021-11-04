@@ -1,17 +1,33 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
+import {useDispatch, useSelector} from "react-redux";
+import { getIngredientCategories } from '../../actions/IngredientCategoriesAction';
 import './IngCategorycard.css';
+require("es6-promise").polyfill();
+require("isomorphic-fetch");
 
-class IngCategorycard extends Component {
+const IngredientCategories = () => {
+  const dispatch = useDispatch();
+  const categoriesIngredientList = useSelector((state) => state.IngredientCategories);
 
-    render() {
+  /*const [data, setData] = useState([]);*/
+    useEffect(() => {
+      const fetchData = () => {
+        dispatch(getIngredientCategories());
+    };
+    fetchData();
+      }
+   ,[dispatch])
+
+   console.log(categoriesIngredientList.data);
+ 
         return(
             <div class="main-container">
   <div class="cards">
     <div class="card card-1">
       <div class="card__icon"><i class="fas fa-bolt"></i></div>
       <p class="card__exit"><i class="fas fa-times"></i></p>
-      <h2 class="card__title">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
+      <h2 class="card__title"></h2>
       <p class="card__apply">
         <a class="card__link" href="#">Apply Now <i class="fas fa-arrow-right"></i></a>
       </p>
@@ -59,8 +75,8 @@ class IngCategorycard extends Component {
   </div>
 </div>
         )
-    }
+    
 
 }
 
-export default IngCategorycard;
+export default IngredientCategories;
