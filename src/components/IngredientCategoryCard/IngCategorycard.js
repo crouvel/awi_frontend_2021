@@ -22,7 +22,7 @@ const IngredientCategories = () => {
    console.log(categoriesIngredientList.data);
  
    const showData = () => {
-    if(categoriesIngredientList.data != null) {
+    if(categoriesIngredientList.data.length > 0) {
         return (
           <div class="main-container">
           <div class="cards">
