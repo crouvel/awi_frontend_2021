@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
 import './Mercurials.css';
-import IngCategorycard from '../IngredientCategoryCard/IngCategorycard';
+import IngCategorycards from '../IngredientCategoryCards/IngCategorycards';
 
 class Mercurials extends Component {
 
     render() {
         return(
             <div>mercurials
-                <IngCategorycard/>
+                <IngCategorycards/>
             </div>
         )
     }
