@@ -7,7 +7,10 @@ class Mercurials extends Component {
 
     render() {
         return(
-            <div>mercurials
+            <div>
+                <p>
+                mercurial
+                </p>
                 <IngCategorycards/>
             </div>
         )

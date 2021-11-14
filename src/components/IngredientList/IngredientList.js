@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-
+import {
+    useParams
+  } from "react-router-dom";
 import './IngredientList.css';
 
-class IngredientList extends Component {
-
-    render() {
+const IngredientList = () => {
+        
+    let {id} = useParams();
+    
         return(
-            <div>Liste ingredients par catégorie</div>
+            <div>Liste ingredients par catégorie : {id}</div>
         )
-    }
+    
 
 }
 
