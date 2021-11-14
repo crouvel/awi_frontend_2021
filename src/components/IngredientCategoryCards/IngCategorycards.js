@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIngredientCategories } from '../../actions/IngredientCategoriesAction';
 import './IngCategorycards.css';
 import {CategoryIngredientCard} from './CategoryIngredientCard';
-
+import Loading from '../Loading/Loading';
 
 const IngCategorycards = () => {
   const dispatch = useDispatch();
@@ -23,10 +23,10 @@ const IngCategorycards = () => {
 
   const showData = () => {
     if (categoriesIngredientList.data.length > 0) {
-      return categoriesIngredientList.data.map((element) => <CategoryIngredientCard data={element}/>)
+      return categoriesIngredientList.data.map((element) => <CategoryIngredientCard data={element}/>); 
     } else {
       if (categoriesIngredientList.loading) {
-        return <p>loading</p>;
+        return <Loading/>;
       }
       if (categoriesIngredientList.errorMsg !== "") {
         return <p>{categoriesIngredientList.errorMsg}</p>;
