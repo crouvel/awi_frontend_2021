@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredientCategories } from '../../actions/IngredientCategoriesAction';
 import './IngCategorycards.css';
-import {CategoryIngredientCard} from './CategoryIngredientCard';
+import { CategoryIngredientCard } from './CategoryIngredientCard';
 import Loading from '../Loading/Loading';
 
 const IngCategorycards = () => {
@@ -23,10 +23,11 @@ const IngCategorycards = () => {
 
   const showData = () => {
     if (categoriesIngredientList.data.length > 0) {
-      return categoriesIngredientList.data.map((element) => <CategoryIngredientCard data={element}/>); 
+      return categoriesIngredientList.data.map((element) => <CategoryIngredientCard data={element} />);
+
     } else {
       if (categoriesIngredientList.loading) {
-        return <Loading/>;
+        return <Loading />;
       }
       if (categoriesIngredientList.errorMsg !== "") {
         return <p>{categoriesIngredientList.errorMsg}</p>;
@@ -35,14 +36,14 @@ const IngCategorycards = () => {
       return <p>Impossible d'obtenir des données</p>;
     };
   }
-return (
-  <div class="classContainer">
-    {
-      showData()
-    }
-  </div>
-)
-    
+  return (
+    <div class="classContainer">
+      {
+        showData()
+      }
+    </div>
+  )
+
 
 }
 
