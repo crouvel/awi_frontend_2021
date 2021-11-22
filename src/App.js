@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import Home from './components/Home/Home';
 import TechnichalSheets from './components/TechnichalSheets/TechnichalSheets';
-import Mercurials from './components/Mercurials/Mercurials';
+import Mercurial from './components/Mercurial/Mercurial';
 // import AllergenList from './components/AllergenList/AllergenList';
 import {
   BrowserRouter as Router,
@@ -38,7 +38,7 @@ function App() {
 
         
           <Route exact path="/mercurial">
-            <Mercurials />
+            <Mercurial />
           </Route>
           <Route exact path="/sheets">
             <TechnichalSheets />
