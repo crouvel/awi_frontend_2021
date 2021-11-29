@@ -1,7 +1,7 @@
 .create-sheet2{
-    background: linear-gradient(45deg, rgb(7, 138, 199), rgb(61, 58, 241));
+    background: linear-gradient(45deg, rgba(134, 162, 255, 0.89), rgba(123, 121, 255, 0.877));
     width: 20%;
-    height: 45px;        
+    height: 50px;        
 }
 
 form{
@@ -10,9 +10,65 @@ form{
 }
 
 form input{
-   margin: 10px; 
+   
 }
 
 .input1 {
+    width: 90%;
+    margin-top: 5px;
+    border: none; 
+    border:solid 1px #ccc;
+    border-radius: 10px;
+    height: 35px;
+}
+
+.container-input1{
+    display: flex;
+    flex-direction: row; 
+    margin-bottom: 15px;
+}
+
+.sub-container{
+    display: flex;
+    flex-direction: column; 
+    width: 50%;
+}
+
+.submit-button{
     width: 30%;
+    margin-right: auto;
+    margin-left: auto;
+    background: linear-gradient(45deg, rgb(7, 138, 199), rgb(61, 58, 241));
+}
+
+.container-input2{
+    display: flex;
+    flex-direction: row; 
+    margin-bottom: 25px;
+}
+
+.container{
+    max-height: auto;
+    max-width: auto;
+    background: rgba(0, 89, 255, 0.486);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.erreur{
+    color: red;
+}
+
+.input-number{
+    width: 15%;
+    border: none; /* <-- This thing here */
+    border:solid 1px #ccc;
+    border-radius: 10px;
+    height: 35px;
+    margin-top: 5px;
+}
+
+label{
+    font-weight: bold;
+    font-size: 15px;
 }

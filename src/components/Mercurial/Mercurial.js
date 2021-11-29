@@ -7,12 +7,12 @@ class Mercurials extends Component {
 
     render() {
         return(
-            <div>
-                <p>
-            
-                </p>
+            <>
+                <div className="text-center">
+                <h1>Mercurial</h1>
+                </div>
                 <IngCategorycards/>
-            </div>
+            </>
         )
     }
 
