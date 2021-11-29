@@ -13,6 +13,8 @@ import {
   Redirect
 } from "react-router-dom";
 import IngredientList from './components/IngredientList/IngredientList';
+import CreateTechnichalSheet from './components/CreateTechnichalSheet/CreateTechnichalSheet';
+
 function App() {
   return (
     <div className="App">
@@ -48,6 +50,9 @@ function App() {
           {/* </Route> */}
           <Route exact path="/mercurial/:id">
           < IngredientList/>
+          </Route>
+          <Route exact path="/sheets/creation">
+          < CreateTechnichalSheet/>
           </Route>
           <Route exact path="/">
             <Home />

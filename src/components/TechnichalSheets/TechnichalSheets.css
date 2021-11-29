@@ -1,0 +1,17 @@
+.create-sheet{
+    background: radial-gradient(#76b2fe, #b69efe);
+    width: 60%;
+    height: 60px;
+    border-color: #76b2fe;
+    
+}
+
+.button-container{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.intro{
+    font-size: 20px;
+   
+}

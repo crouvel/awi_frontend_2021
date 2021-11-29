@@ -1,0 +1,18 @@
+.create-sheet2{
+    background: linear-gradient(45deg, rgb(7, 138, 199), rgb(61, 58, 241));
+    width: 20%;
+    height: 45px;        
+}
+
+form{
+   display: flex;
+   flex-direction: column; 
+}
+
+form input{
+   margin: 10px; 
+}
+
+.input1 {
+    width: 30%;
+}
