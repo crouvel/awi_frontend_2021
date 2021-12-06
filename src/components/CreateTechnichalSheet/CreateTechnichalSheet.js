@@ -1,4 +1,5 @@
-import React, { Component, useState } from 'react';
+import axios from "axios";
+import React, { Component, useState, Input, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import './CreateTechnichalSheet.css';
 import {
@@ -10,17 +11,41 @@ import {
     Redirect
 } from "react-router-dom";
 import { useFormik } from 'formik';
+import { useDispatch, useSelector } from "react-redux";
+import { getRecetteCategories } from '../../actions/RecetteCategoriesAction';
+import serverURL from "../../serverURL";
 
 const CreateTechnichalSheet = () => {
-    /*const [values, setValues] = React.useState({});
- 
-    const handleChange = event => {
-      setValues(prevValues => ({
-        ...prevValues,
-        // we use the name to tell Formik which key of `values` to update
-        [event.target.name]: event.target.value
-      }));
-    }*/
+
+    /*const dispatch = useDispatch();
+    const categoriesRecetteList = useSelector((state) => state.RecetteCategories);*/
+
+    /*const [data, setData] = useState([]);*/
+
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    useEffect(() => {
+        axios(`${serverURL}/api/recetteCat`)
+            .then((response) => {
+                setData(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
+
+    /*useEffect(() => {
+        const fetchData = () => {
+            dispatch(getRecetteCategories());
+        };
+        fetchData();
+    }
+        , [dispatch]);*/
 
     const validate = values => {
         const errors = {};
@@ -47,6 +72,7 @@ const CreateTechnichalSheet = () => {
     };
 
     const SheetCreationForm = () => {
+        console.log(data);
         const formik = useFormik({
             initialValues: {
                 NomRecette: '',
@@ -58,68 +84,84 @@ const CreateTechnichalSheet = () => {
                 alert(JSON.stringify(values, null, 2));
             },
         });
+
         return (
-            
-                <form onSubmit={formik.handleSubmit}>
-                    <div className="container-input1">
-                        <div className="sub-container">
-                            <label htmlFor="NomRecette">Nom de la recette</label>
-                            <input
-                                id="NomRecette"
-                                name="NomRecette"
-                                type="text"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.NomRecette}
-                                className="input1"
-                               
-                            />
-                            { formik.errors.NomRecette ? (
-                                <div className="erreur">{formik.errors.NomRecette}</div>
-                            ) : null}
-                        </div>
 
-                        <div className="sub-container">
-                            <label htmlFor="NomAuteur" className="font-weight-bold">Nom de l'auteur</label>
-                            <input
-                                id="NomAuteur"
-                                name="NomAuteur"
-                                type="text"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.NomAuteur}
-                                className="input1"
-                            />
-                            {formik.errors.NomAuteur ? (
-                                <div className="erreur">{formik.errors.NomAuteur}</div>
-                            ) : null}
-                        </div>
+            <form onSubmit={formik.handleSubmit}>
+                <div className="container-input1">
+                    <div className="sub-container">
+                        <label htmlFor="NomRecette">Nom de la recette</label>
+                        <input
+                            id="NomRecette"
+                            name="NomRecette"
+                            type="text"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.NomRecette}
+                            className="input1"
+
+                        />
+                        {formik.errors.NomRecette ? (
+                            <div className="erreur">{formik.errors.NomRecette}</div>
+                        ) : null}
                     </div>
 
-                    <div className="container-input2">
-                        <div className="sub-container">
-                            <label htmlFor="Nbrecouverts" className="font-weight-bold">Nombre de couverts</label>
-                            <input
-                                id="Nbrecouverts"
-                                name="Nbrecouverts"
-                                type="number"
-                                min="1"
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                value={formik.values.Nbrecouverts}
-                                className="input-number"
-                            />
-                            {formik.touched.Nbrecouverts && formik.errors.Nbrecouverts ? (
-                                <div className="erreur">{formik.errors.Nbrecouverts}</div>
-                            ) : null}
-                        </div>
+                    <div className="sub-container">
+                        <label htmlFor="NomAuteur" className="font-weight-bold">Nom de l'auteur</label>
+                        <input
+                            id="NomAuteur"
+                            name="NomAuteur"
+                            type="text"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.NomAuteur}
+                            className="input1"
+                        />
+                        {formik.errors.NomAuteur ? (
+                            <div className="erreur">{formik.errors.NomAuteur}</div>
+                        ) : null}
                     </div>
-                    <Button type="submit" className="submit-button">Créer fiche technique</Button>
-                </form>
-        
+                </div>
+
+                <div className="container-input2">
+                    <div className="sub-container">
+                        <label htmlFor="Nbrecouverts" className="font-weight-bold">Nombre de couverts</label>
+                        <input
+                            id="Nbrecouverts"
+                            name="Nbrecouverts"
+                            type="number"
+                            min="1"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.Nbrecouverts}
+                            className="input-select"
+                        />
+                        {formik.touched.Nbrecouverts && formik.errors.Nbrecouverts ? (
+                            <div className="erreur">{formik.errors.Nbrecouverts}</div>
+                        ) : null}
+                    </div>
+               
+
+                <div className="sub-container">
+                <label htmlFor="CategorieRecetteSelect" className="font-weight-bold">Catégorie de Recette</label>
+                    <select name="CategorieRecette" id="CategorieRecette" className="input-select">
+                        {
+                            data.map(element => {
+                                return <option value={formik.values.CategorieRecette}>
+                                    {element.libelleCatRecette}</option>;
+                            })
+                        }
+                    </select>
+                </div>
+                </div>
+                <Button type="submit" className="submit-button">Créer fiche technique</Button>
+
+            </form>
+
         );
     };
 
+    //console.log(categoriesRecetteList.data);
     return (
         <>
             <Link to="/sheets">
@@ -128,14 +170,15 @@ const CreateTechnichalSheet = () => {
                 </Button>
             </Link>
             <div className="container">
-            <div className="text-center mb-4">
-                <h1>Créer une fiche technique</h1>
+                <div className="text-center mb-4">
+                    <h1>Créer une fiche technique</h1>
                 </div>
 
-                
-            {
-                SheetCreationForm()
-            }
+
+                {
+
+                    SheetCreationForm()
+                }
             </div>
         </>
     );

@@ -19,7 +19,7 @@ const IngCategorycards = () => {
   }
     , [dispatch])
 
-  //console.log(categoriesIngredientList.data);
+  console.log(categoriesIngredientList.data);
 
   const showData = () => {
     if (categoriesIngredientList.data.length > 0) {
