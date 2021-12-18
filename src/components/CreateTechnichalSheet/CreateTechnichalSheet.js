@@ -11,16 +11,9 @@ import {
     Redirect
 } from "react-router-dom";
 import { useFormik } from 'formik';
-import { useDispatch, useSelector } from "react-redux";
-import { getRecetteCategories } from '../../actions/RecetteCategoriesAction';
 import serverURL from "../../serverURL";
 
 const CreateTechnichalSheet = () => {
-
-    /*const dispatch = useDispatch();
-    const categoriesRecetteList = useSelector((state) => state.RecetteCategories);*/
-
-    /*const [data, setData] = useState([]);*/
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -44,15 +37,7 @@ const CreateTechnichalSheet = () => {
             });
     }, []);
 
-    /*useEffect(() => {
-        const fetchData = () => {
-            dispatch(getRecetteCategories());
-        };
-        fetchData();
-    }
-        , [dispatch]);*/
-
-    const validate = values => {
+    const validate = () => {
         const errors = {};
 
         if (!nomRecette) {
@@ -73,29 +58,41 @@ const CreateTechnichalSheet = () => {
           errors.email = 'Invalid email address';
         }*/
 
+        if (!categorieRecette) {
+            errors.CategorieRecette = 'Catégorie de recette requise';
+        } /*else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+          errors.email = 'Invalid email address';
+        }*/
+
         return errors;
     };
-    const displayInfo = () =>{
+    
+    const displayInfo = () => {
         console.log(nomAuteur + ' ' + nomRecette + ' ' + nombreCouverts + ' ' + categorieRecette);
     }
 
+    const TechnichalSheet = () => {
+        axios.post(`${serverURL}/api/sheet/create`, {
+            nomRecette,
+            nomAuteur,
+            nombreCouverts,
+            categorieRecette
+        });
+    }
+
     const SheetCreationForm = () => {
-        /*console.log(data);*/
         const formik = useFormik({
             initialValues: {
                 NomRecette: '',
                 NomAuteur: '',
-                Nbrecouverts: ''
+                Nbrecouverts: '',
+                CategorieRecette: ''
             },
-            validate,
-            /*onSubmit: values => {
-                alert(JSON.stringify(values, null, 2));
-            },*/
+            validate
         });
 
         return (
-
-            <form onSubmit={formik.handleSubmit}>
+            <form>
                 <div className="container-input1">
                     <div className="sub-container">
                         <label htmlFor="NomRecette">Nom de la recette</label>
@@ -111,7 +108,7 @@ const CreateTechnichalSheet = () => {
                             className="input1"
 
                         />
-                        {formik.touched.Nbrecouverts && formik.errors.NomRecette ? (
+                        {formik.touched.NomRecette && formik.errors.NomRecette ? (
                             <div className="erreur">{formik.errors.NomRecette}</div>
                         ) : null}
                     </div>
@@ -129,7 +126,7 @@ const CreateTechnichalSheet = () => {
                             /*value={formik.values.NomAuteur}*/
                             className="input1"
                         />
-                        {formik.touched.Nbrecouverts && formik.errors.NomAuteur ? (
+                        {formik.touched.NomAuteur && formik.errors.NomAuteur ? (
                             <div className="erreur">{formik.errors.NomAuteur}</div>
                         ) : null}
                     </div>
@@ -155,10 +152,11 @@ const CreateTechnichalSheet = () => {
                         ) : null}
                     </div>
 
-
                     <div className="sub-container">
-                        <label htmlFor="CategorieRecetteSelect" className="font-weight-bold">Catégorie de Recette</label>
-                        <select name="CategorieRecette" id="CategorieRecette" className="input-select">
+                        <label htmlFor="CategorieRecette" className="font-weight-bold">Catégorie de Recette</label>
+                        <select name="CategorieRecette" id="CategorieRecette" className="input-select" onChange={(event) => {
+                            setCategorieRecette(event.target.value);
+                        }}>
                             {
                                 data.map(element => {
                                     return <option /*value={formik.values.CategorieRecette}*/>
@@ -166,16 +164,19 @@ const CreateTechnichalSheet = () => {
                                 })
                             }
                         </select>
+                        {formik.touched.CategorieRecette && formik.errors.CategorieRecette ? (
+                            <div className="erreur">{formik.errors.CategorieRecette}</div>
+                        ) : null}
                     </div>
                 </div>
-                <Button type="submit" onClick={displayInfo} className="submit-button">Créer fiche technique</Button>
 
+                <Button type="submit" onClick={TechnichalSheet} className="submit-button">Créer fiche technique</Button>
+            
             </form>
 
         );
     };
 
-    //console.log(categoriesRecetteList.data);
     return (
         <>
             <Link to="/sheets">
@@ -188,9 +189,7 @@ const CreateTechnichalSheet = () => {
                     <h1>Créer une fiche technique</h1>
                 </div>
 
-
                 {
-
                     SheetCreationForm()
                 }
             </div>
