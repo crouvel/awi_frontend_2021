@@ -25,8 +25,13 @@ const CreateTechnichalSheet = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [nomRecette, setNomRecette] = useState('');
+    const [nomAuteur, setNomAuteur] = useState('');
+    const [nombreCouverts, setNombreCouverts] = useState(0);
+    const [categorieRecette, setCategorieRecette] = useState('');
+
     useEffect(() => {
-        axios(`${serverURL}/api/recetteCat`)
+        axios(`${serverURL}/api/recetteCategories`)
             .then((response) => {
                 setData(response.data);
             })
@@ -50,19 +55,19 @@ const CreateTechnichalSheet = () => {
     const validate = values => {
         const errors = {};
 
-        if (!values.NomRecette) {
+        if (!nomRecette) {
             errors.NomRecette = 'Nom de recette requis';
         } /*else if (values.firstName.length > 15) {
           errors.firstName = 'Must be 15 characters or less';
         }*/
 
-        if (!values.NomAuteur) {
+        if (!nomAuteur) {
             errors.NomAuteur = "Nom d'auteur requis";
         } /*else if (values.lastName.length > 20) {
           errors.lastName = 'Must be 20 characters or less';
         }*/
 
-        if (!values.Nbrecouverts) {
+        if (!nombreCouverts) {
             errors.Nbrecouverts = 'Nombre de couverts requis';
         } /*else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
           errors.email = 'Invalid email address';
@@ -70,9 +75,12 @@ const CreateTechnichalSheet = () => {
 
         return errors;
     };
+    const displayInfo = () =>{
+        console.log(nomAuteur + ' ' + nomRecette + ' ' + nombreCouverts + ' ' + categorieRecette);
+    }
 
     const SheetCreationForm = () => {
-        console.log(data);
+        /*console.log(data);*/
         const formik = useFormik({
             initialValues: {
                 NomRecette: '',
@@ -80,9 +88,9 @@ const CreateTechnichalSheet = () => {
                 Nbrecouverts: ''
             },
             validate,
-            onSubmit: values => {
+            /*onSubmit: values => {
                 alert(JSON.stringify(values, null, 2));
-            },
+            },*/
         });
 
         return (
@@ -95,13 +103,15 @@ const CreateTechnichalSheet = () => {
                             id="NomRecette"
                             name="NomRecette"
                             type="text"
-                            onChange={formik.handleChange}
+                            onChange={(event) => {
+                                setNomRecette(event.target.value);
+                            }}
                             onBlur={formik.handleBlur}
-                            value={formik.values.NomRecette}
+                            /*value={formik.values.NomRecette}*/
                             className="input1"
 
                         />
-                        {formik.errors.NomRecette ? (
+                        {formik.touched.Nbrecouverts && formik.errors.NomRecette ? (
                             <div className="erreur">{formik.errors.NomRecette}</div>
                         ) : null}
                     </div>
@@ -112,12 +122,14 @@ const CreateTechnichalSheet = () => {
                             id="NomAuteur"
                             name="NomAuteur"
                             type="text"
-                            onChange={formik.handleChange}
+                            onChange={(event) => {
+                                setNomAuteur(event.target.value);
+                            }}
                             onBlur={formik.handleBlur}
-                            value={formik.values.NomAuteur}
+                            /*value={formik.values.NomAuteur}*/
                             className="input1"
                         />
-                        {formik.errors.NomAuteur ? (
+                        {formik.touched.Nbrecouverts && formik.errors.NomAuteur ? (
                             <div className="erreur">{formik.errors.NomAuteur}</div>
                         ) : null}
                     </div>
@@ -131,30 +143,32 @@ const CreateTechnichalSheet = () => {
                             name="Nbrecouverts"
                             type="number"
                             min="1"
-                            onChange={formik.handleChange}
+                            onChange={(event) => {
+                                setNombreCouverts(event.target.value);
+                            }}
                             onBlur={formik.handleBlur}
-                            value={formik.values.Nbrecouverts}
+                            /*value={formik.values.Nbrecouverts}*/
                             className="input-select"
                         />
                         {formik.touched.Nbrecouverts && formik.errors.Nbrecouverts ? (
                             <div className="erreur">{formik.errors.Nbrecouverts}</div>
                         ) : null}
                     </div>
-               
 
-                <div className="sub-container">
-                <label htmlFor="CategorieRecetteSelect" className="font-weight-bold">Catégorie de Recette</label>
-                    <select name="CategorieRecette" id="CategorieRecette" className="input-select">
-                        {
-                            data.map(element => {
-                                return <option value={formik.values.CategorieRecette}>
-                                    {element.libelleCatRecette}</option>;
-                            })
-                        }
-                    </select>
+
+                    <div className="sub-container">
+                        <label htmlFor="CategorieRecetteSelect" className="font-weight-bold">Catégorie de Recette</label>
+                        <select name="CategorieRecette" id="CategorieRecette" className="input-select">
+                            {
+                                data.map(element => {
+                                    return <option /*value={formik.values.CategorieRecette}*/>
+                                        {element.categorieNom}</option>;
+                                })
+                            }
+                        </select>
+                    </div>
                 </div>
-                </div>
-                <Button type="submit" className="submit-button">Créer fiche technique</Button>
+                <Button type="submit" onClick={displayInfo} className="submit-button">Créer fiche technique</Button>
 
             </form>
 
