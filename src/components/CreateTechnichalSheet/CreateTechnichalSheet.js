@@ -18,10 +18,10 @@ const CreateTechnichalSheet = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [nomRecette, setNomRecette] = useState('');
-    const [nomAuteur, setNomAuteur] = useState('');
-    const [nombreCouverts, setNombreCouverts] = useState(0);
-    const [categorieRecette, setCategorieRecette] = useState('');
+    const [nomRecette, setNomRecette] = useState(undefined);
+    const [nomAuteur, setNomAuteur] = useState(null);
+    const [nombreCouverts, setNombreCouverts] = useState(null);
+    const [categorieRecette, setCategorieRecette] = useState(null);
 
     useEffect(() => {
         axios(`${serverURL}/api/recetteCategories`)
@@ -35,6 +35,7 @@ const CreateTechnichalSheet = () => {
             .finally(() => {
                 setLoading(false);
             });
+           
     }, []);
 
     const validate = () => {
@@ -72,12 +73,14 @@ const CreateTechnichalSheet = () => {
     }
 
     const TechnichalSheet = () => {
+        
         axios.post(`${serverURL}/api/sheet/create`, {
             nomRecette,
             nomAuteur,
             nombreCouverts,
             categorieRecette
         });
+        console.log(nomRecette);    
     }
 
     const SheetCreationForm = () => {
@@ -88,11 +91,11 @@ const CreateTechnichalSheet = () => {
                 Nbrecouverts: '',
                 CategorieRecette: ''
             },
-            validate
+            validate,
         });
 
         return (
-            <form>
+            <form onSubmit={formik.handleSubmit}>
                 <div className="container-input1">
                     <div className="sub-container">
                         <label htmlFor="NomRecette">Nom de la recette</label>
@@ -104,11 +107,11 @@ const CreateTechnichalSheet = () => {
                                 setNomRecette(event.target.value);
                             }}
                             onBlur={formik.handleBlur}
-                            /*value={formik.values.NomRecette}*/
+                           
                             className="input1"
 
                         />
-                        {formik.touched.NomRecette && formik.errors.NomRecette ? (
+                        { formik.errors.NomRecette ? (
                             <div className="erreur">{formik.errors.NomRecette}</div>
                         ) : null}
                     </div>
@@ -126,7 +129,7 @@ const CreateTechnichalSheet = () => {
                             /*value={formik.values.NomAuteur}*/
                             className="input1"
                         />
-                        {formik.touched.NomAuteur && formik.errors.NomAuteur ? (
+                        { formik.errors.NomAuteur ? (
                             <div className="erreur">{formik.errors.NomAuteur}</div>
                         ) : null}
                     </div>
@@ -147,7 +150,7 @@ const CreateTechnichalSheet = () => {
                             /*value={formik.values.Nbrecouverts}*/
                             className="input-select"
                         />
-                        {formik.touched.Nbrecouverts && formik.errors.Nbrecouverts ? (
+                        {formik.errors.Nbrecouverts ? (
                             <div className="erreur">{formik.errors.Nbrecouverts}</div>
                         ) : null}
                     </div>
@@ -164,7 +167,7 @@ const CreateTechnichalSheet = () => {
                                 })
                             }
                         </select>
-                        {formik.touched.CategorieRecette && formik.errors.CategorieRecette ? (
+                        {formik.errors.CategorieRecette ? (
                             <div className="erreur">{formik.errors.CategorieRecette}</div>
                         ) : null}
                     </div>
