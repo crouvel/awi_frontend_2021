@@ -173,7 +173,7 @@ const CreateTechnichalSheet = () => {
                     </div>
                 </div>
 
-                <Button type="submit" onClick={TechnichalSheet} className="submit-button">Créer fiche technique</Button>
+                <Button type="submit" size="lg" onClick={TechnichalSheet} className="submit-button mt-3"><div>Créer fiche technique</div></Button>
             
             </form>
 
@@ -184,14 +184,15 @@ const CreateTechnichalSheet = () => {
         <>
             <Link to="/sheets">
                 <Button className="create-sheet2 m-3" variant="contained" size="lg">
-                    {"<< FICHES TECHNIQUES"}
+                    <div>{"<< FICHES TECHNIQUES"}</div>
                 </Button>
             </Link>
-            <div className="container">
-                <div className="text-center mb-4">
+          
+            <div className="container mt-1" >
+            <div className="text-center mb-4">
                     <h1>Créer une fiche technique</h1>
+                    <p className="intro">Ici, vous pouvez créer votre fiche technique.</p>
                 </div>
-
                 {
                     SheetCreationForm()
                 }

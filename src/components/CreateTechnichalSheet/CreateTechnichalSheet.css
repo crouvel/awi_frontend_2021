@@ -1,7 +1,8 @@
 .create-sheet2{
-    background: linear-gradient(45deg, rgba(134, 162, 255, 0.89), rgba(123, 121, 255, 0.877));
+    background: linear-gradient(45deg, #1fe4f5, #3fbafe);
     width: 20%;
-    height: 50px;        
+    height: 50px; 
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);       
 }
 
 form{
@@ -50,13 +51,15 @@ form input{
 .container{
     max-height: auto;
     max-width: auto;
-    background: rgba(0, 89, 255, 0.486);
+    background: radial-gradient(#1fe4f5, #3fbafe);
     padding: 10px;
     border-radius: 10px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+
 }
 
 .erreur{
-    color: red;
+    color: rgb(61, 58, 241);
 }
 
 .input-number{
@@ -80,4 +83,9 @@ label{
     border-radius: 10px;
     height: 35px;
     margin-top: 5px;
+}
+
+.intro{
+    font-size: 20px;
+   
 }
