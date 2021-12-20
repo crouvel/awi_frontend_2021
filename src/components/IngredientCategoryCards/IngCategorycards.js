@@ -43,8 +43,6 @@ const IngCategorycards = () => {
       }
     </div>
   )
-
-
 }
 
 export default IngCategorycards;

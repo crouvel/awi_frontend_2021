@@ -8,7 +8,7 @@ class Mercurials extends Component {
     render() {
         return(
             <>
-                <div className="text-center">
+                <div className="text-center mt-4">
                 <h1>Mercurial</h1>
                 </div>
                 <IngCategorycards/>

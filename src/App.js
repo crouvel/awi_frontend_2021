@@ -21,7 +21,6 @@ function App() {
   return (
     <div className="App">
       <Router>
-
         <nav className="NavbarItems">
           <ul className="nav-menu">
             <li>
@@ -36,7 +35,6 @@ function App() {
             {/* <li> */}
             {/* <Link to="/allergens" className="li-element"><p>Allergènes</p></Link> */}
             {/* </li> */}
-
           </ul>
         </nav>
 
@@ -49,23 +47,21 @@ function App() {
         {/* <Route path="/allergens"> */}
         {/* <AllergenList /> */}
         {/* </Route> */}
-        <Route exact path="/mercurial/:id">
+        <Route path="/mercurial/:id">
           < IngredientList />
         </Route>
         <Route exact path="/sheets/creation">
           < CreateTechnichalSheet />
         </Route>
-        <Route exact path="/sheets/creation/progression/:nomRecette">
+        <Route path="/sheets/creation/:nomRecette">
           <ProgressionCreation />
         </Route>
         <Route exact path="/">
           <Home />
         </Route>
-
-
       </Router>
     </div>
-    
+
   );
 }
 

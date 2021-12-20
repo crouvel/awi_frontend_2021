@@ -16,7 +16,7 @@ class TechnichalSheets extends Component {
         return (
             // <div>fiches techniques</div>
             <>
-            <div className="text-center">
+            <div className="text-center mt-4">
                 <h1>Fiches Techniques</h1>
             <p className="intro">Ici, vous pouvez créer, consulter ainsi que modifier vos fiches techniques.</p>
             </div>

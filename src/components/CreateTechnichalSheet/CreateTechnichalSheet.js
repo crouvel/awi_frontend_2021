@@ -85,7 +85,7 @@ const CreateTechnichalSheet = () => {
         console.log(nomRecette);
     }
 
-    const pdf = () => {
+    /*const pdf = () => {
         return (
             <div>
                 <Pdf targetRef={ref} filename="div-blue.pdf">
@@ -96,7 +96,7 @@ const CreateTechnichalSheet = () => {
                 <div style={{ width: 500, height: 500, background: 'blue' }} ref={ref} />
             </div>
         );
-    }
+    }*/
 
     const SheetCreationForm = () => {
         const formik = useFormik({
@@ -186,12 +186,12 @@ const CreateTechnichalSheet = () => {
                     </div>
                 </div>
 
-                {/*  nomRecette && nomAuteur && nombreCouverts && categorieRecette ?
-                <Link to={"/sheets/creation/progression/" + nomRecette}>*/}
-                <Button type="button" size="lg" onClick={TechnichalSheet} className="submit-button mt-3"><div>Créer fiche technique</div>
+                {  nomRecette && nomAuteur && nombreCouverts && categorieRecette ?
+                <Link to={"/sheets/creation/" + nomRecette}>
+                <Button type="button" size="lg" onClick={displayInfo} className="submit-button mt-3"><div>Créer fiche technique</div>
 
                 </Button>
-                {/* </Link> : null} */}
+                 </Link> : null}
 
             </form>
 
@@ -216,7 +216,7 @@ const CreateTechnichalSheet = () => {
                 }
             </div>
 
-            { pdf()}
+            {/* pdf()*/}
         </>
     );
 
