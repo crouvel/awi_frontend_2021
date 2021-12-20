@@ -12,16 +12,18 @@ import {
 } from "react-router-dom";
 import { useFormik } from 'formik';
 import serverURL from "../../serverURL";
+import Pdf from "react-to-pdf";
 
 const CreateTechnichalSheet = () => {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [nomRecette, setNomRecette] = useState(undefined);
-    const [nomAuteur, setNomAuteur] = useState(null);
-    const [nombreCouverts, setNombreCouverts] = useState(null);
-    const [categorieRecette, setCategorieRecette] = useState(null);
+    const [nomRecette, setNomRecette] = useState('');
+    const [nomAuteur, setNomAuteur] = useState('');
+    const [nombreCouverts, setNombreCouverts] = useState(0);
+    const [categorieRecette, setCategorieRecette] = useState('Entrée');
+    const ref = React.createRef();
 
     useEffect(() => {
         axios(`${serverURL}/api/recetteCategories`)
@@ -35,7 +37,7 @@ const CreateTechnichalSheet = () => {
             .finally(() => {
                 setLoading(false);
             });
-           
+
     }, []);
 
     const validate = () => {
@@ -59,7 +61,7 @@ const CreateTechnichalSheet = () => {
           errors.email = 'Invalid email address';
         }*/
 
-        if (!categorieRecette) {
+        /*if (!categorieRecette) {
             errors.CategorieRecette = 'Catégorie de recette requise';
         } /*else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
           errors.email = 'Invalid email address';
@@ -67,20 +69,33 @@ const CreateTechnichalSheet = () => {
 
         return errors;
     };
-    
+
     const displayInfo = () => {
         console.log(nomAuteur + ' ' + nomRecette + ' ' + nombreCouverts + ' ' + categorieRecette);
     }
 
     const TechnichalSheet = () => {
-        
+
         axios.post(`${serverURL}/api/sheet/create`, {
             nomRecette,
             nomAuteur,
             nombreCouverts,
             categorieRecette
         });
-        console.log(nomRecette);    
+        console.log(nomRecette);
+    }
+
+    const pdf = () => {
+        return (
+            <div>
+                <Pdf targetRef={ref} filename="div-blue.pdf">
+                    {({ toPdf }) => (
+                        <button onClick={toPdf}>Generate pdf</button>
+                    )}
+                </Pdf>
+                <div style={{ width: 500, height: 500, background: 'blue' }} ref={ref} />
+            </div>
+        );
     }
 
     const SheetCreationForm = () => {
@@ -107,11 +122,9 @@ const CreateTechnichalSheet = () => {
                                 setNomRecette(event.target.value);
                             }}
                             onBlur={formik.handleBlur}
-                           
                             className="input1"
-
                         />
-                        { formik.errors.NomRecette ? (
+                        {formik.errors.NomRecette ? (
                             <div className="erreur">{formik.errors.NomRecette}</div>
                         ) : null}
                     </div>
@@ -129,7 +142,7 @@ const CreateTechnichalSheet = () => {
                             /*value={formik.values.NomAuteur}*/
                             className="input1"
                         />
-                        { formik.errors.NomAuteur ? (
+                        {formik.errors.NomAuteur ? (
                             <div className="erreur">{formik.errors.NomAuteur}</div>
                         ) : null}
                     </div>
@@ -173,8 +186,13 @@ const CreateTechnichalSheet = () => {
                     </div>
                 </div>
 
-                <Button type="submit" size="lg" onClick={TechnichalSheet} className="submit-button mt-3"><div>Créer fiche technique</div></Button>
-            
+                {/*  nomRecette && nomAuteur && nombreCouverts && categorieRecette ?
+                <Link to={"/sheets/creation/progression/" + nomRecette}>*/}
+                <Button type="button" size="lg" onClick={TechnichalSheet} className="submit-button mt-3"><div>Créer fiche technique</div>
+
+                </Button>
+                {/* </Link> : null} */}
+
             </form>
 
         );
@@ -187,9 +205,9 @@ const CreateTechnichalSheet = () => {
                     <div>{"<< FICHES TECHNIQUES"}</div>
                 </Button>
             </Link>
-          
+
             <div className="container mt-1" >
-            <div className="text-center mb-4">
+                <div className="text-center mb-4">
                     <h1>Créer une fiche technique</h1>
                     <p className="intro">Ici, vous pouvez créer votre fiche technique.</p>
                 </div>
@@ -197,6 +215,8 @@ const CreateTechnichalSheet = () => {
                     SheetCreationForm()
                 }
             </div>
+
+            { pdf()}
         </>
     );
 

@@ -14,6 +14,8 @@ import {
 } from "react-router-dom";
 import IngredientList from './components/IngredientList/IngredientList';
 import CreateTechnichalSheet from './components/CreateTechnichalSheet/CreateTechnichalSheet';
+import ProgressionCreation from './components/ProgressionCreation/ProgressionCreation';
+
 
 function App() {
   return (
@@ -38,29 +40,32 @@ function App() {
           </ul>
         </nav>
 
-        
-          <Route exact path="/mercurial">
-            <Mercurial />
-          </Route>
-          <Route exact path="/sheets">
-            <TechnichalSheets />
-          </Route>
-          {/* <Route path="/allergens"> */}
-          {/* <AllergenList /> */}
-          {/* </Route> */}
-          <Route exact path="/mercurial/:id">
-          < IngredientList/>
-          </Route>
-          <Route exact path="/sheets/creation">
-          < CreateTechnichalSheet/>
-          </Route>
-          <Route exact path="/">
-            <Home />
-          </Route>
-         
+        <Route exact path="/mercurial">
+          <Mercurial />
+        </Route>
+        <Route exact path="/sheets">
+          <TechnichalSheets />
+        </Route>
+        {/* <Route path="/allergens"> */}
+        {/* <AllergenList /> */}
+        {/* </Route> */}
+        <Route exact path="/mercurial/:id">
+          < IngredientList />
+        </Route>
+        <Route exact path="/sheets/creation">
+          < CreateTechnichalSheet />
+        </Route>
+        <Route exact path="/sheets/creation/progression/:nomRecette">
+          <ProgressionCreation />
+        </Route>
+        <Route exact path="/">
+          <Home />
+        </Route>
+
 
       </Router>
     </div>
+    
   );
 }
 
