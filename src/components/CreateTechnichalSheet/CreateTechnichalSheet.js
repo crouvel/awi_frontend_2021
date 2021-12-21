@@ -13,6 +13,7 @@ import {
 import { useFormik } from 'formik';
 import serverURL from "../../serverURL";
 import Pdf from "react-to-pdf";
+import BackButtonTechnichalSheet from "../BackButtonTechnichalSheet/BackButtonTechnichalSheet";
 
 const CreateTechnichalSheet = () => {
 
@@ -61,12 +62,6 @@ const CreateTechnichalSheet = () => {
           errors.email = 'Invalid email address';
         }*/
 
-        /*if (!categorieRecette) {
-            errors.CategorieRecette = 'Catégorie de recette requise';
-        } /*else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-          errors.email = 'Invalid email address';
-        }*/
-
         return errors;
     };
 
@@ -75,7 +70,6 @@ const CreateTechnichalSheet = () => {
     }
 
     const TechnichalSheet = () => {
-
         axios.post(`${serverURL}/api/sheet/create`, {
             nomRecette,
             nomAuteur,
@@ -189,22 +183,15 @@ const CreateTechnichalSheet = () => {
                 {  nomRecette && nomAuteur && nombreCouverts && categorieRecette ?
                 <Link to={"/sheets/creation/" + nomRecette}>
                 <Button type="button" size="lg" onClick={displayInfo} className="submit-button mt-3"><div>Créer fiche technique</div>
-
                 </Button>
                  </Link> : null}
-
             </form>
-
         );
     };
 
     return (
         <>
-            <Link to="/sheets">
-                <Button className="create-sheet2 m-3" variant="contained" size="lg">
-                    <div>{"<< FICHES TECHNIQUES"}</div>
-                </Button>
-            </Link>
+           <BackButtonTechnichalSheet/>
 
             <div className="container mt-1" >
                 <div className="text-center mb-4">
