@@ -10,6 +10,7 @@ import {
     Redirect
 } from "react-router-dom";
 import { useFormik } from 'formik';
+import BackButtonTechnichalSheet from '../BackButtonTechnichalSheet/BackButtonTechnichalSheet';
 
 const ProgressionCreation = () => {
     let { nomRecette } = useParams();
@@ -20,6 +21,8 @@ const ProgressionCreation = () => {
     const [ordre, setOrdre] = useState(0);
     const [submitted, setSubmitted] = useState(false);
     const [stepCreated, setStepCreated] = useState(false);
+    const [addMoreStep, setAddMoreStep] = useState(false);
+    const [addingStepFinished, setAddingStepFinished] = useState(false);
 
     const validate = () => {
         const errors = {};
@@ -41,13 +44,17 @@ const ProgressionCreation = () => {
     const displayInfo2 = () => {
         console.log(titre, description, ordre, temps);
         setStepCreated(true);
-        setSubmitted(false);
         console.log(submitted, stepCreated);
     }
 
     const displayInfo = () => {
         console.log(reference);
         setSubmitted(true);
+    }
+
+    const displayInfo3 = () => {
+        setStepCreated(false);
+        setAddMoreStep(true);
     }
 
     const CreationProgression = () => {
@@ -59,7 +66,7 @@ const ProgressionCreation = () => {
         });
         return (
             <>
-                {!stepCreated ? <div className="container mt-2 mb-2" >
+                {!submitted ? <div className="container mt-2 mb-2" >
                     <div className="text-center">
                         <h1>Ajouter une progression</h1>
                         <h2>{nomRecette}</h2>
@@ -105,10 +112,24 @@ const ProgressionCreation = () => {
         });
         return (
             <>
+                <div className="container mt-3 mb-2 text-center" >
+                    <h1>Progression : {reference}</h1>
+                </div>
                 {!stepCreated ? <div className="container mt-3 mb-2" >
+                    {/*addMoreStep ?
+                        <div className="container mt-3 mb-2" >
+                            <div className="text-center">
+                                <h2>Ajouter une autre étape ...</h2>
+                            </div>
+
+                        </div>
+                    : null*/}
+
                     <div className="text-center">
-                        <h1>Progression : {reference}</h1>
-                        <h2>Veuillez ajouter des étapes</h2>
+
+                        {!addMoreStep ?
+                            <h2>Ajoutez des étapes à la progression</h2> : null}
+
                     </div>
                     <form onSubmit={formik.handleSubmit}>
 
@@ -138,7 +159,7 @@ const ProgressionCreation = () => {
                                 onBlur={formik.handleBlur}
                                 className="longinput"
                             />
-                            <label htmlFor="Temps" className="mt-2">Temps</label>
+                            <label htmlFor="Temps" className="mt-2">Temps (en min)</label>
                             <input
                                 id="Temps"
                                 name="Temps"
@@ -169,33 +190,48 @@ const ProgressionCreation = () => {
                                 <div className="erreur">{formik.errors.Ordre}</div>
                             ) : null}
                             {reference && titre && temps && ordre ? <Button type="button" size="lg" onClick={displayInfo2} className="step-create mt-3"><div>Créer l'étape</div></Button>
-                                : <Button type="button" size="lg" className="step-create mt-3" disabled><div>Créer l'étape</div></Button>}
+                                : <Button type="button" size="lg" className="step-create mt-3" disabled><div>Ajouter l'étape</div></Button>}
                         </div>
                     </form>
                 </div> : null}
             </>);
     }
 
-    const AddIngredients = () => {
+    const AddMoreSteps = () => {
         return (
             <>
+                {/*<div className="container mt-3 mb-2" >
+                     <div className="text-center">
+                             <h1>Ajouter d'autres étapes ?</h1>
+                         </div>
+     
+        </div>*/}
                 <div className="container mt-3 mb-2" >
+                    <div className="text-center">
+                        <h2>Voulez-vous ajouter une autre étape ?</h2>
+                        <button class="btn btn-primary btn-lg active" onClick={displayInfo3}>Oui</button>
+                        <button class="btn btn-success btn-lg">Terminer</button>
+                    </div>
                 </div>
-                <div>oui </div>
             </>
         );
     }
 
+    const AddIngredients = () => {
+        return (
+            <>
+                <div>Ajout ingredients</div>
+            </>
+        )
+    }
+
     return (
         <>
-            <Link to="/sheets">
-                <Button className="create-sheet2 m-3" variant="contained" size="lg">
-                    <div>{"<< FICHES TECHNIQUES"}</div>
-                </Button>
-            </Link>
+            <BackButtonTechnichalSheet />
             {!submitted ? CreationProgression() : null}
             {submitted ? AddSteps() : null}
-            {stepCreated ? AddIngredients() : null}
+            {stepCreated ? AddMoreSteps() : null}
+            {addingStepFinished ? AddIngredients() : null}
 
         </>
     )
