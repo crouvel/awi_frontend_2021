@@ -78,6 +78,15 @@ label{
     margin-top: 5px;
 }
 
+.input-select{
+    width: 25%;
+    border: none; /* <-- This thing here */
+    border:solid 1px #ccc;
+    border-radius: 10px;
+    height: 35px;
+    margin-top: 5px;
+}
+
 .intro{
     font-size: 20px;
    

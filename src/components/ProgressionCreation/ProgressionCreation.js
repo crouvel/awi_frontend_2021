@@ -28,6 +28,8 @@ const ProgressionCreation = () => {
     const [libelleIngredient, setLibelleIngredient] = useState('');
     const [quantite, setQuantite] = useState(0);
     const [addIngredient, setAddIngredient] = useState(false);
+    const options = [{ value: '1', label: 'oui' }, { value: '2', label: "tt" }];
+    const [ingredientAdded, setIngredientAdded] = useState(false);
 
     const validate = () => {
         const errors = {};
@@ -46,6 +48,12 @@ const ProgressionCreation = () => {
         if (!nomListe) {
             errors.NomListe = "Veuillez indiquer un nom de liste d'ingrédients ou le nom de l'étape associée à cette liste";
         }
+        if (!quantite) {
+            errors.Quantite = 'Quantité requise';
+        }
+        if (!libelleIngredient) {
+            errors.NomIngredient = 'Veuillez sélectionner un ingrédient';
+        }
         return errors;
     };
 
@@ -63,16 +71,6 @@ const ProgressionCreation = () => {
     const displayInfo3 = () => {
         setStepCreated(false);
         setAddMoreStep(true);
-    }
-
-    const displayInfo4 = () => {
-        setAddingStepFinished(true);
-    }
-
-
-    const displayInfo5 = () => {
-        console.log(nomListe);
-        setAddIngredient(true);
     }
 
     const CreationProgression = () => {
@@ -141,8 +139,8 @@ const ProgressionCreation = () => {
                     <>
                         <div className="container mt-3 mb-2" >
                             <div className="text-center mb-3">
-                                <h1>Progression : {reference}</h1>
-                                <h2 className="mt-3">Ajoutez des étapes à la progression</h2>
+                                <h1>Ajoutez une étape à la progression</h1>
+                                <h2 className="mt-3">Progression : {reference}</h2>
                             </div>
                             <form onSubmit={formik.handleSubmit}>
                                 <div className="sub-container">
@@ -221,7 +219,9 @@ const ProgressionCreation = () => {
                         <h1>Voulez-vous ajouter une autre étape ?</h1>
                         <div className="mt-4">
                             <button className="btn btn-primary btn-lg m-2" onClick={displayInfo3}>Créer une autre étape</button>
-                            <button className="btn btn-success btn-lg m-2" onClick={displayInfo4}>Terminer l'ajout d'étape</button>
+                            <Link to={"/sheets/creation/" + nomRecette + "/" + reference} >
+                                <button className="btn btn-success btn-lg m-2" >Terminer l'ajout d'étape</button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -230,65 +230,31 @@ const ProgressionCreation = () => {
         );
     }
 
-    const CreateListIngredients = () => {
-        const formik = useFormik({
-            initialValues: {
-                NomListe: ''
-            },
-            validate,
-        });
-
+    const AddMoreIngredients = () => {
         return (
-            <>
-                <div className="container mt-3 mb-2 text-center" >
-                    <h1>Progression : {reference}</h1>
-                </div>
-                <div className="container mt-3 mb-2 text-center" >
-                    <h2>Associez des ingrédients aux étapes créées</h2>
-                </div>
-
-                <div className="container mt-3 mb-2" >
-                    <div className="text-center mb-3">
-                        <h2 className="mt-1">Créez votre liste d'ingrédients</h2>
+            <div className="container mt-3 mb-2 p-5" >
+                <div className="text-center">
+                    <h1>Ajouter un autre ingrédient ?</h1>
+                    <div className="mt-4">
+                        <button className="btn btn-primary btn-lg m-2" onClick={setIngredientAdded(false)}>Créer une autre étape</button>
+                        {/* <button className="btn btn-success btn-lg m-2" onClick={displayInfo4}>Terminer l'ajout d'étape</button> */}
                     </div>
-                    <div className="container-input1">
-                        <div className="sub-container2">
-                            <label htmlFor="NomListe">Nom de la liste d'ingrédients ou de l'étape</label>
-                            <input
-                                id="NomListe"
-                                name="NomListe"
-                                type="text"
-                                onChange={(event) => {
-                                    setNomListe(event.target.value);
-                                }}
-                                onBlur={formik.handleBlur}
-                                className="inputname"
-                            />
-                            {formik.errors.NomListe ? (
-                                <div className="erreur">{formik.errors.NomListe}</div>
-                            ) : null}
-                        </div>
-                        <div className='sub-container3 m-2'>
-                        {nomListe ? <Button type="button" onClick={displayInfo5} className="step-create mt-3"><div>Créer Liste d'ingrédients</div></Button>
-                            : <Button type="button" className="step-create mt-3" disabled><div>Créer Liste d'ingrédients</div></Button>}
-                    </div>
-                    </div>          
                 </div>
-            </>
-        )
+            </div>
+        );
     }
 
     return (
         <>
             <BackButtonTechnichalSheet />
-            {!submitted && !addingStepFinished? CreationProgression() : null}
+            {!submitted && !addingStepFinished ? CreationProgression() : null}
             {submitted && !addingStepFinished ? AddSteps() : null}
             {stepCreated && !addingStepFinished ? AddMoreSteps() : null}
-            {addingStepFinished ? CreateListIngredients() : null}
-            {addIngredient ? <p>Ajout ingrédients</p> : null}
+            {/*addingStepFinished && !ingredientAdded ? CreateListIngredients() : null*/}
+            {/*ingredientAdded ? AddMoreIngredients() : null*/}
 
         </>
-    )
+    );
 }
 
 export default ProgressionCreation;

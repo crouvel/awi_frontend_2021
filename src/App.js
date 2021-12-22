@@ -15,6 +15,7 @@ import {
 import IngredientList from './components/IngredientList/IngredientList';
 import CreateTechnichalSheet from './components/CreateTechnichalSheet/CreateTechnichalSheet';
 import ProgressionCreation from './components/ProgressionCreation/ProgressionCreation';
+import AddIngredientsStep from './components/AddIngredientsStep/AddIngredientsStep';
 
 
 function App() {
@@ -53,8 +54,11 @@ function App() {
         <Route exact path="/sheets/creation">
           < CreateTechnichalSheet />
         </Route>
-        <Route path="/sheets/creation/:nomRecette">
+        <Route exact path="/sheets/creation/:nomRecette">
           <ProgressionCreation />
+        </Route>
+        <Route path="/sheets/creation/:nomRecette/:nomProgression">
+          <AddIngredientsStep />
         </Route>
         <Route exact path="/">
           <Home />
