@@ -48,6 +48,15 @@
     margin-right: auto;
 }
 
+.inputname{
+    width: 90%;
+    margin-top: 5px;
+    border: none; 
+    border:solid 1px #ccc;
+    border-radius: 10px;
+    height: 35px;
+}
+
 .container-input1{
    
     margin-bottom: 15px;
@@ -61,7 +70,14 @@
 
 
 .sub-container2{
-    width: 50%;
+    display: flex;
+    flex-direction: column; 
+    width: 80%;
+}
+
+.sub-container3{
+     
+    width: 150%;
 }
 
 .longtext{
