@@ -59,6 +59,11 @@
     width: 50%;
 }
 
+
+.sub-container2{
+    width: 50%;
+}
+
 .longtext{
     display: flex;
     flex-direction: column; 
@@ -76,5 +81,9 @@
     height: 200px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.boutton1{
+    background-color: linear-gradient(45deg, rgb(7, 138, 199), rgb(61, 58, 241)) ;
 }
 
