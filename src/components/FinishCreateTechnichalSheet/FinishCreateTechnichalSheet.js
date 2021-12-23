@@ -20,19 +20,20 @@ const FinishCreateTechnichalSheet = () => {
 
     return (
         <>
-            <div className="container mt-5 mb-2 p-5 text-center" >
-                <div className="text-center mb-3">
+            <div className="greencontainer mt-5 mb-2 p-5 text-center" >
+                <div className="text-center mt-4 mb-5">
                     <h1>La création de la fiche technique {nomRecette}</h1> <h1>a bien été réalisée !</h1>
                     <SiCheckmarx className="mt-2" size={40} />
                 </div>
+                <div className="text-center mt-4">
+                    <Link to={"/sheets"}>
+                        <Button className="go-to-sheets btn-success" size="lg">
+                            Retour aux fiches techniques
+                        </Button>
+                    </Link>
+                </div>
             </div>
-            <div className="text-center mt-3">
-            <Link to={"/sheets"}>
-                <Button className="go-to-sheets" size="lg">
-                        Retour aux fiches techniques
-                </Button>
-            </Link>
-            </div>
+
         </>
     );
 }
