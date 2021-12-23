@@ -1,0 +1,125 @@
+.create-sheet2{
+    background: linear-gradient(45deg, #1fe4f5, #3fbafe);
+    width: 20%;
+    height: 50px; 
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);       
+}
+.container{
+    max-height: auto;
+    max-width: auto;
+    background: radial-gradient(#1fe4f5, #3fbafe);
+    border-radius: 10px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+    padding: 15px;
+}
+
+.contained-text{
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size: 18px;
+}
+
+.subtext-progression{
+    font-size: 20px;
+}
+
+.step-create{
+    width: 30%;
+    margin-right: auto;
+    margin-left: auto;
+    background: linear-gradient(45deg, rgb(7, 138, 199), rgb(61, 58, 241));
+}
+
+.button-disabled{
+    width: 30%;
+    margin-right: auto;
+    margin-left: auto;
+    background: grey;
+}
+
+.input3 {
+    width: 90%;
+    margin-top: 5px;
+    border: none; 
+    border:solid 1px #ccc;
+    border-radius: 10px;
+    height: 35px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inputname{
+    width: 90%;
+    margin-top: 5px;
+    border: none; 
+    border:solid 1px #ccc;
+    border-radius: 10px;
+    height: 35px;
+}
+
+.inputquantite{
+    width: 60%;
+    border: none; 
+    border:solid 1px #ccc;
+    border-radius: 10px;
+    height: 35px;
+}
+
+.container-input1{  
+    margin-bottom: 15px;
+}
+
+.container2{
+    display: flex;
+    flex-direction: row; 
+    margin-bottom: 15px;
+}
+.sub-container{
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.sub-container2{
+    display: flex;
+    flex-direction: column; 
+    width: 80%;
+}
+
+.sub-container4{
+    display: flex;
+    flex-direction: column; 
+    width: 40%;
+    margin-bottom: 10px;
+}
+
+.sub-container3{   
+    width: 150%;
+}
+
+.longtext{
+    display: flex;
+    flex-direction: column; 
+    width: 50%;
+    height: 100%;
+    max-height: auto;
+}
+
+.longinput{
+    width: 90%;
+    margin-top: 5px;
+    border: none; 
+    border:solid 1px #ccc;
+    border-radius: 10px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.boutton1{
+    background-color: linear-gradient(45deg, rgb(7, 138, 199), rgb(61, 58, 241)) ;
+}
+
+.select-search{
+    width: 60%;
+}
