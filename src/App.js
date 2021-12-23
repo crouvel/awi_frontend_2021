@@ -16,7 +16,7 @@ import IngredientList from './components/IngredientList/IngredientList';
 import CreateTechnichalSheet from './components/CreateTechnichalSheet/CreateTechnichalSheet';
 import ProgressionCreation from './components/ProgressionCreation/ProgressionCreation';
 import AddIngredientsStep from './components/AddIngredientsStep/AddIngredientsStep';
-
+import FinishAddIngredientsStep from './components/FinishAddIngredientsStep/FinishAddIngredientsStep';
 
 function App() {
   return (
@@ -40,25 +40,28 @@ function App() {
         </nav>
 
         <Route exact path="/mercurial">
-          <Mercurial />
+          <Mercurial/>
         </Route>
         <Route exact path="/sheets">
-          <TechnichalSheets />
+          <TechnichalSheets/>
         </Route>
         {/* <Route path="/allergens"> */}
         {/* <AllergenList /> */}
         {/* </Route> */}
         <Route path="/mercurial/:id">
-          < IngredientList />
+          < IngredientList/>
         </Route>
         <Route exact path="/sheets/creation">
-          < CreateTechnichalSheet />
+          < CreateTechnichalSheet/>
         </Route>
         <Route exact path="/sheets/creation/:nomRecette">
-          <ProgressionCreation />
+          <ProgressionCreation/>
         </Route>
-        <Route path="/sheets/creation/:nomRecette/:nomProgression">
-          <AddIngredientsStep />
+        <Route exact path="/sheets/creation/:nomRecette/:nomProgression">
+          <AddIngredientsStep/>
+        </Route>
+        <Route path="/sheets/creation/:nomRecette/:nomProgression/askFinish">
+          <FinishAddIngredientsStep/>
         </Route>
         <Route exact path="/">
           <Home />

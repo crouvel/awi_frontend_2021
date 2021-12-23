@@ -14,7 +14,7 @@ import { useFormik } from 'formik';
 import serverURL from "../../serverURL";
 import Pdf from "react-to-pdf";
 import BackButtonTechnichalSheet from "../BackButtonTechnichalSheet/BackButtonTechnichalSheet";
-import Select from 'react-select'
+import Select from 'react-select';
 
 const AddIngredientsStep = () => {
     let { nomRecette, nomProgression } = useParams();
@@ -24,9 +24,14 @@ const AddIngredientsStep = () => {
     const [addIngredient, setAddIngredient] = useState(false);
     const options = [{ value: '1', label: 'oui' }, { value: '2', label: "tt" }];
     const [ingredientAdded, setIngredientAdded] = useState(false);
-    console.log(ingredientAdded);
+    const [listIngredientsAdded, setListIngredientsAdded] = useState(false);
+    const [addMoreIngredientsList, setAddMoreIngredientsList] = useState(true);
+    /*console.log(ingredientAdded);
+    console.log(listIngredientsAdded);*/
+    console.log(addMoreIngredientsList);
     const displayInfo5 = () => {
         setAddIngredient(true);
+        setAddMoreIngredientsList(false);
     }
 
     const displayInfo6 = () => {
@@ -37,6 +42,13 @@ const AddIngredientsStep = () => {
         setIngredientAdded(false);
     }
 
+    const displayInfo8 = () => {
+        setListIngredientsAdded(true);
+    }
+    
+    const displayInfo9 = () => {
+        setAddMoreIngredientsList(true);
+    }
     const validate = () => {
         const errors = {};
 
@@ -70,11 +82,9 @@ const AddIngredientsStep = () => {
             <div className="container mt-3 mb-2 text-center" >
                 <h2>Associez des ingrédients aux étapes créées</h2>
             </div>
-
             <div className="container mt-3 mb-2" >
-
-                {!ingredientAdded ?
-                    (!addIngredient ?
+                {!ingredientAdded  ?
+                    (!addIngredient || addMoreIngredientsList ?
                         <>
                             <h3 className="text-center mb-2">Associez une liste d'ingrédients à une étape</h3>
                             <div className="container-input1">
@@ -149,19 +159,28 @@ const AddIngredientsStep = () => {
                         </>
                     ) :
                     null}
-                {
-                    ingredientAdded ?
-                        <div className="text-center mb-3">
-                            <h3 className="mt-1">Associez les ingrédients pour : {nomListe}</h3>
-                            <h3>Voulez-vous ajouter un autre ingrédient ?</h3>
-                            <div className="mt-4">
-                                 <button className="btn btn-primary btn-lg m-2" onClick={displayInfo7}>Ajout d'un autre ingrédient</button>
-                                {/*<Link to={"/sheets/creation/" + nomRecette + "/" + reference} >
-                                <button className="btn btn-success btn-lg m-2" >Terminer l'ajout d'étape</button>
-                                    </Link>*/}
-                            </div>
-                        </div> : null
-                }
+                {ingredientAdded && !listIngredientsAdded?
+                    <div className="text-center mb-3">
+                        <h3 className="mt-1">Associez les ingrédients pour : {nomListe}</h3>
+                        <h3>Voulez-vous ajouter un autre ingrédient ?</h3>
+                        <div className="mt-4">
+                            <button className="btn btn-primary btn-lg m-2" onClick={displayInfo7}>Ajout d'un autre ingrédient</button>
+                            <Link to={"/sheets/creation/" + nomRecette + "/" + nomProgression + "/askFinish"} >
+                            <button className="btn btn-success btn-lg m-2">Terminer l'ajout d'ingrédients</button>
+                            </Link>
+                        </div>
+                    </div> :
+                    null}   
+                {listIngredientsAdded ? 
+                      <div className="text-center mb-3">
+                     <h3 className="mb-2">Associez une liste d'ingrédients à une étape</h3>
+                     <h3>Voulez-vous ajouter une autre liste d'ingrédients ?</h3>
+                     <div className="mt-4">
+                         <button className="btn btn-primary btn-lg m-2" onClick={displayInfo9}>Ajout d'une autre liste</button>
+                         {/* <button className="btn btn-success btn-lg m-2" onClick={displayInfo8}>Terminer l'ajout de listes</button> */}
+                     </div>
+                 </div>
+                    : null}
             </div>
         </>
     );
