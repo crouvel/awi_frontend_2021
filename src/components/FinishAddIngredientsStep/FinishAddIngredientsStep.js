@@ -29,14 +29,18 @@ const FinishAddIngredientsStep = () => {
                 <h2>Associez des ingrédients aux étapes créées</h2>
             </div>
             <div className="container mt-3 mb-2 text-center" >
+                <h2>Ingrédients ajoutés à la liste !</h2>
+            </div>
+            <div className="container mt-3 mb-2 text-center" >
                 <div className="text-center mb-3">
-                    <h3 className="mb-2">Associez une liste d'ingrédients à une étape</h3>
-                    <h3>Voulez-vous ajouter une autre liste d'ingrédients ?</h3>
+                    <h2>Voulez-vous ajouter une autre liste d'ingrédients ?</h2>
                     <div className="mt-4">
                         <Link to={"/sheets/creation/" + nomRecette + "/" + nomProgression} >
                             <button className="btn btn-primary btn-lg m-2">Ajout d'une autre liste</button>
                         </Link>
-                        {/* <button className="btn btn-success btn-lg m-2" onClick={displayInfo8}>Terminer l'ajout de listes</button> */}
+                        <Link to={"/sheets/" + nomRecette +"/creationFinished"}>
+                        <button className="btn btn-success btn-lg m-2">Terminer l'ajout de listes</button>
+                        </Link>
                     </div>
                 </div>
             </div>

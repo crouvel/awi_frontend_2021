@@ -27,9 +27,6 @@ const ProgressionCreation = () => {
     const [nomListe, setNomListe] = useState('');
     const [libelleIngredient, setLibelleIngredient] = useState('');
     const [quantite, setQuantite] = useState(0);
-    const [addIngredient, setAddIngredient] = useState(false);
-    const options = [{ value: '1', label: 'oui' }, { value: '2', label: "tt" }];
-    const [ingredientAdded, setIngredientAdded] = useState(false);
 
     const validate = () => {
         const errors = {};
@@ -230,29 +227,12 @@ const ProgressionCreation = () => {
         );
     }
 
-    const AddMoreIngredients = () => {
-        return (
-            <div className="container mt-3 mb-2 p-5" >
-                <div className="text-center">
-                    <h1>Ajouter un autre ingrédient ?</h1>
-                    <div className="mt-4">
-                        <button className="btn btn-primary btn-lg m-2" onClick={setIngredientAdded(false)}>Créer une autre étape</button>
-                        {/* <button className="btn btn-success btn-lg m-2" onClick={displayInfo4}>Terminer l'ajout d'étape</button> */}
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <>
             <BackButtonTechnichalSheet />
             {!submitted && !addingStepFinished ? CreationProgression() : null}
             {submitted && !addingStepFinished ? AddSteps() : null}
-            {stepCreated && !addingStepFinished ? AddMoreSteps() : null}
-            {/*addingStepFinished && !ingredientAdded ? CreateListIngredients() : null*/}
-            {/*ingredientAdded ? AddMoreIngredients() : null*/}
-
+            {stepCreated && !addingStepFinished ? AddMoreSteps() : null}           
         </>
     );
 }
