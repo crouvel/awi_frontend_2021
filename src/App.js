@@ -58,10 +58,10 @@ function App() {
         <Route exact path="/sheets/creation/:nomRecette">
           <ProgressionCreation />
         </Route>
-        <Route exact path="/sheets/creation/:nomRecette/:nomProgression">
+        <Route exact path="/sheets/creation/:nomRecette/:referenceProgression">
           <AddIngredientsStep />
         </Route>
-        <Route exact path="/sheets/creation/:nomRecette/:nomProgression/askFinish">
+        <Route exact path="/sheets/creation/:nomRecette/:referenceProgression/askFinish">
           <FinishAddIngredientsStep />
         </Route>
         <Route exact path="/sheets/:nomRecette/creationFinished">

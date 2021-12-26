@@ -1,5 +1,7 @@
 import React, { Component, useState } from 'react';
+import axios from "axios";
 import './ProgressionCreation.css';
+import serverURL from "../../serverURL";
 import { Button } from 'react-bootstrap';
 import {
     BrowserRouter as Router,
@@ -15,7 +17,7 @@ import { AiFillCheckCircle } from 'react-icons/ai';
 
 const ProgressionCreation = () => {
     let { nomRecette } = useParams();
-    const [reference, setReference] = useState('');
+    const [referenceProgression, setReferenceProgression] = useState('');
     const [titre, setTitre] = useState('');
     const [description, setDescription] = useState('');
     const [temps, setTemps] = useState(0);
@@ -30,7 +32,7 @@ const ProgressionCreation = () => {
 
     const validate = () => {
         const errors = {};
-        if (!reference) {
+        if (!referenceProgression) {
             errors.ReferenceProgression = 'Référence requise';
         }
         if (!titre) {
@@ -54,6 +56,30 @@ const ProgressionCreation = () => {
         return errors;
     };
 
+    const ProgressionCreation = () => {
+        axios.post(`${serverURL}/api/progression/create`, {
+            referenceProgression
+        });
+        console.log(nomRecette);
+        console.log(referenceProgression);
+        axios.post(`${serverURL}/api/progression/addSheet`, {
+            nomRecette,
+            referenceProgression
+         });
+         setSubmitted(true);
+    }
+
+    const StepCreation = () => {
+        axios.post(`${serverURL}/api/step/create`, {
+            titre, 
+            description, 
+            temps, 
+            ordre, 
+            referenceProgression
+        });
+        setStepCreated(true);
+    }
+
     const displayInfo2 = () => {
         console.log(titre, description, ordre, temps);
         setStepCreated(true);
@@ -61,7 +87,7 @@ const ProgressionCreation = () => {
     }
 
     const displayInfo = () => {
-        console.log(reference);
+        console.log(referenceProgression);
         setSubmitted(true);
     }
 
@@ -93,7 +119,7 @@ const ProgressionCreation = () => {
                                     name="ReferenceProgression"
                                     type="text"
                                     onChange={(event) => {
-                                        setReference(event.target.value);
+                                        setReferenceProgression(event.target.value);
                                     }}
                                     onBlur={formik.handleBlur}
                                     className="input3"
@@ -104,7 +130,7 @@ const ProgressionCreation = () => {
                             </div>
                         </div>
 
-                        {reference ? <Button type="button" size="lg" onClick={displayInfo} className="submit-button mt-3"><div>Ajouter progression</div></Button>
+                        {referenceProgression ? <Button type="button" size="lg" onClick={ProgressionCreation} className="submit-button mt-3"><div>Ajouter progression</div></Button>
                             : <Button type="button" size="lg" className="button-disabled mt-3" disabled><div>Ajouter progression</div></Button>}
 
                     </form>
@@ -137,7 +163,7 @@ const ProgressionCreation = () => {
                         <div className="container mt-3 mb-2" >
                             <div className="text-center mb-3">
                                 <h1>Ajoutez une étape à la progression</h1>
-                                <h2 className="mt-3">Progression : {reference}</h2>
+                                <h2 className="mt-3">Progression : {referenceProgression}</h2>
                             </div>
                             <form onSubmit={formik.handleSubmit}>
                                 <div className="sub-container">
@@ -195,7 +221,7 @@ const ProgressionCreation = () => {
                                     {formik.errors.Ordre ? (
                                         <div className="erreur">{formik.errors.Ordre}</div>
                                     ) : null}
-                                    {reference && titre && temps && ordre ? <Button type="button" size="lg" onClick={displayInfo2} className="step-create mt-3"><div>Créer l'étape</div></Button>
+                                    {referenceProgression && titre && temps && ordre ? <Button type="button" size="lg" onClick={StepCreation} className="step-create mt-3"><div>Créer l'étape</div></Button>
                                         : <Button type="button" size="lg" className="step-create mt-3" disabled><div>Ajouter l'étape</div></Button>}
                                 </div>
                             </form>
@@ -208,7 +234,7 @@ const ProgressionCreation = () => {
         return (
             <>
                 <div className="container mt-3 mb-2 text-center" >
-                    <h1>Progression : {reference}</h1>
+                    <h1>Progression : {referenceProgression}</h1>
                 </div>
 
                 <div className="container mt-3 mb-2 p-5" >
@@ -216,7 +242,7 @@ const ProgressionCreation = () => {
                         <h1>Voulez-vous ajouter une autre étape ?</h1>
                         <div className="mt-4">
                             <button className="btn btn-primary btn-lg m-2" onClick={displayInfo3}>Créer une autre étape</button>
-                            <Link to={"/sheets/creation/" + nomRecette + "/" + reference} >
+                            <Link to={"/sheets/creation/" + nomRecette + "/" + referenceProgression} >
                                 <button className="btn btn-success btn-lg m-2" >Terminer l'ajout d'étape</button>
                             </Link>
                         </div>

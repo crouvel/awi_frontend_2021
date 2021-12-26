@@ -181,10 +181,12 @@ const CreateTechnichalSheet = () => {
                 </div>
 
                 {  nomRecette && nomAuteur && nombreCouverts && categorieRecette ?
+                <div className="text-center">
                 <Link to={"/sheets/creation/" + nomRecette}>
-                <Button type="button" size="lg" onClick={displayInfo} className="submit-button mt-3"><div>Créer fiche technique</div>
+                <Button type="button" size="lg" onClick={TechnichalSheet} className="submit-button mt-3"><div>Créer fiche technique</div>
                 </Button>
-                 </Link> : null}
+                 </Link> 
+                 </div>: null}
             </form>
         );
     };

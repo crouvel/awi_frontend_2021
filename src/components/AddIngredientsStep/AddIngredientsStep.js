@@ -17,7 +17,7 @@ import BackButtonTechnichalSheet from "../BackButtonTechnichalSheet/BackButtonTe
 import Select from 'react-select';
 
 const AddIngredientsStep = () => {
-    let { nomRecette, nomProgression } = useParams();
+    let { nomRecette, referenceProgression } = useParams();
     const [nomListe, setNomListe] = useState('');
     const [libelleIngredient, setLibelleIngredient] = useState('');
     const [quantite, setQuantite] = useState(0);
@@ -27,6 +27,16 @@ const AddIngredientsStep = () => {
     const [listIngredientsAdded, setListIngredientsAdded] = useState(false);
     const [addMoreIngredientsList, setAddMoreIngredientsList] = useState(true);
     console.log(addMoreIngredientsList);
+    console.log(referenceProgression);
+    const ListCreation = () => {
+        /*axios.post(`${serverURL}/api/ingredientsList/create`, {
+            nomListe,
+            referenceProgression
+        });*/
+        setAddIngredient(true);
+        setAddMoreIngredientsList(false);
+    }
+
     const displayInfo5 = () => {
         setAddIngredient(true);
         setAddMoreIngredientsList(false);
@@ -39,7 +49,7 @@ const AddIngredientsStep = () => {
     const displayInfo7 = () => {
         setIngredientAdded(false);
     }
-    
+
     const displayInfo9 = () => {
         setAddMoreIngredientsList(true);
     }
@@ -71,13 +81,13 @@ const AddIngredientsStep = () => {
         <>
             <BackButtonTechnichalSheet />
             <div className="container mt-3 mb-2 text-center" >
-                <h1>Progression : {nomProgression}</h1>
+                <h1>Progression : {referenceProgression}</h1>
             </div>
             <div className="container mt-3 mb-2 text-center" >
                 <h2>Associez des ingrédients aux étapes créées</h2>
             </div>
             <div className="container mt-3 mb-2" >
-                {!ingredientAdded  ?
+                {!ingredientAdded ?
                     (!addIngredient || addMoreIngredientsList ?
                         <>
                             <h3 className="text-center mb-2">Associez une liste d'ingrédients à une étape</h3>
@@ -99,7 +109,7 @@ const AddIngredientsStep = () => {
                                     ) : null}
                                 </div>
                                 <div className='sub-container3 m-2'>
-                                    {nomListe ? <Button type="button" onClick={displayInfo5} className="step-create mt-3"><div>Créer Liste d'ingrédients</div></Button>
+                                    {nomListe ? <Button type="button" onClick={ListCreation} className="step-create mt-3"><div>Créer Liste d'ingrédients</div></Button>
                                         : <Button type="button" className="step-create mt-3" disabled><div>Créer Liste d'ingrédients</div></Button>}
                                 </div>
                             </div>
@@ -153,18 +163,18 @@ const AddIngredientsStep = () => {
                         </>
                     ) :
                     null}
-                {ingredientAdded && !listIngredientsAdded?
+                {ingredientAdded && !listIngredientsAdded ?
                     <div className="text-center mb-3">
                         <h2 className="mt-1">Associez les ingrédients pour : {nomListe}</h2>
                         <h3 className="mt-4">Voulez-vous ajouter un autre ingrédient ?</h3>
                         <div className="mt-1">
                             <button className="btn btn-primary btn-lg m-2" onClick={displayInfo7}>Ajout d'un autre ingrédient</button>
-                            <Link to={"/sheets/creation/" + nomRecette + "/" + nomProgression + "/askFinish"} >
-                            <button className="btn btn-success btn-lg m-2">Terminer l'ajout d'ingrédients</button>
+                            <Link to={"/sheets/creation/" + nomRecette + "/" + referenceProgression + "/askFinish"} >
+                                <button className="btn btn-success btn-lg m-2">Terminer l'ajout d'ingrédients</button>
                             </Link>
                         </div>
                     </div> :
-                    null}   
+                    null}
             </div>
         </>
     );

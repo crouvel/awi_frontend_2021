@@ -17,13 +17,13 @@ import BackButtonTechnichalSheet from "../BackButtonTechnichalSheet/BackButtonTe
 import Select from 'react-select';
 
 const FinishAddIngredientsStep = () => {
-    let { nomRecette, nomProgression } = useParams();
+    let { nomRecette, referenceProgression } = useParams();
 
     return (
         <>
             <BackButtonTechnichalSheet />
             <div className="container mt-3 mb-2 text-center" >
-                <h1>Progression : {nomProgression}</h1>
+                <h1>Progression : {referenceProgression}</h1>
             </div>
             <div className="container mt-3 mb-2 text-center" >
                 <h2>Associez des ingrédients aux étapes créées</h2>
@@ -35,7 +35,7 @@ const FinishAddIngredientsStep = () => {
                 <div className="text-center mb-3">
                     <h2>Voulez-vous ajouter une autre liste d'ingrédients ?</h2>
                     <div className="mt-4">
-                        <Link to={"/sheets/creation/" + nomRecette + "/" + nomProgression} >
+                        <Link to={"/sheets/creation/" + nomRecette + "/" + referenceProgression} >
                             <button className="btn btn-primary btn-lg m-2">Ajout d'une autre liste</button>
                         </Link>
                         <Link to={"/sheets/" + nomRecette +"/creationFinished"}>
