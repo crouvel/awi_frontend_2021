@@ -18,6 +18,8 @@ import Select from 'react-select';
 
 const AddIngredientsStep = () => {
     let { nomRecette, referenceProgression } = useParams();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const [nomListe, setNomListe] = useState('');
     const [libelleIngredient, setLibelleIngredient] = useState('');
     const [quantite, setQuantite] = useState(0);
@@ -26,13 +28,30 @@ const AddIngredientsStep = () => {
     const [ingredientAdded, setIngredientAdded] = useState(false);
     const [listIngredientsAdded, setListIngredientsAdded] = useState(false);
     const [addMoreIngredientsList, setAddMoreIngredientsList] = useState(true);
+    const [lastIngredientsListStep, setLastIngredientsListStep] = useState(0);
     console.log(addMoreIngredientsList);
     console.log(referenceProgression);
+    
+    /*useEffect(() => {
+        axios(`${serverURL}/api/recetteCategories`)
+            .then((response) => {
+                setData(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+
+    }, []);*/
+
     const ListCreation = () => {
-        /*axios.post(`${serverURL}/api/ingredientsList/create`, {
+        axios.post(`${serverURL}/api/ingredientsList/create`, {
             nomListe,
             referenceProgression
-        });*/
+        });
         setAddIngredient(true);
         setAddMoreIngredientsList(false);
     }
@@ -43,7 +62,25 @@ const AddIngredientsStep = () => {
     }
 
     const displayInfo6 = () => {
-        setIngredientAdded(true);
+        axios(`${serverURL}/api/ingredientsListStepLast/${nomListe}`)
+        .then((response) => {
+            setLastIngredientsListStep(response.data[0].idLastCreatedList);
+            //setIngredientAdded(true);
+        })
+        .catch((error) => {
+            console.error("Error fetching data: ", error);
+            setError(error);
+        })
+        .finally(() => {
+            setLoading(false);
+        });
+
+        axios.post(`${serverURL}/api/ingredients/addToListStep`, {
+            libelleIngredient, 
+            quantite, 
+            lastIngredientsListStep, 
+            referenceProgression
+        });
     }
 
     const displayInfo7 = () => {
