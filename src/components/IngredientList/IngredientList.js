@@ -9,11 +9,12 @@ import './IngredientList.css';
 import { getIngredientByCategory } from '../../actions/IngredientsByCategoryAction';
 import ReactFlexyTable from 'react-flexy-table';
 import 'react-flexy-table/dist/index.css';
+import { IngredientListCard } from './IngredientListCard';
+import BackButtonMercurial from '../BackButtonMercurial/BackButtonMercurial';
 
 const IngredientsList = () => {
     const dispatch = useDispatch();
     const ingredientsByCategoryList = useSelector((state) => state.IngredientsByCategory);
-
     let { id } = useParams();
 
     useEffect(() => {
@@ -23,22 +24,22 @@ const IngredientsList = () => {
         fetchData();
     }
         , [dispatch])
-    
-        const additionalCols = [{
-            header: "Actions",
-            td: (data) => {
-              return <div>
+
+    const additionalCols = [{
+        header: "Actions",
+        td: (data) => {
+            return <div>
                 {/* <img src={deleteIcon} width="30" height="20" onClick={() => alert("this is delete for id " + data.id)} /> // delete icon */}
                 {/* <img src={editIcon} width="30" height="20" onClick={() => alert("this is edit for id " + data.id)} /> // edit icon */}
-              </div>
-            }
-          }]
+            </div>
+        }
+    }]
 
     const showData = () => {
         if (ingredientsByCategoryList.data.length > 0) {
             console.log(ingredientsByCategoryList.data);
-            return <ReactFlexyTable data={ingredientsByCategoryList.data} /> 
-            
+            return ingredientsByCategoryList.data.map((element) => <IngredientListCard data={element} />);
+            //<ReactFlexyTable data={ingredientsByCategoryList.data} /> 
             //ingredientsByCategoryList.data.map((element) => <p>{element.libelle} </p>);            
         } else {
             if (ingredientsByCategoryList.loading) {
@@ -48,16 +49,23 @@ const IngredientsList = () => {
                 return <p>{ingredientsByCategoryList.errorMsg}</p>;
             }
 
-            return <p>La catégorie ne contient pas d'ingrédients. </p>;
+            return <p className="text-center mt-5">La catégorie ne contient pas d'ingrédients. </p>;
         };
     }
 
     return (
-        <div>
+        <>
+            <BackButtonMercurial />
+            {ingredientsByCategoryList.data.length > 0 ?
+                <div className="text-center mt-1">
+                    <h1>Ingrédients par catégorie</h1>
+                </div>
+                : null}
+
             {
                 showData()
             }
-        </div>
+        </>
     )
 
 

@@ -6,8 +6,7 @@
   Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-.NavbarItems {
-   
+.NavbarItems {  
   background: linear-gradient(45deg, rgb(7, 138, 199), rgb(11, 11, 153));
   height: 65px;
   display: flex;

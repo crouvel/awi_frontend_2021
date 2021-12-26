@@ -24,36 +24,47 @@ const AddIngredientsStep = () => {
     const [libelleIngredient, setLibelleIngredient] = useState('');
     const [quantite, setQuantite] = useState(0);
     const [addIngredient, setAddIngredient] = useState(false);
-    const options = [{ value: '1', label: 'oui' }, { value: '2', label: "tt" }];
+    const [options, setOptions] = useState([]);
     const [ingredientAdded, setIngredientAdded] = useState(false);
     const [listIngredientsAdded, setListIngredientsAdded] = useState(false);
     const [addMoreIngredientsList, setAddMoreIngredientsList] = useState(true);
     const [lastIngredientsListStep, setLastIngredientsListStep] = useState(0);
     console.log(addMoreIngredientsList);
     console.log(referenceProgression);
-    
-    /*useEffect(() => {
-        axios(`${serverURL}/api/recetteCategories`)
-            .then((response) => {
-                setData(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
 
-    }, []);*/
+    useEffect(() => {
+        if (!(options.length > 0)) {
+            axios(`${serverURL}/api/ingredients`)
+                .then((response) => {
+                    console.log(response.data);
+                    response.data.map((element) =>
+                        options.push({ value: element.idIngredient, label: element.libelle }));
+                })
+                .catch((error) => {
+                    console.error("Error fetching data: ", error);
+                    setError(error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+        console.log(options);
+    }, []);
 
     const ListCreation = () => {
         axios.post(`${serverURL}/api/ingredientsList/create`, {
             nomListe,
             referenceProgression
-        });
-        setAddIngredient(true);
-        setAddMoreIngredientsList(false);
+        })
+            .catch((error) => {
+                console.error("Error fetching data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+                setAddIngredient(true);
+                setAddMoreIngredientsList(false);
+            });
+        console.log(nomListe);
     }
 
     const displayInfo5 = () => {
@@ -61,26 +72,35 @@ const AddIngredientsStep = () => {
         setAddMoreIngredientsList(false);
     }
 
-    const displayInfo6 = () => {
-        axios(`${serverURL}/api/ingredientsListStepLast/${nomListe}`)
-        .then((response) => {
-            setLastIngredientsListStep(response.data[0].idLastCreatedList);
-            //setIngredientAdded(true);
-        })
-        .catch((error) => {
+    const AssociateIngredientToStep = () => {
+        axios(`${serverURL}/api/ingredientsList/last/${nomListe}`)
+            .then((response) => {
+                setLastIngredientsListStep(response.data[0].idLastCreatedList);      
+            })
+            .catch((error) => {
+                console.error("Error fetching data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+                AddIngredientsToListStep();
+                setLoading(false);
+            });
+    }
+
+    const AddIngredientsToListStep = () => {
+        axios.post(`${serverURL}/api/ingredients/addToListStep`, {
+            libelleIngredient,
+            quantite,
+            lastIngredientsListStep,
+            referenceProgression
+        }).catch((error) => {
             console.error("Error fetching data: ", error);
             setError(error);
         })
-        .finally(() => {
-            setLoading(false);
-        });
-
-        axios.post(`${serverURL}/api/ingredients/addToListStep`, {
-            libelleIngredient, 
-            quantite, 
-            lastIngredientsListStep, 
-            referenceProgression
-        });
+            .finally(() => {
+                setIngredientAdded(true);
+            });
+        //console.log(lastIngredientsListStep);
     }
 
     const displayInfo7 = () => {
@@ -194,7 +214,7 @@ const AddIngredientsStep = () => {
                                 </div>
                             </div>
                             <div className="text-center">
-                                {quantite && libelleIngredient ? <Button type="button" size="lg" onClick={displayInfo6} className="step-create mt-1"><div>Ajouter l'ingrédient</div></Button>
+                                {quantite && libelleIngredient ? <Button type="button" size="lg" onClick={AssociateIngredientToStep} className="step-create mt-1"><div>Ajouter l'ingrédient</div></Button>
                                     : <Button type="button" size="lg" className="step-create mt-1" disabled><div>Ajouter l'ingrédient</div></Button>}
                             </div>
                         </>

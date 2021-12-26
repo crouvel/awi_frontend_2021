@@ -9,7 +9,7 @@ export const getIngredientByCategory = (id) => async (dispatch) => {
             type: "INGREDIENTS_BY_CATEGORY_LOADING",
         });
 
-        const res = await axios.get(`${serverURL}/api/ingredients/${id}`);
+        const res = await axios.get(`${serverURL}/api/ingredients/byCategory/${id}`);
 
         dispatch({
             type: "INGREDIENTS_BY_CATEGORY_SUCCESS",
