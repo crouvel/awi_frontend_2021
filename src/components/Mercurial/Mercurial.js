@@ -10,7 +10,9 @@ class Mercurials extends Component {
                 <div className="text-center mt-4">
                     <h1>Mercurial</h1>
                 </div>
+                <div className="categoryContainer">
                 <IngCategorycards />
+                </div>
             </>
         );
     }

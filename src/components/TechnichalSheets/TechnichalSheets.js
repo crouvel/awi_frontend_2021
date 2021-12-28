@@ -9,6 +9,7 @@ import {
     useParams,
     Redirect
 } from "react-router-dom";
+import TechnichalSheetCards from '../TechnichalSheetCards/TechnichalSheetCards';
 
 class TechnichalSheets extends Component {
 
@@ -25,6 +26,9 @@ class TechnichalSheets extends Component {
                             + Créer une fiche technique
                         </Button>
                     </Link>
+                </div>
+                <div className="sheetcontainer">
+                <TechnichalSheetCards />
                 </div>
             </>
         )

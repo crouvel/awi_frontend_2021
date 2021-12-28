@@ -1,0 +1,30 @@
+.title-list{
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.sections-container{
+    display: flex;
+    flex-direction: row; 
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.subsections-container{
+    display: flex;
+    flex-direction: row; 
+}
+
+.division-droite{
+    display: flex;
+    flex-direction: column; 
+    width: 40%;
+    margin-right: 10%;
+}
+
+.division-gauche{
+    display: flex;
+    flex-direction: column; 
+    width: 40%;
+    margin-left: 10%;
+}

@@ -18,6 +18,7 @@ import ProgressionCreation from './components/ProgressionCreation/ProgressionCre
 import AddIngredientsStep from './components/AddIngredientsStep/AddIngredientsStep';
 import FinishAddIngredientsStep from './components/FinishAddIngredientsStep/FinishAddIngredientsStep';
 import FinishCreateTechnichalSheet from './components/FinishCreateTechnichalSheet/FinishCreateTechnichalSheet';
+import TechnichalSheetDetail from './components/TechnichalSheets/TechnichalSheetDetail';
 
 function App() {
   return (
@@ -51,6 +52,9 @@ function App() {
         {/* </Route> */}
         <Route path="/mercurial/:id">
           < IngredientList />
+        </Route>
+        <Route exact path="/sheets/:id">
+          < TechnichalSheetDetail />
         </Route>
         <Route exact path="/sheets/creation">
           < CreateTechnichalSheet />
