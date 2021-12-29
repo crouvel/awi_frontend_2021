@@ -1,5 +1,6 @@
 
 import React from 'react';
+import '@progress/kendo-theme-default/dist/all.css';
 import './App.css';
 import Home from './components/Home/Home';
 import TechnichalSheets from './components/TechnichalSheets/TechnichalSheets';
@@ -53,10 +54,10 @@ function App() {
         <Route path="/mercurial/:id">
           < IngredientList />
         </Route>
-        <Route exact path="/sheets/:id">
+        <Route path="/sheetdetail/:id">
           < TechnichalSheetDetail />
         </Route>
-        <Route exact path="/sheets/creation">
+        <Route path="/sheets/creation">
           < CreateTechnichalSheet />
         </Route>
         <Route exact path="/sheets/creation/:nomRecette">
@@ -71,6 +72,7 @@ function App() {
         <Route exact path="/sheets/:nomRecette/creationFinished">
           <FinishCreateTechnichalSheet />
         </Route>
+        
         <Route exact path="/">
           <Home />
         </Route>

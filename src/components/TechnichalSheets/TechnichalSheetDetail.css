@@ -8,11 +8,14 @@
     flex-direction: row; 
     margin-left: 10%;
     margin-right: 10%;
+    max-height: auto;
+   
 }
 
 .subsections-container{
     display: flex;
     flex-direction: row; 
+   
 }
 
 .division-droite{
@@ -20,6 +23,8 @@
     flex-direction: column; 
     width: 40%;
     margin-right: 10%;
+    border-width: 2px;
+    max-height: auto;
 }
 
 .division-gauche{
@@ -27,4 +32,75 @@
     flex-direction: column; 
     width: 40%;
     margin-left: 10%;
+    max-height: auto;
 }
+
+.subdivision-droite{
+    display: flex;
+    flex-direction: column; 
+    width: 50%;
+}
+
+.subdivision-gauche{
+    display: flex;
+    flex-direction: column; 
+    width: 50%; 
+}
+
+.body-gauche{
+    margin-left: 30px;
+}
+
+text{
+    white-space: pre-line;
+}
+
+.entete{
+    background-color: #73A4FF;
+}
+
+.principal-entete{
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: #73A4FF; 
+}
+
+.generate-pdf{
+    background: radial-gradient(#1fe4f5, #3fbafe);
+}
+
+.tableau-droite{
+    min-height: 200px;
+    max-height: auto;
+}
+
+.tableau-gauche{
+    min-height: 200px;
+    max-height: auto;
+}
+
+@font-face {
+    font-family:  "DejaVu Sans";
+    src:  url("https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans.ttf") format("truetype");
+  }
+  
+  @font-face {
+    font-family:  "DejaVu Sans";
+    font-weight:  bold;
+    src:  url("https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Bold.ttf") format("truetype");
+  }
+  
+  @font-face {
+    font-family:  "DejaVu Sans";
+    font-style:  italic;
+    src:  url("https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf") format("truetype");
+  }
+  
+  @font-face {
+    font-family:  "DejaVu Sans";
+    font-weight:  bold;
+    font-style:  italic;
+    src:  url("https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf") format("truetype");
+  }
+
+  
