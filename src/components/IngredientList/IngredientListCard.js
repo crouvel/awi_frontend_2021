@@ -15,7 +15,6 @@ const IngredientListCard = (props) => {
     return (
         <>
             <div className="card2 mt-4 align-middle">
-                {/* <h2 className="titre ml-3">{data.idIngredient}</h2> */}
                 <h2 className="titre pl-3">{data.Libellé}</h2>
             </div>
         </>

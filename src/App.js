@@ -57,7 +57,7 @@ function App() {
         <Route path="/sheetdetail/:id">
           < TechnichalSheetDetail />
         </Route>
-        <Route path="/sheets/creation">
+        <Route exact path="/sheets/creation">
           < CreateTechnichalSheet />
         </Route>
         <Route exact path="/sheets/creation/:nomRecette">

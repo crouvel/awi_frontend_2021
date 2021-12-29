@@ -195,6 +195,7 @@ const CreateTechnichalSheet = () => {
         <>
            <BackButtonTechnichalSheet/>
 
+            <h1 className="text-center create mt-4 mb-4">CREER VOTRE FICHE TECHNIQUE</h1>
             <div className="container mt-1" >
                 <div className="text-center mb-4">
                     <h1>Créer une fiche technique</h1>

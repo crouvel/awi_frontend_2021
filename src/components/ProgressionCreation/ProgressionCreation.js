@@ -65,16 +65,16 @@ const ProgressionCreation = () => {
         axios.post(`${serverURL}/api/progression/addSheet`, {
             nomRecette,
             referenceProgression
-         });
-         setSubmitted(true);
+        });
+        setSubmitted(true);
     }
 
     const StepCreation = () => {
         axios.post(`${serverURL}/api/step/create`, {
-            titre, 
-            description, 
-            temps, 
-            ordre, 
+            titre,
+            description,
+            temps,
+            ordre,
             referenceProgression
         });
         setStepCreated(true);
@@ -255,10 +255,14 @@ const ProgressionCreation = () => {
 
     return (
         <>
-            <BackButtonTechnichalSheet />
+            <div className="text-center">
+                <Button className="sheet-name mt-3" variant="contained" size="lg">
+                    <h1 style={{fontSize:"30px"}}>{nomRecette}</h1>
+                </Button>
+            </div>
             {!submitted && !addingStepFinished ? CreationProgression() : null}
             {submitted && !addingStepFinished ? AddSteps() : null}
-            {stepCreated && !addingStepFinished ? AddMoreSteps() : null}           
+            {stepCreated && !addingStepFinished ? AddMoreSteps() : null}
         </>
     );
 }
