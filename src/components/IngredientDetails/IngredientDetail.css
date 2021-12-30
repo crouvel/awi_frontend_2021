@@ -1,0 +1,53 @@
+.darkcontainer{
+    max-height: auto;
+    max-width: auto;
+    background: linear-gradient(45deg,#86b8fab6, #c1aff8ab);
+    border-radius: 10px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+    padding: 40px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+p{
+    font-size: 17px;
+}
+
+.modifyIngredient{
+    background: linear-gradient(45deg,#60c2ef, #35b1eb);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+    border: none;
+    height: 60px;
+    width: 200px;
+}
+
+.deleteIngredient{
+    background:  #b69efe;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+    border: none;
+    height: 60px;
+    width: 200px;
+}
+
+.divDroite{
+    margin-left: 10%;
+}
+
+.divGauche{
+    margin-left: 5%;
+}
+
+.terminer{
+    background:  #58e0ac;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+    border: none;
+    height: 60px;
+    width: 200px;
+}
+
+.modifierValue{
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+    border: none;
+    height: 38px;
+    margin-left: 15px;
+}

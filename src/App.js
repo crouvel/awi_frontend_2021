@@ -20,6 +20,7 @@ import AddIngredientsStep from './components/AddIngredientsStep/AddIngredientsSt
 import FinishAddIngredientsStep from './components/FinishAddIngredientsStep/FinishAddIngredientsStep';
 import FinishCreateTechnichalSheet from './components/FinishCreateTechnichalSheet/FinishCreateTechnichalSheet';
 import TechnichalSheetDetail from './components/TechnichalSheets/TechnichalSheetDetail';
+import IngredientDetail from './components/IngredientDetails/IngredientDetail';
 
 function App() {
   return (
@@ -51,8 +52,11 @@ function App() {
         {/* <Route path="/allergens"> */}
         {/* <AllergenList /> */}
         {/* </Route> */}
-        <Route path="/mercurial/:id">
+        <Route exact path="/mercurial/:id/ingredients">
           < IngredientList />
+        </Route>
+        <Route exact path="/mercurial/ingredients/:id">
+          < IngredientDetail />
         </Route>
         <Route path="/sheetdetail/:id">
           < TechnichalSheetDetail />

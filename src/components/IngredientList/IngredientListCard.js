@@ -14,9 +14,11 @@ const IngredientListCard = (props) => {
     const { data } = props
     return (
         <>
+             <Link to={"/mercurial/ingredients/" + data.id} style={{ color: 'inherit', textDecoration: 'inherit'}} >
             <div className="card2 mt-4 align-middle">
-                <h2 className="titre pl-3">{data.Libellé}</h2>
+                <h2 className="titre pl-3">{data.libelle}</h2>
             </div>
+            </Link>
         </>
     )
 }
