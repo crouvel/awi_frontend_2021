@@ -8,7 +8,8 @@ import {
     Route,
     Link,
     useParams,
-    Redirect
+    Redirect,
+    useHistory
 } from "react-router-dom";
 import serverURL from "../../serverURL";
 import Loading from "../Loading/Loading";
@@ -28,6 +29,7 @@ const IngredientDetail = () => {
     const [categoryIngredient, setCategoryIngredient] = useState('');
     const [categorysAllergen, setCategorysAllergen] = useState([]);
     const [categoryAllergen, setCategoryAllergen] = useState('');
+    const history = useHistory();
 
     useEffect(() => {
         axios(`${serverURL}/api/ingredients/${id}`)
@@ -119,7 +121,6 @@ const IngredientDetail = () => {
             .finally(() => {
                 setLoading(false);
                 window.location.reload(false);
-
             });
     }
 
@@ -137,10 +138,8 @@ const IngredientDetail = () => {
                     setError(error);
                 })
                 .finally(() => {
-
                     setLoading(false);
                     window.location.reload(false);
-
                 });
         } else {
             axios.put(`${serverURL}/api/ingredients/updateAllergene`, {
@@ -183,7 +182,6 @@ const IngredientDetail = () => {
             .finally(() => {
                 setLoading(false);
                 window.location.reload(false);
-
             });
     }
 
@@ -201,7 +199,6 @@ const IngredientDetail = () => {
             .finally(() => {
                 setLoading(false);
                 window.location.reload(false);
-
             });
     }
 
@@ -219,7 +216,22 @@ const IngredientDetail = () => {
             .finally(() => {
                 setLoading(false);
                 window.location.reload(false);
+            });
+    }
 
+    const deleteIngredient = () => {
+        setLoading(true);
+        axios.delete(`${serverURL}/api/ingredients/delete/${id}`)
+        .then((response) => {
+        })
+            .catch((error) => {
+                console.error("Error deleting data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+                setLoading(false);
+                const url = "/mercurial/" + data[0].idCategorieIngredient + "/ingredients";
+                history.push(url);
             });
     }
 
@@ -366,12 +378,12 @@ const IngredientDetail = () => {
                         <>
                             <div className="mt-4 text-center">
                                 <button className="modifyIngredient btn-lg m-2" onClick={modification}>Modifier</button>
-                                <button className="deleteIngredient btn-lg m-2">Supprimer</button>
+                                <button className="deleteIngredient btn-lg m-2" onClick={deleteIngredient}>Supprimer</button>
                             </div>
                         </> :
                         <>
                             <div className="mt-4 text-center">
-                                <button className="modifyIngredient btn-lg m-2" onClick={modification} disabled>Modifier</button>
+                                <button className="modifyIngredient btn-lg m-2" disabled>Modifier</button>
                                 <button className="deleteIngredient btn-lg m-2" disabled>Supprimer</button>
                             </div>
                             <div className=" text-center">
