@@ -7,7 +7,8 @@ import {
     Route,
     Link,
     useParams,
-    Redirect
+    Redirect,
+    useHistory
 } from "react-router-dom";
 import BackButtonTechnichalSheet from '../BackButtonTechnichalSheet/BackButtonTechnichalSheet';
 import axios from 'axios';
@@ -29,6 +30,7 @@ const TechnichalSheetDetail = () => {
     const [nbCouvert, setNbCouvert] = useState(0);
     const [nomRecette, setNomRecette] = useState('');
     const [auteur, setAuteur] = useState('');
+    const history = useHistory();
 
     useEffect(() => {
         axios(`${serverURL}/api/sheet/${id}`)
@@ -75,8 +77,6 @@ const TechnichalSheetDetail = () => {
 
     const modification = () => {
         setModify(true);
-        /*setNomProgression(data[0].nomProgression);
-        setNbCouvertModified(data[0].Nbre_couverts);*/
     }
 
     const endModification = () => {
@@ -145,6 +145,23 @@ const TechnichalSheetDetail = () => {
             .finally(() => {
                 setLoading(false);
                 window.location.reload(false);
+            });
+    }
+
+
+    const deleteFiche = () => {
+        setLoading(true);
+        axios.delete(`${serverURL}/api/sheet/delete/${id}`)
+            .then((response) => {
+            })
+            .catch((error) => {
+                console.error("Error deleting data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+                setLoading(false);
+                const url = "/sheets";
+                history.push(url);
             });
     }
 
@@ -283,6 +300,9 @@ const TechnichalSheetDetail = () => {
                                 <Button className="updateSheet" onClick={modification} variant="contained" size="lg">
                                     Modifier entête
                                 </Button>
+                                <Button className="supprimerfiche2" onClick={deleteFiche} variant="contained" size="lg">
+                                    Supprimer la fiche
+                                </Button>
                             </> :
                             <>
                                 <Button className="generate-pdf" onClick={exportPDFWithComponent} variant="contained" size="lg" disabled>
@@ -355,9 +375,9 @@ const TechnichalSheetDetail = () => {
                         <h2 className="text-center mt-5">Veuillez supprimer la fiche technique, elle n'est pas associée à une progression.</h2>
                         {/* <h2 className="text-center mt-5">Vous pouvez alernativement y ajouter une progression.</h2> */}
                         <div className="text-center mt-2">
-                        <Button className="supprimerfiche mt-3" variant="contained" size="lg">
-                            Supprimer
-                        </Button>
+                            <Button className="supprimerfiche mt-3" onClick={deleteFiche} variant="contained" size="lg">
+                                Supprimer
+                            </Button>
                         </div>
                     </> :
                     <Loading />)}

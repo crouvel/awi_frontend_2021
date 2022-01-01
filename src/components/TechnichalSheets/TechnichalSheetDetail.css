@@ -130,3 +130,12 @@ margin-left : 35%;
     margin-right: 15px;
 }
 
+.supprimerfiche{
+    background:   radial-gradient(#60efcb, #35ebb5);
+}
+
+.supprimerfiche2{
+    background:   radial-gradient(#ef6060, #eb6f35);
+    margin-left: 40px;
+}
+
