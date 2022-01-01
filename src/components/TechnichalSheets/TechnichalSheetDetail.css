@@ -69,6 +69,15 @@ text{
     background: radial-gradient(#1fe4f5, #3fbafe);
 }
 
+.updateSheet{
+    background: radial-gradient(#1fe4f5, #3fbafe);
+    margin-left: 10px;
+}
+
+.terminate{
+    background:   radial-gradient(#60efcb, #35ebb5);
+}
+
 .tableau-droite{
     min-height: 200px;
     max-height: auto;
@@ -103,4 +112,21 @@ text{
     src:  url("https://kendo.cdn.telerik.com/2017.2.621/styles/fonts/DejaVu/DejaVuSans-Oblique.ttf") format("truetype");
   }
 
-  
+  .inputsheet {
+    width: 90%;
+    margin-top: 5px;
+    border: none; 
+    border:solid 1px #ccc;
+    border-radius: 10px;
+    height: 35px;
+}
+
+.mcontainer{
+margin-left : 35%;
+} 
+
+.subcontainer{
+    width: 50%;
+    margin-right: 15px;
+}
+

@@ -23,15 +23,18 @@ const TechnichalSheetDetail = () => {
     let [ingredients, setIngredients] = useState([]);
     let [loading, setLoading] = useState(true);
     let [error, setError] = useState(null);
-    //const ref = React.createRef();
     const container = React.useRef(null);
     const pdfExportComponent = React.useRef(null);
+    const [modify, setModify] = useState(false);
+    const [nbCouvert, setNbCouvert] = useState(0);
+    const [nomRecette, setNomRecette] = useState('');
+    const [auteur, setAuteur] = useState('');
 
     useEffect(() => {
         axios(`${serverURL}/api/sheet/${id}`)
             .then((response) => {
                 setData(response.data);
-                //console.log(response.data);
+                console.log(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
@@ -60,19 +63,9 @@ const TechnichalSheetDetail = () => {
                 setError(error);
             })
             .finally(() => {
-                /*IngredientsStepValue();*/
                 setLoading(false);
             });
-
     }, []);
-
-    /*const pdfSheet = () => {
-        let divContents = document.getElementById("to-print-in-pdf").innerHTML;
-        let a = window.open('', '');
-        a.document.write(divContents);
-        a.document.close();
-        a.print();
-    }*/
 
     const exportPDFWithComponent = () => {
         if (pdfExportComponent.current) {
@@ -80,10 +73,85 @@ const TechnichalSheetDetail = () => {
         }
     };
 
+    const modification = () => {
+        setModify(true);
+        /*setNomProgression(data[0].nomProgression);
+        setNbCouvertModified(data[0].Nbre_couverts);*/
+    }
+
+    const endModification = () => {
+        setModify(false);
+    }
+
+    const modifyNomRecette = () => {
+        setLoading(true);
+        axios.put(`${serverURL}/api/sheet/updateNomRecette`, {
+            id: id,
+            nomRecette: nomRecette
+        }).then((response) => {
+        })
+            .catch((error) => {
+                console.error("Error updating data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+                setLoading(false);
+                window.location.reload(false);
+            });
+    }
+
+    const modifyNomAuteur = () => {
+        setLoading(true);
+        axios.put(`${serverURL}/api/sheet/updateNomAuteur`, {
+            id: id,
+            auteur: auteur
+        }).then((response) => {
+        })
+            .catch((error) => {
+                console.error("Error updating data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+                setLoading(false);
+                window.location.reload(false);
+            });
+    }
+
+    const modifyNbCouvert = () => {
+        setLoading(true);
+        axios.put(`${serverURL}/api/sheet/updateNbcouverts`, {
+            id: id,
+            nbCouvert: nbCouvert
+        }).then((response) => {
+        })
+            .catch((error) => {
+                console.error("Error updating data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+
+            });
+        console.log(data[0].Nbre_couverts);
+        axios.put(`${serverURL}/api/sheet/updateAllQuantite`, {
+            nomProgression: data[0].nomProgression,
+            nbCouvert: nbCouvert,
+            nbCouvertModified: data[0].Nbre_couverts
+        }).then((response) => {
+        })
+            .catch((error) => {
+                console.error("Error updating data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+                setLoading(false);
+                window.location.reload(false);
+            });
+    }
+
     return (
         <>
             <BackButtonTechnichalSheet className="mt-2" />
-            {!loading ?
+            {(!loading) && data.length > 0 ?
                 <>
                     <div className="text-center mt-2 mb-3">
                         <h1>Fiche Technique : {data[0].nomRecette} </h1>
@@ -94,7 +162,7 @@ const TechnichalSheetDetail = () => {
                         margin={40}
                         fileName={`${data[0].nomRecette}`}
                         author={data[0].nomAuteur}
-                        style={{fontFamily: 'Montserrat, sans-serif'}}
+                        style={{ fontFamily: 'Montserrat, sans-serif' }}
                     >
                         <div className="to-print-in-pdf mt-3" id="to-print-in-pdf" ref={container}>
                             <>
@@ -207,12 +275,93 @@ const TechnichalSheetDetail = () => {
                         </div>
                     </PDFExport>
                     <div className="text-center mt-5">
-                        <Button className="generate-pdf" onClick={exportPDFWithComponent} variant="contained" size="lg">
-                            Imprimer la fiche technique
-                        </Button>
+                        {!modify ?
+                            <>
+                                <Button className="generate-pdf" onClick={exportPDFWithComponent} variant="contained" size="lg">
+                                    Imprimer la fiche technique
+                                </Button>
+                                <Button className="updateSheet" onClick={modification} variant="contained" size="lg">
+                                    Modifier entête
+                                </Button>
+                            </> :
+                            <>
+                                <Button className="generate-pdf" onClick={exportPDFWithComponent} variant="contained" size="lg" disabled>
+                                    Imprimer la fiche technique
+                                </Button>
+                                <Button className="updateSheet" onClick={modification} variant="contained" size="lg" disabled>
+                                    Modifier entête
+                                </Button>
+                                <div className="text-center mt-2">
+                                    <div className="mcontainer mt-4">
+                                        <div className="d-flex subcontainer mt-2">
+                                            <label htmlFor="NomRecette" className="font-weight-bold">Nom de la recette</label>
+                                            <input
+                                                id="NomRecette"
+                                                name="NomRecette"
+                                                type="text"
+                                                onChange={(event) => {
+                                                    setNomRecette(event.target.value);
+                                                }}
+                                                //onBlur={formik.handleBlur}
+                                                /*value={formik.values.NomAuteur}*/
+                                                className="inputsheet"
+                                                placeholder="Modifiez le nom de la recette ..."
+                                            />
+                                            {nomRecette ? <button className="modifierValue btn-lg btn-info" onClick={modifyNomRecette}>modifier</button> :
+                                                <button className="modifierValue btn-lg btn-light" disabled>modifier</button>}
+                                        </div>
+                                        <div className="d-flex subcontainer mt-2">
+                                            <label htmlFor="NbCouvert" className="font-weight-bold">Nombre de couverts</label>
+                                            <input
+                                                id="NbCouvert"
+                                                name="NbCouvert"
+                                                type="number"
+                                                min="1"
+                                                onChange={(event) => {
+                                                    setNbCouvert(event.target.value);
+                                                }}
+                                                //onBlur={formik.handleBlur}
+                                                className="inputsheet"
+                                                placeholder="Modifiez le nombre de couverts ..."
+                                            />
+                                            {nbCouvert ? <button className="modifierValue btn-lg btn-info" onClick={modifyNbCouvert}>modifier</button> :
+                                                <button className="modifierValue btn-lg btn-light" disabled>modifier</button>}
+                                        </div>
+                                        <div className="d-flex subcontainer mt-2">
+                                            <label htmlFor="NomAuteur" className="font-weight-bold">Nom de l'auteur</label>
+                                            <input
+                                                id="NomAuteur"
+                                                name="NomAuteur"
+                                                type="text"
+                                                onChange={(event) => {
+                                                    setAuteur(event.target.value);
+                                                }}
+                                                className="inputsheet"
+                                                placeholder="Modifiez le nom de l'auteur ..."
+                                            />
+                                            {auteur ? <button className="modifierValue btn-lg btn-info" onClick={modifyNomAuteur}>modifier</button> :
+                                                <button className="modifierValue btn-lg btn-light" disabled>modifier</button>}
+                                        </div>
+                                    </div>
+                                    <Button className="terminate mt-3" onClick={endModification} variant="contained" size="lg">
+                                        Annuler
+                                    </Button>
+                                </div>
+                            </>}
                     </div>
                 </>
-                : <Loading />}
+                : (data.length === 0 ?
+                    <>
+                        <h2 className="text-center mt-5">Veuillez supprimer la fiche technique, elle n'est pas associée à une progression.</h2>
+                        {/* <h2 className="text-center mt-5">Vous pouvez alernativement y ajouter une progression.</h2> */}
+                        <div className="text-center mt-2">
+                        <Button className="supprimerfiche mt-3" variant="contained" size="lg">
+                            Supprimer
+                        </Button>
+                        </div>
+                    </> :
+                    <Loading />)}
+
         </>
     )
 }
