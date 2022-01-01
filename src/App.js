@@ -21,6 +21,7 @@ import FinishAddIngredientsStep from './components/FinishAddIngredientsStep/Fini
 import FinishCreateTechnichalSheet from './components/FinishCreateTechnichalSheet/FinishCreateTechnichalSheet';
 import TechnichalSheetDetail from './components/TechnichalSheets/TechnichalSheetDetail';
 import IngredientDetail from './components/IngredientDetails/IngredientDetail';
+import TechnichalSheetCosts from './components/TechnichalSheets/TechnichalSheetCosts';
 
 function App() {
   return (
@@ -60,6 +61,9 @@ function App() {
         </Route>
         <Route path="/sheetdetail/:id">
           < TechnichalSheetDetail />
+        </Route>
+        <Route exact path="/sheetdetailcosts/:id">
+          < TechnichalSheetCosts />
         </Route>
         <Route exact path="/sheets/creation">
           < CreateTechnichalSheet />

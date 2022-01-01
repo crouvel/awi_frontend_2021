@@ -74,6 +74,11 @@ text{
     margin-left: 10px;
 }
 
+.goCost{
+    background: radial-gradient(#1fe4f5, #3fbafe);
+    margin-left: 10px;
+}
+
 .terminate{
     background:   radial-gradient(#60efcb, #35ebb5);
 }

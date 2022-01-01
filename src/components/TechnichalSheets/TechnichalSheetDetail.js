@@ -15,7 +15,6 @@ import axios from 'axios';
 import serverURL from '../../serverURL';
 import Loading from '../Loading/Loading';
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
-import Pdf from "react-to-pdf";
 
 const TechnichalSheetDetail = () => {
     let { id } = useParams();
@@ -165,6 +164,11 @@ const TechnichalSheetDetail = () => {
             });
     }
 
+    const costs = () => {
+        const url = `/sheetdetailcosts/${id}`;
+        history.push(url);
+    }
+
     return (
         <>
             <BackButtonTechnichalSheet className="mt-2" />
@@ -300,6 +304,9 @@ const TechnichalSheetDetail = () => {
                                 <Button className="updateSheet" onClick={modification} variant="contained" size="lg">
                                     Modifier entête
                                 </Button>
+                                <Button className="goCost" onClick={costs} variant="contained" size="lg">
+                                    Calculs des coûts
+                                </Button>
                                 <Button className="supprimerfiche2" onClick={deleteFiche} variant="contained" size="lg">
                                     Supprimer la fiche
                                 </Button>
@@ -370,7 +377,7 @@ const TechnichalSheetDetail = () => {
                             </>}
                     </div>
                 </>
-                : (data.length === 0 ?
+                : (data.length === 0 && !loading ?
                     <>
                         <h2 className="text-center mt-5">Veuillez supprimer la fiche technique, elle n'est pas associée à une progression.</h2>
                         {/* <h2 className="text-center mt-5">Vous pouvez alernativement y ajouter une progression.</h2> */}
