@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from "react-redux";
-import Loading from '../Loading/Loading';
+import Loading from '../../Loading/Loading';
 import {
     useParams
 } from 'react-router-dom';
 import './IngredientList.css';
-import { getIngredientByCategory } from '../../actions/IngredientsByCategoryAction';
+import { getIngredientByCategory } from '../../../actions/IngredientsByCategoryAction';
 import 'react-flexy-table/dist/index.css';
 import { IngredientListCard } from './IngredientListCard';
-import BackButtonMercurial from '../BackButtonMercurial/BackButtonMercurial';
+import BackButtonMercurial from '../../BackButtons/BackButtonMercurial/BackButtonMercurial';
 
 const IngredientsList = () => {
     const dispatch = useDispatch();

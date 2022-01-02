@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Loading from '../Loading/Loading';
+import Loading from '../../Loading/Loading';
 import { TechnichalSheetCard } from './TechnichalSheetCard';
 import axios from 'axios';
-import serverURL from '../../serverURL';
+import serverURL from '../../../serverURL';
 
 const TechnichalSheetCards = () => {
     const [data, setData] = useState([]);

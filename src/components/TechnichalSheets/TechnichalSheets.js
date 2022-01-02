@@ -9,7 +9,7 @@ import {
     useParams,
     Redirect
 } from "react-router-dom";
-import TechnichalSheetCards from '../TechnichalSheetCards/TechnichalSheetCards';
+import TechnichalSheetCards from './TechnichalSheetCards/TechnichalSheetCards';
 
 class TechnichalSheets extends Component {
 

@@ -13,7 +13,7 @@ import {
 import { useFormik } from 'formik';
 import serverURL from "../../serverURL";
 import Pdf from "react-to-pdf";
-import BackButtonTechnichalSheet from "../BackButtonTechnichalSheet/BackButtonTechnichalSheet";
+import BackButtonTechnichalSheet from "../BackButtons/BackButtonTechnichalSheet/BackButtonTechnichalSheet";
 import Select from 'react-select';
 
 const AddIngredientsStep = () => {

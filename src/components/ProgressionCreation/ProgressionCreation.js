@@ -12,7 +12,7 @@ import {
     Redirect
 } from "react-router-dom";
 import { useFormik } from 'formik';
-import BackButtonTechnichalSheet from '../BackButtonTechnichalSheet/BackButtonTechnichalSheet';
+import BackButtonTechnichalSheet from '../BackButtons/BackButtonTechnichalSheet/BackButtonTechnichalSheet';
 import { AiFillCheckCircle } from 'react-icons/ai';
 
 const ProgressionCreation = () => {

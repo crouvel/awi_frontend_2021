@@ -12,7 +12,7 @@ import {
 } from "react-router-dom";
 import { useFormik } from 'formik';
 import Pdf from "react-to-pdf";
-import BackButtonTechnichalSheet from "../BackButtonTechnichalSheet/BackButtonTechnichalSheet";
+import BackButtonTechnichalSheet from "../../BackButtons/BackButtonTechnichalSheet/BackButtonTechnichalSheet";
 import { SiCheckmarx } from 'react-icons/si';
 
 const FinishCreateTechnichalSheet = () => {

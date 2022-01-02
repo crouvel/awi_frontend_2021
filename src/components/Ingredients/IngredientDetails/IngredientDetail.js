@@ -11,8 +11,8 @@ import {
     Redirect,
     useHistory
 } from "react-router-dom";
-import serverURL from "../../serverURL";
-import Loading from "../Loading/Loading";
+import serverURL from "../../../serverURL";
+import Loading from "../../Loading/Loading";
 
 const IngredientDetail = () => {
     let { id } = useParams();

@@ -12,8 +12,7 @@ import {
 } from "react-router-dom";
 import { useFormik } from 'formik';
 import serverURL from "../../serverURL";
-import Pdf from "react-to-pdf";
-import BackButtonTechnichalSheet from "../BackButtonTechnichalSheet/BackButtonTechnichalSheet";
+import BackButtonTechnichalSheet from "../BackButtons/BackButtonTechnichalSheet/BackButtonTechnichalSheet";
 import Loading from "../Loading/Loading";
 
 const CreateTechnichalSheet = () => {
@@ -25,11 +24,23 @@ const CreateTechnichalSheet = () => {
     const [nomAuteur, setNomAuteur] = useState('');
     const [nombreCouverts, setNombreCouverts] = useState(0);
     const [categorieRecette, setCategorieRecette] = useState('Entrée');
+    const [fiches, setFiches] = useState([]);
 
     useEffect(() => {
         axios(`${serverURL}/api/recetteCategories`)
             .then((response) => {
                 setData(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+            });
+            axios(`${serverURL}/api/sheet`)
+            .then((response) => {
+                setFiches(response.data.map((element) => element.nomRecette));
+                console.log(response.data.map((element) => element.nomRecette));
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
@@ -46,9 +57,9 @@ const CreateTechnichalSheet = () => {
 
         if (!nomRecette) {
             errors.NomRecette = 'Nom de recette requis';
-        } /*else if (values.firstName.length > 15) {
-          errors.firstName = 'Must be 15 characters or less';
-        }*/
+        } else if (fiches.includes(nomRecette)) {
+          errors.NomRecette = 'Nom de recette déjà utilisé';
+        }
 
         if (!nomAuteur) {
             errors.NomAuteur = "Nom d'auteur requis";
@@ -165,7 +176,7 @@ const CreateTechnichalSheet = () => {
                         </div>
                     </div>
     
-                    {  nomRecette && nomAuteur && nombreCouverts && categorieRecette ?
+                    {  !(fiches.includes(nomRecette)) && nomRecette && nomAuteur && nombreCouverts && categorieRecette ?
                     <div className="text-center">
                     <Link to={"/sheets/creation/" + nomRecette}>
                     <Button type="button" size="lg" onClick={TechnichalSheet} className="submit-button mt-3"><div>Créer fiche technique</div>
@@ -175,16 +186,16 @@ const CreateTechnichalSheet = () => {
                 </form>
             
                 : <Loading />}
-                </>
-           
+                </>  
         );
     };
 
     return (
         <>
            <BackButtonTechnichalSheet/>
-            <h1 className="text-center create mt-4 mb-4">CREER VOTRE FICHE TECHNIQUE</h1>
-            <div className="container mt-1" >
+            <h1 className="text-center create mt-4 mb-3">CREER VOTRE FICHE TECHNIQUE</h1>
+            <h2 className="intro text-center">Le bouton de création n'apparaitra dés lors que toutes les informations requises seront remplies correctement.</h2>
+            <div className="container mt-3" >
                 <div className="text-center mb-4">
                     <h1>Créer une fiche technique</h1>
                     <p className="intro">Ici, vous pouvez créer votre fiche technique.</p>

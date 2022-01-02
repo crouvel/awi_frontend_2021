@@ -10,7 +10,7 @@ import {
     Redirect,
     useHistory
 } from "react-router-dom";
-import BackButtonTechnichalSheet from '../BackButtonTechnichalSheet/BackButtonTechnichalSheet';
+import BackButtonTechnichalSheet from '../BackButtons/BackButtonTechnichalSheet/BackButtonTechnichalSheet';
 import axios from 'axios';
 import serverURL from '../../serverURL';
 import Loading from '../Loading/Loading';

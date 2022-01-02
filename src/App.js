@@ -13,15 +13,16 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
-import IngredientList from './components/IngredientList/IngredientList';
+import IngredientsList from './components/Ingredients/IngredientList/IngredientList';
 import CreateTechnichalSheet from './components/CreateTechnichalSheet/CreateTechnichalSheet';
 import ProgressionCreation from './components/ProgressionCreation/ProgressionCreation';
 import AddIngredientsStep from './components/AddIngredientsStep/AddIngredientsStep';
 import FinishAddIngredientsStep from './components/FinishAddIngredientsStep/FinishAddIngredientsStep';
-import FinishCreateTechnichalSheet from './components/FinishCreateTechnichalSheet/FinishCreateTechnichalSheet';
+import FinishCreateTechnichalSheet from './components/CreateTechnichalSheet/FinishCreateTechnichalSheet/FinishCreateTechnichalSheet';
 import TechnichalSheetDetail from './components/TechnichalSheets/TechnichalSheetDetail';
-import IngredientDetail from './components/IngredientDetails/IngredientDetail';
+import IngredientDetail from './components/Ingredients/IngredientDetails/IngredientDetail';
 import TechnichalSheetCosts from './components/TechnichalSheets/TechnichalSheetCosts';
+import CreateIngredient from './components/CreateIngredient/CreateIngredient';
 
 function App() {
   return (
@@ -54,10 +55,13 @@ function App() {
         {/* <AllergenList /> */}
         {/* </Route> */}
         <Route exact path="/mercurial/:id/ingredients">
-          < IngredientList />
+          < IngredientsList />
         </Route>
         <Route exact path="/mercurial/ingredients/:id">
           < IngredientDetail />
+        </Route>
+        <Route exact path="/mercurial/createIngredient">
+          < CreateIngredient />
         </Route>
         <Route path="/sheetdetail/:id">
           < TechnichalSheetDetail />
@@ -80,7 +84,7 @@ function App() {
         <Route exact path="/sheets/:nomRecette/creationFinished">
           <FinishCreateTechnichalSheet />
         </Route>
-        
+
         <Route exact path="/">
           <Home />
         </Route>
