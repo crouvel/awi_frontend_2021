@@ -404,7 +404,7 @@ const TechnichalSheetDetail = () => {
                             </Button>
                         </div>}
                 </>
-                : (data.length === 0 && !loading ?
+                : (data.length === 0 && !loading && data2.length > 0 ?
                     <>
                         <div className="containerSans pb-5 mt-5">
                             <h1 className="text-center mt-5">Veuillez ajouter une progression à la fiche technique :<br /> {data2[0].nomRecette.toUpperCase()}.</h1>
