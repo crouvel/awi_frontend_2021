@@ -19,6 +19,7 @@ import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
 const TechnichalSheetDetail = () => {
     let { id } = useParams();
     let [data, setData] = useState([]);
+    let [data2, setData2] = useState([]);
     let [steps, setSteps] = useState([]);
     let [ingredients, setIngredients] = useState([]);
     let [loading, setLoading] = useState(true);
@@ -34,6 +35,17 @@ const TechnichalSheetDetail = () => {
     useEffect(() => {
         axios(`${serverURL}/api/sheet/${id}`)
             .then((response) => {
+                setData2(response.data);
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+            });
+        axios(`${serverURL}/api/sheet/${id}/join`)
+            .then((response) => {
                 setData(response.data);
                 console.log(response.data);
             })
@@ -46,7 +58,7 @@ const TechnichalSheetDetail = () => {
         axios(`${serverURL}/api/sheet/${id}/steps`)
             .then((response) => {
                 setSteps(response.data);
-                //console.log(response.data);
+                console.log(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
@@ -168,9 +180,19 @@ const TechnichalSheetDetail = () => {
         history.push(url);
     }
 
+    const goProgression = () => {
+        const url = `/sheets/creation/${data2[0].nomRecette}`;
+        history.push(url);
+    }
+
     return (
         <>
-            <BackButtonTechnichalSheet className="mt-2" />
+            {data.length === 0 ? <BackButtonTechnichalSheet className="mt-2" />
+                : <Link to={"/sheets/" + data[0].categorieRecette}>
+                    <Button className="fichesByCategory m-3" variant="contained" size="lg">
+                        <div>{"<< FICHES TECHNIQUES"}</div>
+                    </Button>
+                </Link>}
             {(!loading) && data.length > 0 ?
                 <>
                     <div className="text-center mt-2 mb-3">
@@ -294,96 +316,111 @@ const TechnichalSheetDetail = () => {
                             </>
                         </div>
                     </PDFExport>
-                    <div className="text-center mt-5">
-                        {!modify ?
-                            <>
-                                <Button className="generate-pdf" onClick={exportPDFWithComponent} variant="contained" size="lg">
-                                    Imprimer la fiche technique
-                                </Button>
-                                <Button className="updateSheet" onClick={modification} variant="contained" size="lg">
-                                    Modifier entête
-                                </Button>
-                                <Button className="goCost" onClick={costs} variant="contained" size="lg">
-                                    Calculs des coûts
-                                </Button>
-                                <Button className="supprimerfiche2" onClick={deleteFiche} variant="contained" size="lg">
-                                    Supprimer la fiche
-                                </Button>
-                            </> :
-                            <>
-                                <Button className="generate-pdf" onClick={exportPDFWithComponent} variant="contained" size="lg" disabled>
-                                    Imprimer la fiche technique
-                                </Button>
-                                <Button className="updateSheet" onClick={modification} variant="contained" size="lg" disabled>
-                                    Modifier entête
-                                </Button>
-                                <div className="text-center mt-2">
-                                    <div className="mcontainer mt-4">
-                                        <div className="d-flex subcontainer mt-2">
-                                            <label htmlFor="NomRecette" className="font-weight-bold">Nom de la recette</label>
-                                            <input
-                                                id="NomRecette"
-                                                name="NomRecette"
-                                                type="text"
-                                                onChange={(event) => {
-                                                    setNomRecette(event.target.value);
-                                                }}
-                                                //onBlur={formik.handleBlur}
-                                                /*value={formik.values.NomAuteur}*/
-                                                className="inputsheet"
-                                                placeholder="Modifiez le nom de la recette ..."
-                                            />
-                                            {nomRecette ? <button className="modifierValue btn-lg btn-info" onClick={modifyNomRecette}>modifier</button> :
-                                                <button className="modifierValue btn-lg btn-light" disabled>modifier</button>}
-                                        </div>
-                                        <div className="d-flex subcontainer mt-2">
-                                            <label htmlFor="NbCouvert" className="font-weight-bold">Nombre de couverts</label>
-                                            <input
-                                                id="NbCouvert"
-                                                name="NbCouvert"
-                                                type="number"
-                                                min="1"
-                                                onChange={(event) => {
-                                                    setNbCouvert(event.target.value);
-                                                }}
-                                                //onBlur={formik.handleBlur}
-                                                className="inputsheet"
-                                                placeholder="Modifiez le nombre de couverts ..."
-                                            />
-                                            {nbCouvert ? <button className="modifierValue btn-lg btn-info" onClick={modifyNbCouvert}>modifier</button> :
-                                                <button className="modifierValue btn-lg btn-light" disabled>modifier</button>}
-                                        </div>
-                                        <div className="d-flex subcontainer mt-2">
-                                            <label htmlFor="NomAuteur" className="font-weight-bold">Nom de l'auteur</label>
-                                            <input
-                                                id="NomAuteur"
-                                                name="NomAuteur"
-                                                type="text"
-                                                onChange={(event) => {
-                                                    setAuteur(event.target.value);
-                                                }}
-                                                className="inputsheet"
-                                                placeholder="Modifiez le nom de l'auteur ..."
-                                            />
-                                            {auteur ? <button className="modifierValue btn-lg btn-info" onClick={modifyNomAuteur}>modifier</button> :
-                                                <button className="modifierValue btn-lg btn-light" disabled>modifier</button>}
-                                        </div>
-                                    </div>
-                                    <Button className="terminate mt-3" onClick={endModification} variant="contained" size="lg">
-                                        Annuler
+                    {ingredients.length > 0 && steps.length > 0 ?
+                        <div className="text-center mt-5">
+                            {!modify ?
+                                <>
+                                    <Button className="generate-pdf" onClick={exportPDFWithComponent} variant="contained" size="lg">
+                                        Imprimer la fiche technique
                                     </Button>
-                                </div>
-                            </>}
-                    </div>
+                                    <Button className="updateSheet" onClick={modification} variant="contained" size="lg">
+                                        Modifier entête
+                                    </Button>
+                                    <Button className="goCost" onClick={costs} variant="contained" size="lg">
+                                        Calculs des coûts
+                                    </Button>
+                                    <Button className="supprimerfiche2" onClick={deleteFiche} variant="contained" size="lg">
+                                        Supprimer la fiche
+                                    </Button>
+                                </> :
+                                <>
+                                    <Button className="generate-pdf" onClick={exportPDFWithComponent} variant="contained" size="lg" disabled>
+                                        Imprimer la fiche technique
+                                    </Button>
+                                    <Button className="updateSheet" onClick={modification} variant="contained" size="lg" disabled>
+                                        Modifier entête
+                                    </Button>
+                                    <div className="text-center mt-2">
+                                        <div className="mcontainer mt-4">
+                                            <div className="d-flex subcontainer mt-2">
+                                                <label htmlFor="NomRecette" className="font-weight-bold">Nom de la recette</label>
+                                                <input
+                                                    id="NomRecette"
+                                                    name="NomRecette"
+                                                    type="text"
+                                                    onChange={(event) => {
+                                                        setNomRecette(event.target.value);
+                                                    }}
+                                                    //onBlur={formik.handleBlur}
+                                                    /*value={formik.values.NomAuteur}*/
+                                                    className="inputsheet"
+                                                    placeholder="Modifiez le nom de la recette ..."
+                                                />
+                                                {nomRecette ? <button className="modifierValue btn-lg btn-info" onClick={modifyNomRecette}>modifier</button> :
+                                                    <button className="modifierValue btn-lg btn-light" disabled>modifier</button>}
+                                            </div>
+                                            <div className="d-flex subcontainer mt-2">
+                                                <label htmlFor="NbCouvert" className="font-weight-bold">Nombre de couverts</label>
+                                                <input
+                                                    id="NbCouvert"
+                                                    name="NbCouvert"
+                                                    type="number"
+                                                    min="1"
+                                                    onChange={(event) => {
+                                                        setNbCouvert(event.target.value);
+                                                    }}
+                                                    //onBlur={formik.handleBlur}
+                                                    className="inputsheet"
+                                                    placeholder="Modifiez le nombre de couverts ..."
+                                                />
+                                                {nbCouvert ? <button className="modifierValue btn-lg btn-info" onClick={modifyNbCouvert}>modifier</button> :
+                                                    <button className="modifierValue btn-lg btn-light" disabled>modifier</button>}
+                                            </div>
+                                            <div className="d-flex subcontainer mt-2">
+                                                <label htmlFor="NomAuteur" className="font-weight-bold">Nom de l'auteur</label>
+                                                <input
+                                                    id="NomAuteur"
+                                                    name="NomAuteur"
+                                                    type="text"
+                                                    onChange={(event) => {
+                                                        setAuteur(event.target.value);
+                                                    }}
+                                                    className="inputsheet"
+                                                    placeholder="Modifiez le nom de l'auteur ..."
+                                                />
+                                                {auteur ? <button className="modifierValue btn-lg btn-info" onClick={modifyNomAuteur}>modifier</button> :
+                                                    <button className="modifierValue btn-lg btn-light" disabled>modifier</button>}
+                                            </div>
+                                        </div>
+                                        <Button className="terminate mt-3" onClick={endModification} variant="contained" size="lg">
+                                            Annuler
+                                        </Button>
+                                    </div>
+                                </>}
+                        </div> :
+                        <div className="text-center mt-4">
+                            <Button className="supprimerfiche2" onClick={deleteFiche} variant="contained" size="lg">
+                                Supprimer la fiche
+                            </Button>
+                        </div>}
                 </>
                 : (data.length === 0 && !loading ?
                     <>
-                        <h2 className="text-center mt-5">Veuillez supprimer la fiche technique, elle n'est pas associée à une progression.</h2>
-                        {/* <h2 className="text-center mt-5">Vous pouvez alernativement y ajouter une progression.</h2> */}
-                        <div className="text-center mt-2">
-                            <Button className="supprimerfiche mt-3" onClick={deleteFiche} variant="contained" size="lg">
-                                Supprimer
-                            </Button>
+                        <div className="containerSans pb-5 mt-5">
+                            <h1 className="text-center mt-5">Veuillez ajouter une progression à la fiche technique :<br /> {data2[0].nomRecette.toUpperCase()}.</h1>
+                            <div className="text-center mt-2">
+                                <Button className="addProgression mt-3" onClick={goProgression} variant="contained" size="lg">
+                                    Créer une progression et des étapes
+                                </Button>
+                            </div>
+                        </div>
+                        <div className="containerSansVert mt-5">
+                            <h2 className="text-center"><i>Ou veuillez supprimer la fiche technique,<br /> car elle n'est pas associée à une progression.</i></h2>
+                            <div className="text-center mt-2">
+                                <Button className="supprimerfiche mt-3" onClick={deleteFiche} variant="contained" size="lg">
+                                    Supprimer
+                                </Button>
+                            </div>
                         </div>
                     </> :
                     <Loading />)}
