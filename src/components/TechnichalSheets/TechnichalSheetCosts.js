@@ -28,7 +28,7 @@ const TechnichalSheetCosts = () => {
     const pdfExportComponent = React.useRef(null);
     let [total, setTotal] = useState([]);
     let [coefficient, setCoefficient] = useState(2.8);
-    let[coefficientfp, setCoefficientfp] = useState(1.4);
+    let [coefficientfp, setCoefficientfp] = useState(1.4);
     let [applyCoefficient1, setApplyCoefficient1] = useState(false);
     let [applyCoefficient2, setApplyCoefficient2] = useState(false);
     let [coutMoyen, setCoutMoyen] = useState(15);
@@ -40,46 +40,47 @@ const TechnichalSheetCosts = () => {
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
+                axios(`${serverURL}/api/sheet/${id}/steps`)
+                    .then((response) => {
+                        setSteps(response.data);
+                        console.log(response.data);
+                        axios(`${serverURL}/api/sheet/${id}/ingredients`)
+                            .then((response) => {
+                                setIngredients(response.data);
+                                console.log(response.data);
+                                axios(`${serverURL}/api/sheet/${id}/total`)
+                                    .then((response) => {
+                                        setTotal(response.data);
+                                        console.log(response.data);
+                                        setLoading(false);
+                                    })
+                                    .catch((error) => {
+                                        console.error("Error fetching data: ", error);
+                                        setError(error);
+                                    })
+                                    .finally(() => {
+                                        
+                                    });
+                            })
+                            .catch((error) => {
+                                console.error("Error fetching data: ", error);
+                                setError(error);
+                            })
+                            .finally(() => {
+                            });
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching data: ", error);
+                        setError(error);
+                    })
+                    .finally(() => {
+                    });
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
                 setError(error);
             })
             .finally(() => {
-            });
-        axios(`${serverURL}/api/sheet/${id}/steps`)
-            .then((response) => {
-                setSteps(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-            });
-        axios(`${serverURL}/api/sheet/${id}/ingredients`)
-            .then((response) => {
-                setIngredients(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-            });
-        axios(`${serverURL}/api/sheet/${id}/total`)
-            .then((response) => {
-                setTotal(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-                setLoading(false);
             });
     }, []);
 
@@ -238,7 +239,7 @@ const TechnichalSheetCosts = () => {
                                         </tr>
                                         <tr>
                                             <td width="60%"><b>Coût personnel</b></td>
-                                            <td width="40%">{coutMoyen * (steps[0].total_temps/60)} €</td>
+                                            <td width="40%">{coutMoyen * (steps[0].total_temps / 60)} €</td>
                                         </tr>
                                         <tr>
                                             <td width="60%"><b>Coût fluide</b></td>
@@ -246,15 +247,15 @@ const TechnichalSheetCosts = () => {
                                         </tr>
                                         <tr>
                                             <td width="60%"><b>Coût de production total</b></td>
-                                            <td width="40%">{coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps/60)} €</td>
+                                            <td width="40%">{coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60)} €</td>
                                         </tr>
                                         <tr>
                                             <td width="60%"><b>Coût de production pour portion de 200g</b></td>
-                                            <td width="40%">{(coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps/60))/(total[0].qtetotale/0.2)} €</td>
+                                            <td width="40%">{(coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60)) / (total[0].qtetotale / 0.2)} €</td>
                                         </tr>
                                         <tr>
                                             <td width="70%"><b>Prix de vente pour portion de 200g</b></td>
-                                            <td width="40%">{((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps/60))/(total[0].qtetotale/0.2))*coefficientfp} €</td>
+                                            <td width="40%">{((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60)) / (total[0].qtetotale / 0.2)) * coefficientfp} €</td>
                                         </tr>
                                     </div>
                                 </div>
