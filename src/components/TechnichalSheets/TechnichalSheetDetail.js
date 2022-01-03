@@ -37,48 +37,50 @@ const TechnichalSheetDetail = () => {
             .then((response) => {
                 setData2(response.data);
                 console.log(response.data);
+                axios(`${serverURL}/api/sheet/${id}/join`)
+                    .then((response) => {
+                        setData(response.data);
+                        console.log(response.data);
+                        axios(`${serverURL}/api/sheet/${id}/steps`)
+                            .then((response) => {
+                                setSteps(response.data);
+                                console.log(response.data);
+                                axios(`${serverURL}/api/sheet/${id}/ingredients`)
+                                    .then((response) => {
+                                        setIngredients(response.data);
+                                        //console.log(response.data);
+                                        setLoading(false);
+                                    })
+                                    .catch((error) => {
+                                        console.error("Error fetching data: ", error);
+                                        setError(error);
+                                    })
+                                    .finally(() => {
+                                    });
+                            })
+                            .catch((error) => {
+                                console.error("Error fetching data: ", error);
+                                setError(error);
+                            })
+                            .finally(() => {
+                            });
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching data: ", error);
+                        setError(error);
+                    })
+                    .finally(() => {
+                    });
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
                 setError(error);
             })
             .finally(() => {
-            });
-        axios(`${serverURL}/api/sheet/${id}/join`)
-            .then((response) => {
-                setData(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-            });
-        axios(`${serverURL}/api/sheet/${id}/steps`)
-            .then((response) => {
-                setSteps(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-            });
-        axios(`${serverURL}/api/sheet/${id}/ingredients`)
-            .then((response) => {
-                setIngredients(response.data);
-                //console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-                setLoading(false);
             });
     }, []);
+
+
 
     const exportPDFWithComponent = () => {
         if (pdfExportComponent.current) {
