@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import axios from "axios";
 import './ProgressionCreation.css';
 import serverURL from "../../serverURL";
@@ -14,6 +14,7 @@ import {
 import { useFormik } from 'formik';
 import BackButtonTechnichalSheet from '../BackButtons/BackButtonTechnichalSheet/BackButtonTechnichalSheet';
 import { AiFillCheckCircle } from 'react-icons/ai';
+import Loading from '../Loading/Loading';
 
 const ProgressionCreation = () => {
     let { nomRecette } = useParams();
@@ -29,11 +30,33 @@ const ProgressionCreation = () => {
     const [nomListe, setNomListe] = useState('');
     const [libelleIngredient, setLibelleIngredient] = useState('');
     const [quantite, setQuantite] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
 
+    useEffect(() => {
+        axios(`${serverURL}/api/progression`)
+        .then((response) => {
+            setData(response.data.map((element) =>
+            element.refProgression.toLowerCase()));
+            console.log(response.data.map((element) =>
+                element.refProgression));
+        })
+        .catch((error) => {
+            console.error("Error fetching data: ", error);
+            setError(error);
+        })
+        .finally(() => {
+            setLoading(false);
+        });
+    });
+    
     const validate = () => {
         const errors = {};
         if (!referenceProgression) {
             errors.ReferenceProgression = 'Référence requise';
+        } else if(!loading && data.includes(referenceProgression.toLowerCase())) {
+            errors.ReferenceProgression = 'Nom de progression déjà utilisé';
         }
         if (!titre) {
             errors.TitreEtape = 'Titre requis';
@@ -105,7 +128,9 @@ const ProgressionCreation = () => {
         });
         return (
             <>
-                {!submitted ? <div className="container mt-2 mb-2" >
+            {!submitted ? 
+                <>
+                <div className="container mt-3 mb-2 p-5" >
                     <div className="text-center">
                         <h1>Ajouter une progression</h1>
                         <h2>{nomRecette}</h2>
@@ -113,7 +138,7 @@ const ProgressionCreation = () => {
                     <form onSubmit={formik.handleSubmit}>
                         <div className="container-input1">
                             <div className="sub-container2">
-                                <label htmlFor="ReferenceProgression">Référence de la progression</label>
+                                <label htmlFor="ReferenceProgression">Nom de la progression</label>
                                 <input
                                     id="ReferenceProgression"
                                     name="ReferenceProgression"
@@ -129,13 +154,12 @@ const ProgressionCreation = () => {
                                 ) : null}
                             </div>
                         </div>
-
-                        {referenceProgression ? <Button type="button" size="lg" onClick={ProgressionCreation} className="submit-button mt-3"><div>Ajouter progression</div></Button>
+                        {!(data.includes(referenceProgression.toLowerCase())) && referenceProgression ? <Button type="button" size="lg" onClick={ProgressionCreation} className="submit-button mt-3"><div>Ajouter progression</div></Button>
                             : <Button type="button" size="lg" className="button-disabled mt-3" disabled><div>Ajouter progression</div></Button>}
-
                     </form>
-                </div> : null}
-            </>
+                </div>
+               </>  : null}
+           </>     
         );
     }
 
@@ -255,11 +279,14 @@ const ProgressionCreation = () => {
 
     return (
         <>
-            <div className="text-center">
-                <Button className="sheet-name mt-3" variant="contained" size="lg">
-                    <h1 style={{fontSize:"30px"}}>{nomRecette}</h1>
+             <BackButtonTechnichalSheet />
+             {/* <h1 className="text-center create mt-5 ">CREER UNE PROGRESSION <br /></h1> */}
+            <div className="text-center mt-3">
+                <Button className="sheet-name mt-3 mb-3" variant="contained" size="lg">
+                    <h1 style={{fontSize:"30px"}}>Fiche technique - {nomRecette.toUpperCase()}</h1>
                 </Button>
             </div>
+           {loading? <Loading/> : null}
             {!submitted && !addingStepFinished ? CreationProgression() : null}
             {submitted && !addingStepFinished ? AddSteps() : null}
             {stepCreated && !addingStepFinished ? AddMoreSteps() : null}
