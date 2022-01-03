@@ -10,6 +10,7 @@ import {
     Redirect
 } from "react-router-dom";
 import TechnichalSheetCards from './TechnichalSheetCards/TechnichalSheetCards';
+import CategoryRecetteCards from './CategoryRecette/CategoryRecetteCards';
 
 class TechnichalSheets extends Component {
 
@@ -21,14 +22,14 @@ class TechnichalSheets extends Component {
                     <p className="intro">Ici, vous pouvez créer, consulter ainsi que modifier vos fiches techniques.</p>
                 </div>
                 <div className="button-container text-center mt-3">
-                    <Link to={"/sheets/" + "creation"}>
+                    <Link to={"/sheet/" + "creation"}>
                         <Button className="create-sheet" variant="contained" size="lg">
                             + Créer une fiche technique
                         </Button>
                     </Link>
                 </div>
                 <div className="sheetcontainer">
-                <TechnichalSheetCards />
+                <CategoryRecetteCards />
                 </div>
             </>
         )

@@ -18,6 +18,7 @@ class Mercurials extends Component {
             <>
                 <div className="text-center mt-4">
                     <h1>Mercurial</h1>
+                    <p className="intro">Ici, vous pouvez créer, consulter ainsi que modifier vos ingrédients.</p>
                 </div>
                 <div className="button-container text-center mt-3">
                     <Link to={"/mercurial/createIngredient"}>
