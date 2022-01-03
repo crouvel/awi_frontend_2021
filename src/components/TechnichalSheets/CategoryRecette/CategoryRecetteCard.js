@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './TechnichalSheetCards.css'
+import './CategoryRecetteCard.css'
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,17 +10,17 @@ import {
   Redirect
 } from "react-router-dom";
 
-const TechnichalSheetCard = (props) => {
+const CategoryRecetteCard = (props) => {
   const { data } = props
   return (
     <>     
-         <Link to={"/sheetdetail/" + data.idFiche} style={{ color: 'inherit', textDecoration: 'inherit'}} >
-        <div className="card card-4">
+         <Link to={"/sheets/" + data.categorieNom} style={{ color: 'inherit', textDecoration: 'inherit'}} >
+        <div className="card card-2">
           <div className="card__icon"><i className="fas fa-bolt"></i></div>
           <p className="card__exit"><i className="fas fa-times"></i></p>
-          <h2 className="card__title">{data.nomRecette}</h2>
+          <h2 className="card__title">{data.categorieNom}</h2>
           <div className="card__apply">
-              <p className="card__link">Détails fiche technique</p>
+              <p className="card__link">Liste des {data.categorieNom}s</p>
           </div>    
         </div>
         </Link>
@@ -29,5 +29,5 @@ const TechnichalSheetCard = (props) => {
 }
 
 export {
-    TechnichalSheetCard
+    CategoryRecetteCard
 };

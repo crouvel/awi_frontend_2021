@@ -23,6 +23,7 @@ import TechnichalSheetDetail from './components/TechnichalSheets/TechnichalSheet
 import IngredientDetail from './components/Ingredients/IngredientDetails/IngredientDetail';
 import TechnichalSheetCosts from './components/TechnichalSheets/TechnichalSheetCosts';
 import CreateIngredient from './components/CreateIngredient/CreateIngredient';
+import TechnichalSheetCards from './components/TechnichalSheets/TechnichalSheetCards/TechnichalSheetCards';
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
         {/* <Route path="/allergens"> */}
         {/* <AllergenList /> */}
         {/* </Route> */}
+        
         <Route exact path="/mercurial/:id/ingredients">
           < IngredientsList />
         </Route>
@@ -69,7 +71,7 @@ function App() {
         <Route exact path="/sheetdetailcosts/:id">
           < TechnichalSheetCosts />
         </Route>
-        <Route exact path="/sheets/creation">
+        <Route exact path="/sheet/creation">
           < CreateTechnichalSheet />
         </Route>
         <Route exact path="/sheets/creation/:nomRecette">
@@ -84,7 +86,9 @@ function App() {
         <Route exact path="/sheets/:nomRecette/creationFinished">
           <FinishCreateTechnichalSheet />
         </Route>
-
+        <Route exact path="/sheets/:categorieNom">
+          <TechnichalSheetCards />
+        </Route>
         <Route exact path="/">
           <Home />
         </Route>

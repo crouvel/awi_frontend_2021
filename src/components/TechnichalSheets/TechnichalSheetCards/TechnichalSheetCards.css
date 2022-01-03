@@ -3,3 +3,7 @@
     flex-wrap: wrap;
     flex-direction: row;
   }
+
+  .nocategory{
+    margin-left: 20%;
+  }

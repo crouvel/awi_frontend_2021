@@ -46,7 +46,7 @@ const TechnichalSheetDetail = () => {
         axios(`${serverURL}/api/sheet/${id}/steps`)
             .then((response) => {
                 setSteps(response.data);
-                console.log(response.data);
+                //console.log(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
@@ -146,7 +146,6 @@ const TechnichalSheetDetail = () => {
                 window.location.reload(false);
             });
     }
-
 
     const deleteFiche = () => {
         setLoading(true);
@@ -388,7 +387,6 @@ const TechnichalSheetDetail = () => {
                         </div>
                     </> :
                     <Loading />)}
-
         </>
     )
 }

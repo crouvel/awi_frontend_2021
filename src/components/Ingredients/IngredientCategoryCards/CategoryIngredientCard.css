@@ -96,7 +96,7 @@
   }
   
   .card-2 {
-    background: radial-gradient(#fbc1cc, #fa99b2);
+    background: linear-gradient(45deg, #1fe4f5, #3fbafe);;
   }
   
   .card-3 {
