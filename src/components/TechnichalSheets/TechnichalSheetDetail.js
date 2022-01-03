@@ -203,7 +203,6 @@ const TechnichalSheetDetail = () => {
                         paperSize="auto"
                         margin={40}
                         fileName={`${data[0].nomRecette}`}
-                        author={data[0].nomAuteur}
                         style={{ fontFamily: 'Montserrat, sans-serif' }}
                     >
                         <div className="to-print-in-pdf mt-3" id="to-print-in-pdf" ref={container}>
