@@ -28,3 +28,9 @@ td{
 .sans {
     background:   radial-gradient(#efda60c2, #dfeb35c4);
 }
+
+.imprimer{
+    width: 390px;
+    height: 70px;
+    background: linear-gradient(45deg, #599bf1, #73A4FF);
+}
