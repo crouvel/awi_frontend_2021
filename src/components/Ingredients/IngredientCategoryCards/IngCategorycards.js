@@ -36,7 +36,7 @@ const IngCategorycards = () => {
     };
   }
   return (
-    <div class="classContainer1">
+    <div class="classContainer">
       {
         showData()
       }

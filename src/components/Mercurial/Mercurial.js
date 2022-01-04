@@ -25,11 +25,13 @@ class Mercurials extends Component {
                         <Button className="createIngredient" variant="contained" size="lg">
                             + Ajouter un ingrédient
                         </Button>
-                    </Link>  
+                    </Link>
                 </div>
-                <div className="categoryContainer">
+                <div className="sheetContainer">
+                    <div className="classContainer">
                         <IngCategorycards />
                     </div>
+                </div>
             </>
         );
     }
