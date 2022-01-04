@@ -16,24 +16,29 @@ import axios from 'axios';
 import serverURL from '../../serverURL';
 import Loading from '../Loading/Loading';
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
+import { AsyncStorage } from 'AsyncStorage';
 
 const TechnichalSheetCosts = () => {
-    let { id } = useParams();
-    let [data, setData] = useState([]);
-    let [steps, setSteps] = useState([]);
-    let [ingredients, setIngredients] = useState([]);
-    let [loading, setLoading] = useState(true);
-    let [error, setError] = useState(null);
+    const { id } = useParams();
+    const [data, setData] = useState([]);
+    const [steps, setSteps] = useState([]);
+    const [ingredients, setIngredients] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const container = React.useRef(null);
     const pdfExportComponent = React.useRef(null);
-    let [total, setTotal] = useState([]);
-    let [coefficient, setCoefficient] = useState(2.8);
-    let [coefficientfp, setCoefficientfp] = useState(1.4);
-    let [applyCoefficient1, setApplyCoefficient1] = useState(false);
-    let [applyCoefficient2, setApplyCoefficient2] = useState(false);
-    let [coutMoyen, setCoutMoyen] = useState(15);
-    let [coutForfaitaire, setCoutForfaitaire] = useState(5);
-    let [newCoefficient, setNewCoefficient] = useState(0);
+    const [total, setTotal] = useState([]);
+    const [coefficient, setCoefficient] = useState(2.8);
+    const [coefficientfp, setCoefficientfp] = useState(1.4);
+    const [applyCoefficient1, setApplyCoefficient1] = useState(false);
+    const [applyCoefficient2, setApplyCoefficient2] = useState(false);
+    const [fluidePersonnel, setFluidePersonnel] = useState(true);
+    const [coutMoyen, setCoutMoyen] = useState(15);
+    const [coutForfaitaire, setCoutForfaitaire] = useState(5);
+    const [newCoefficient, setNewCoefficient] = useState(0);
+    const [newCoefficientfp, setNewCoefficientfp] = useState(0);
+    const [newCoutMoyen, setNewCoutMoyen] = useState(0);
+    const [newCoutForfaitaire, setNewCoutForfaitaire] = useState(0);
 
     useEffect(() => {
         axios(`${serverURL}/api/sheet/${id}`)
@@ -59,7 +64,7 @@ const TechnichalSheetCosts = () => {
                                         setError(error);
                                     })
                                     .finally(() => {
-                                        
+
                                     });
                             })
                             .catch((error) => {
@@ -82,6 +87,8 @@ const TechnichalSheetCosts = () => {
             })
             .finally(() => {
             });
+        console.log(coefficient);
+        console.log(fluidePersonnel);
     }, []);
 
 
@@ -99,6 +106,24 @@ const TechnichalSheetCosts = () => {
         setApplyCoefficient2(true);
     }
 
+    const changeCoefficient1 = /*async*/ () => {
+        setCoefficient(newCoefficient);
+        //await AsyncStorage.setItem('coefficient', JSON.stringify(newCoefficient));
+        setFluidePersonnel(false);
+        //await AsyncStorage.setItem('fluidePersonnel', JSON.stringify(fluidePersonnel));
+        setApplyCoefficient1(false);
+    }
+
+    const changeCoefficient2 = /*async*/ () => {
+        //setCoefficientfp(newCoefficientfp);
+        //setCoutForfaitaire(newCoutForfaitaire);
+        //setCoutMoyen(newCoutMoyen);
+        //await AsyncStorage.setItem('coefficient', JSON.stringify(newCoefficient));
+        setFluidePersonnel(true);
+        //await AsyncStorage.setItem('fluidePersonnel', JSON.stringify(fluidePersonnel));
+        setApplyCoefficient2(false);
+    }
+
     return (
         <>
             <Link to={"/sheetdetail/" + id}>
@@ -106,7 +131,6 @@ const TechnichalSheetCosts = () => {
                     <div>{"<< DETAILS FICHE"}</div>
                 </Button>
             </Link>
-            {/* <div>calculs couts</div> */}
             {!loading ?
                 <>
                     <PDFExport
@@ -237,25 +261,32 @@ const TechnichalSheetCosts = () => {
                                             <td width="60%"><b>Coût matière</b></td>
                                             <td width="40%">{total[0].prix_total * 0.05 + total[0].prix_total} €</td>
                                         </tr>
-                                        <tr>
-                                            <td width="60%"><b>Coût personnel</b></td>
-                                            <td width="40%">{coutMoyen * (steps[0].total_temps / 60)} €</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%"><b>Coût fluide</b></td>
-                                            <td width="40%">{coutForfaitaire} €</td>
-                                        </tr>
+                                        {fluidePersonnel ?
+                                            <>
+                                                <tr>
+                                                    <td width="60%"><b>Coût personnel</b></td>
+                                                    <td width="40%">{coutMoyen * (steps[0].total_temps / 60)} €</td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="60%"><b>Coût fluide</b></td>
+                                                    <td width="40%">{coutForfaitaire} €</td>
+                                                </tr>
+                                            </> :
+                                            null}
                                         <tr>
                                             <td width="60%"><b>Coût de production total</b></td>
-                                            <td width="40%">{coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60)} €</td>
+                                            <td width="40%">{Number.parseFloat(coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60))} €</td>
                                         </tr>
                                         <tr>
                                             <td width="60%"><b>Coût de production pour portion de 200g</b></td>
-                                            <td width="40%">{(coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60)) / (total[0].qtetotale / 0.2)} €</td>
+                                            <td width="40%">{Number.parseFloat((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60))/ (total[0].qtetotale / 0.2))} €</td>
                                         </tr>
                                         <tr>
-                                            <td width="70%"><b>Prix de vente pour portion de 200g</b></td>
-                                            <td width="40%">{((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60)) / (total[0].qtetotale / 0.2)) * coefficientfp} €</td>
+                                            <td width="70%"><b>Prix de vente pour portion de 200g {}</b></td>
+                                            {fluidePersonnel ?
+                                                <td width="40%">{Number.parseFloat(((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60)) / (total[0].qtetotale / 0.2)) * coefficientfp)} €</td>
+                                                :
+                                                <td width="40%">{((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60))/ (total[0].qtetotale / 0.2) ) * coefficient } €</td>}
                                         </tr>
                                     </div>
                                 </div>
@@ -265,24 +296,24 @@ const TechnichalSheetCosts = () => {
                     {!applyCoefficient1 && !applyCoefficient2 ?
                         <>
                             <div className="text-center mt-4">
-                                <Button className="coefficient mt-3" onClick={addCoefficient1} variant="contained" size="lg">
+                                <Button className="sans mt-3" onClick={addCoefficient1} variant="contained" size="lg">
                                     Appliquer un coefficient particulier SANS coût des fluides et du personnel
                                 </Button>
                             </div>
                             <div className="text-center">
-                                <Button className="sans mt-3" onClick={addCoefficient1} variant="contained" size="lg">
+                                <Button className="coefficient mt-3" onClick={addCoefficient2} variant="contained" size="lg">
                                     Appliquer un coefficient AVEC coût des fluides et du personnel
                                 </Button>
                             </div>
                         </> :
                         <>
                             <div className="text-center mt-4">
-                                <Button className="coefficient mt-3" onClick={addCoefficient1} variant="contained" size="lg" disabled>
+                                <Button className="sans mt-3" onClick={addCoefficient1} variant="contained" size="lg" disabled>
                                     Appliquer un coefficient SANS coût des fluides et du personnel
                                 </Button>
                             </div>
                             <div className="text-center">
-                                <Button className="sans mt-3" onClick={addCoefficient2} variant="contained" size="lg" disabled>
+                                <Button className="coefficient mt-3" onClick={addCoefficient2} variant="contained" size="lg" disabled>
                                     Appliquer un coefficient AVEC coût des fluides et du personnel
                                 </Button>
                             </div>
@@ -303,11 +334,64 @@ const TechnichalSheetCosts = () => {
                                 className="inputsheet"
                                 placeholder="Appliquer un coefficient ..."
                             />
-                            {newCoefficient ? <button className="appliquer btn-lg btn-success">appliquer</button> :
+                            {newCoefficient ? <button className="appliquer btn-lg btn-success" onClick={changeCoefficient1}>appliquer</button> :
                                 <button className="appliquer btn-lg btn-light" disabled>appliquer</button>}
                         </div>
                         : null
                     }
+                    {applyCoefficient2 ?
+                        <>
+                            <div className="d-flex subcontainer3 mt-2">
+                                <input
+                                    id="Coefficient"
+                                    name="Coefficient"
+                                    type="number"
+                                    min="1"
+                                    step="0.01"
+                                    onChange={(event) => {
+                                        setCoefficientfp(event.target.value);
+                                    }}
+                                    //onBlur={formik.handleBlur}
+                                    className="inputsheet"
+                                    placeholder="Appliquer un coefficient ..."
+                                />
+                            </div>
+                            <div className="d-flex subcontainer3 mt-2">
+                                <input
+                                    id="CoutForfaitaire"
+                                    name="CoutForfaitaire"
+                                    type="number"
+                                    min="1"
+                                    step="0.01"
+                                    onChange={(event) => {
+                                        setCoutForfaitaire(Number.parseFloat(event.target.value));
+                                    }}
+                                    //onBlur={formik.handleBlur}
+                                    className="inputsheet"
+                                    placeholder="Coût Forfaitaire ..."
+                                />
+                            </div>
+                            <div className="d-flex subcontainer3 mt-2">
+                                <input
+                                    id="CoutMoyen"
+                                    name="CoutMoyen"
+                                    type="number"
+                                    min="1"
+                                    step="0.01"
+                                    onChange={(event) => {
+                                        setCoutMoyen(Number.parseFloat(event.target.value));
+                                    }}
+                                    //onBlur={formik.handleBlur}
+                                    className="inputsheet"
+                                    placeholder="Coût Moyen ..."
+                                />
+                            </div>
+                            <div className="text-center">
+                                {coefficientfp && coutForfaitaire && coutMoyen ? <button className="appliquer btn-lg btn-success" onClick={changeCoefficient2}>appliquer</button> :
+                                    <button className="appliquer btn-lg btn-light" disabled>appliquer</button>}
+                            </div>
+                        </>
+                        : null}
                 </> :
                 <Loading />}
 

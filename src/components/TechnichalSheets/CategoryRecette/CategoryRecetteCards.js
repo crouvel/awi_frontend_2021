@@ -42,7 +42,7 @@ const CategoryRecetteCards = () => {
 
     return (
        
-        <div className="classContainer">
+        <div className="classContainer text-center">
             {
                 showData()
             }

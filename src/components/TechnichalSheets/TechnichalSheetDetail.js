@@ -80,8 +80,6 @@ const TechnichalSheetDetail = () => {
             });
     }, []);
 
-
-
     const exportPDFWithComponent = () => {
         if (pdfExportComponent.current) {
             pdfExportComponent.current.save();

@@ -28,7 +28,7 @@ class TechnichalSheets extends Component {
                         </Button>
                     </Link>
                 </div>
-                <div className="sheetcontainer">
+                <div className="sheetcontainer text-center">
                 <CategoryRecetteCards />
                 </div>
             </>

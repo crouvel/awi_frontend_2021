@@ -24,3 +24,7 @@ td{
     height: 38px;
     margin-left: 15px;
 }
+
+.sans {
+    background:   radial-gradient(#efda60c2, #dfeb35c4);
+}
