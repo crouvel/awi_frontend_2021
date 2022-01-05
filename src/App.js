@@ -24,6 +24,7 @@ import IngredientDetail from './components/Ingredients/IngredientDetails/Ingredi
 import TechnichalSheetCosts from './components/TechnichalSheets/TechnichalSheetCosts';
 import CreateIngredient from './components/CreateIngredient/CreateIngredient';
 import TechnichalSheetCards from './components/TechnichalSheets/TechnichalSheetCards/TechnichalSheetCards';
+import EtiquetteVente from './components/TechnichalSheets/EtiquetteVente/EtiquetteVente';
 
 function App() {
   return (
@@ -70,6 +71,9 @@ function App() {
         </Route>
         <Route exact path="/sheetdetailcosts/:id">
           < TechnichalSheetCosts />
+        </Route>
+        <Route exact path="/sheetEtiquette/:id">
+          < EtiquetteVente />
         </Route>
         <Route exact path="/sheet/creation">
           < CreateTechnichalSheet />

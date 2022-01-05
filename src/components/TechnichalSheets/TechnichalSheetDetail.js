@@ -185,6 +185,10 @@ const TechnichalSheetDetail = () => {
         history.push(url);
     }
 
+    const goEtiquette = () => {
+        const url = `/sheetEtiquette/${id}`;
+        history.push(url);
+    }
     return (
         <>
             {data.length === 0 ? <BackButtonTechnichalSheet className="mt-2" />
@@ -196,13 +200,13 @@ const TechnichalSheetDetail = () => {
             {(!loading) && data.length > 0 ?
                 <>
                     <div className="text-center mt-2 mb-3">
-                        <h1>Fiche Technique : {data[0].nomRecette} </h1>
+                        <h1>Fiche Technique :<br /><i>{data[0].nomRecette}</i> </h1>
                     </div>
                     <PDFExport
                         ref={pdfExportComponent}
                         paperSize="auto"
                         margin={40}
-                        fileName={`${data[0].nomRecette}`}
+                        fileName={`${data[0].nomRecette.toUpperCase()}_Fiche-Technique_SANS-COUTS`}
                         style={{ fontFamily: 'Montserrat, sans-serif' }}
                     >
                         <div className="to-print-in-pdf mt-3" id="to-print-in-pdf" ref={container}>
@@ -222,7 +226,7 @@ const TechnichalSheetDetail = () => {
                                         <div className="text-center entete">
                                             <h3>INTITULE</h3>
                                         </div>
-                                        <h4 style={{ fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol", textAlign: "center" }}>{data[0].nomRecette} </h4>
+                                        <h4 style={{ fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol", textAlign: "center" }}>{data[0].nomRecette}</h4>
                                         <div style={{ minHeight: "200px", maxHeight: "auto" }}>
                                             <tr style={{
                                                 backgroundColor: "#73A4FF",
@@ -331,6 +335,12 @@ const TechnichalSheetDetail = () => {
                                     <Button className="supprimerfiche2" onClick={deleteFiche} variant="contained" size="lg">
                                         Supprimer la fiche
                                     </Button>
+
+                                    <div className="text-center mt-4">
+                                    <Button className="etiquette btn-success" onClick={goEtiquette} variant="contained" size="lg">
+                                        <div>Imprimer une étiquette SANS vente</div>
+                                    </Button>
+                                    </div>
                                 </> :
                                 <>
                                     <Button className="generate-pdf" onClick={exportPDFWithComponent} variant="contained" size="lg" disabled>

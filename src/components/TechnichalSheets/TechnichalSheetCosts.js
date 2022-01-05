@@ -417,7 +417,7 @@ const TechnichalSheetCosts = () => {
                                 </Button>
                             </div>
                             <div className="text-center">
-                                <Button className="btn-info mt-3" onClick={goImprimer} variant="contained" size="lg">
+                                <Button className="calcul btn-info mt-3" onClick={goImprimer} variant="contained" size="lg">
                                     Imprimer une fiche complète avec calcul de coûts
                                 </Button>
                             </div>
