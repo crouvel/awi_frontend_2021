@@ -130,17 +130,17 @@ const EtiquetteVente = () => {
                                                                         <tr style={{ width: "90%" }}>
                                                                             <div>
                                                                                 <td style={{ fontSize: "30px", marginRight: "20%", marginTop: "5%" }} className="text-center">
-                                                                                    <h3>{element.libelleCategorie}</h3>
+                                                                                    <h4>{element.libelleCategorie}</h4>
                                                                                 </td>
                                                                             </div>
                                                                         </tr>
                                                                         <div style={{ marginLeft: "250%" }}>
-                                                                            <td style={{ fontSize: "25px", width: "300px" }}>
+                                                                            <td style={{ fontSize: "20px", width: "300px" }}>
                                                                                 <tr className="title-list2">INGREDIENTS:</tr>
                                                                                 {element.ingredients.split(";").map(
                                                                                     (subelement) => {
                                                                                         if (subelement.includes(":Oui")) {
-                                                                                            return <tr><b>{subelement.substring(0, subelement.indexOf(':'))}</b>&nbsp;<i style={{ color: "red" }}>(Allergène)</i></tr>
+                                                                                            return <tr><b>{subelement.substring(0, subelement.indexOf(':'))}</b>&nbsp;<i><b>(Allergène)</b></i></tr>
                                                                                         } else {
                                                                                             return <tr>{subelement.substring(0, subelement.indexOf(':'))}</tr>
                                                                                         }

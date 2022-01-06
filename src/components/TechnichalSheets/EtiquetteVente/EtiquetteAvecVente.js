@@ -172,7 +172,7 @@ const EtiquetteAvecVente = () => {
                                         <h2 className="header mt-4" style={{ textAlign: "center", fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol" }}>VENTE A EMPORTER</h2>
                                     </div>
                                     <div>
-                                        <h2 className="text-center"><i>{data1[0].nomRecette}</i><br /> Vente effectuée le {String(new Date().getDate()).padStart(2, '0') + "/" + String(new Date().getMonth() + 1).padStart(2, '0') + "/" + new Date().getFullYear()}</h2>
+                                        <h2 className="text-center"><i>{data1[0].nomRecette}</i><br /> <text>Vente effectuée le {String(new Date().getDate()).padStart(2, '0') + "/" + String(new Date().getMonth() + 1).padStart(2, '0') + "/" + new Date().getFullYear()}</text></h2>
                                     </div>
                                     <div>
                                         <div style={{ display: "flex", flexDirection: "row", marginLeft: "10%", marginRight: "10%", maxHeight: "auto" }}>
@@ -211,18 +211,18 @@ const EtiquetteAvecVente = () => {
                                                                     <tr>
                                                                         <tr style={{ width: "90%" }}>
                                                                             <div>
-                                                                                <td style={{ fontSize: "30px", marginRight: "20%", marginTop: "5%" }} className="text-center">
-                                                                                    <h3>{element.libelleCategorie}</h3>
+                                                                                <td style={{ fontSize: "20px", marginRight: "20%", marginTop: "5%" }} className="text-center">
+                                                                                    <h4>{element.libelleCategorie}</h4>
                                                                                 </td>
                                                                             </div>
                                                                         </tr>
                                                                         <div style={{ marginLeft: "250%" }}>
-                                                                            <td style={{ fontSize: "25px", width: "300px" }}>
+                                                                            <td style={{ fontSize: "20px", width: "300px" }}>
                                                                                 <tr className="title-list3">INGREDIENTS:</tr>
                                                                                 {element.ingredients.split(";").map(
                                                                                     (subelement) => {
                                                                                         if (subelement.includes(":Oui")) {
-                                                                                            return <tr><b>{subelement.substring(0, subelement.indexOf(':'))}</b>&nbsp;<i style={{ color: "red" }}>(Allergène)</i></tr>
+                                                                                            return <tr><b>{subelement.substring(0, subelement.indexOf(':'))}</b>&nbsp;<i><b>(Allergène)</b></i></tr>
                                                                                         } else {
                                                                                             return <tr>{subelement.substring(0, subelement.indexOf(':'))}</tr>
                                                                                         }
