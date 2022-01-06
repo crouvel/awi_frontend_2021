@@ -189,6 +189,12 @@ const TechnichalSheetDetail = () => {
         const url = `/sheetEtiquette/${id}`;
         history.push(url);
     }
+
+    const goEtiquetteVente = () => {
+        const url = `/sheetEtiquetteVente/${id}`;
+        history.push(url);
+    }
+
     return (
         <>
             {data.length === 0 ? <BackButtonTechnichalSheet className="mt-2" />
@@ -339,6 +345,12 @@ const TechnichalSheetDetail = () => {
                                     <div className="text-center mt-4">
                                     <Button className="etiquette btn-success" onClick={goEtiquette} variant="contained" size="lg">
                                         <div>Imprimer une étiquette SANS vente</div>
+                                    </Button>
+                                    </div>
+                                    
+                                    <div className="text-center mt-3">
+                                    <Button className="etiquettevente" onClick={goEtiquetteVente} variant="contained" size="lg">
+                                        <div>Imprimer une étiquette AVEC vente</div>
                                     </Button>
                                     </div>
                                 </> :

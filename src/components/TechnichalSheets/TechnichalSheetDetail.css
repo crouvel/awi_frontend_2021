@@ -76,7 +76,7 @@ text{
 }
 
 .goCost{
-    background: radial-gradient(#1fe4f5, #3fbafe);
+    background: radial-gradient(#efda60c2, #dfeb35c4);
     margin-left: 10px;
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);  
 }
@@ -187,3 +187,9 @@ margin-left : 35%;
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);  
 }
 
+.etiquettevente{
+    background: radial-gradient(#60ef84, #35eb81f6);
+    width: 450px;
+    height: 60px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);  
+}
