@@ -124,6 +124,10 @@ const TechnichalSheetCosts = () => {
         setApplyCoefficient1(false);
     }
 
+    const comeBack3 = () => {
+        setImprimer(false);
+    }
+
     const goImprimer = () => {
         setImprimer(true);
     }
@@ -168,8 +172,8 @@ const TechnichalSheetCosts = () => {
                                                     fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol"
                                                 }} width="100%">
                                                     <th ><td width="380px" className="text-center">Denrées</td>
-                                                        <td width="120px" className="text-center">Unités</td>
-                                                        <td width="120px" className="text-center">Quantité</td></th>
+                                                        <td width="160px" className="text-center">Unités</td>
+                                                        <td width="140px" className="text-center">Quantité</td></th>
                                                 </tr>
                                                 <table>
                                                     <tbody>
@@ -180,17 +184,17 @@ const TechnichalSheetCosts = () => {
                                                                         <tr><td className="title-list">{element.nomListeIngredients} :</td>
                                                                             <td></td>
                                                                             <td></td></tr>
-                                                                        <td width="425px">{element.ingredients.split(",").map(
+                                                                        <td width="455px">{element.ingredients.split(",").map(
                                                                             (subelement) => {
                                                                                 return <tr>{subelement}</tr>
                                                                             }
                                                                         )}</td>
-                                                                        <td width="110px">{element.unites.split(",").map(
+                                                                        <td width="160px">{element.unites.split(",").map(
                                                                             (subelement2) => {
                                                                                 return <tr>{subelement2}</tr>
                                                                             }
                                                                         )}</td>
-                                                                        <td>{element.quantites.split(",").map(
+                                                                        <td width="110px">{element.quantites.split(",").map(
                                                                             (subelement3) => {
                                                                                 return <tr>{subelement3}</tr>
                                                                             }
@@ -223,8 +227,8 @@ const TechnichalSheetCosts = () => {
                                             <div style={{ minHeight: "200px", maxHeight: "auto" }}>
                                                 <tr style={{ backgroundColor: "#73A4FF" }}>
                                                     <th><td width="70px" className="text-center">N° phase</td>
-                                                        <td width="510px" className="text-center">Technique de réalisation</td>
-                                                        <td width="50px" className="text-center">DUREE</td></th>
+                                                        <td width="540px" className="text-center">Technique de réalisation</td>
+                                                        <td width="70px" className="text-center">DUREE</td></th>
                                                 </tr>
                                                 <table>
                                                     <tbody className="body-gauche">
@@ -238,7 +242,7 @@ const TechnichalSheetCosts = () => {
                                                                                 <text className="title-list">{element4.titre}</text> <br />
                                                                                 <text> {element4.description}</text>
                                                                             </td>
-                                                                            <td width="50px"><tr>{element4.temps}'</tr></td>
+                                                                            <td width="70px"><tr>{element4.temps}'</tr></td>
                                                                         </tr>
                                                                     </>
                                                                 )
@@ -269,9 +273,9 @@ const TechnichalSheetCosts = () => {
                                             backgroundColor: "#73A4FF",
                                             fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol"
                                         }} width="100%">
-                                            <th ><td width="120px" className="text-center">Code</td>
-                                                <td width="380px" className="text-center">Nature</td>
-                                                <td width="120px" className="text-center">Unité</td></th>
+                                            <th ><td width="140px" className="text-center">Code</td>
+                                                <td width="400px" className="text-center">Nature</td>
+                                                <td width="140px" className="text-center">Unité</td></th>
                                         </tr>
                                         <table>
                                             <tbody>
@@ -280,12 +284,12 @@ const TechnichalSheetCosts = () => {
                                                         return (
                                                             <>
                                                                 <tr>
-                                                                    <td width="170px">{element.codes.split(",").map(
+                                                                    <td width="180px">{element.codes.split(",").map(
                                                                         (subelement) => {
                                                                             return <tr>{subelement}</tr>
                                                                         }
                                                                     )}</td>
-                                                                    <td width="380px" >
+                                                                    <td width="400px" >
                                                                         <div ></div>
                                                                         {element.ingredients.split(",").map(
                                                                             (subelement2) => {
@@ -321,9 +325,9 @@ const TechnichalSheetCosts = () => {
                                             backgroundColor: "#73A4FF",
                                             fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol"
                                         }} width="100%">
-                                            <th ><td width="120px" className="text-center">TOTAL</td>
-                                                <td width="380px" className="text-center">Prix U</td>
-                                                <td width="120px" className="text-center">PTHT</td></th>
+                                            <th ><td width="140px" className="text-center">TOTAL</td>
+                                                <td width="400px" className="text-center">Prix U</td>
+                                                <td width="140px" className="text-center">PTHT</td></th>
                                         </tr>
                                         <table>
                                             <tbody>
@@ -332,12 +336,12 @@ const TechnichalSheetCosts = () => {
                                                         return (
                                                             <>
                                                                 <tr>
-                                                                    <td width="170px">{element.quantites.split(",").map(
+                                                                    <td width="240px">{element.quantites.split(",").map(
                                                                         (subelement) => {
                                                                             return <tr>{subelement}</tr>
                                                                         }
                                                                     )}</td>
-                                                                    <td width="400px">
+                                                                    <td width="420px">
                                                                         {element.prix.split(",").map(
                                                                             (subelement2) => {
                                                                                 return <tr>{subelement2}€</tr>
@@ -399,11 +403,17 @@ const TechnichalSheetCosts = () => {
                             </div>
                         </div>
                     </PDFExport>
-                    {imprimer ? <div className="text-center">
+                    {imprimer ? 
+                    <>
+                    <div className="text-center">
                         <Button className="imprimer btn-lg mt-5" onClick={exportPDFWithComponent} variant="contained">
                             <h3 className="mt-2">IMPRIMER LA FICHE</h3>
                         </Button>
-                    </div> : null}
+                         <div className="mt-2">
+                         <button className="comeback3 btn-primary btn-lg" onClick={comeBack3}>Annuler</button>
+                         </div>
+                    </div>
+                    </> : null}
                     {!applyCoefficient1 && !applyCoefficient2 && !imprimer ?
                         <>
                             <div className="text-center mt-4">

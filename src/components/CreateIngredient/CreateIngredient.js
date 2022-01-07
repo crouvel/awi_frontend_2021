@@ -112,6 +112,43 @@ const CreateIngredient = () => {
             .then((response) => {
                 setCategorysIngredient(response.data);
                 console.log(response.data);
+                axios(`${serverURL}/api/ingredients`)
+                    .then((response) => {
+                        setIngredients(response.data);
+                        setCodes(response.data.map((element) => element.idIngredient));
+                        console.log(response.data.map((element) => element.idIngredient));
+                        axios(`${serverURL}/api/unite`)
+                            .then((response) => {
+                                setUnites(response.data);
+                                console.log(response.data);
+                                axios(`${serverURL}/api/categoryAllergen`)
+                                    .then((response) => {
+                                        setCategorysAllergen(response.data);
+                                        console.log(response.data);
+                                        setLoading(false);
+                                    })
+                                    .catch((error) => {
+                                        console.error("Error fetching data: ", error);
+                                        setError(error);
+                                    })
+                                    .finally(() => {
+
+                                    });
+                            })
+                            .catch((error) => {
+                                console.error("Error fetching data: ", error);
+                                setError(error);
+                            })
+                            .finally(() => {
+                            });
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching data: ", error);
+                        setError(error);
+                    })
+                    .finally(() => {
+
+                    });
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
@@ -119,50 +156,12 @@ const CreateIngredient = () => {
             })
             .finally(() => {
 
-            });
-        axios(`${serverURL}/api/ingredients`)
-            .then((response) => {
-                setIngredients(response.data);
-                setCodes(response.data.map((element) => element.idIngredient));
-                console.log(response.data.map((element) => element.idIngredient));
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-
-            });
-
-        axios(`${serverURL}/api/unite`)
-            .then((response) => {
-                setUnites(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-            });
-        axios(`${serverURL}/api/categoryAllergen`)
-            .then((response) => {
-                setCategorysAllergen(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-                setLoading(false);
             });
     }, []);
 
     return (
         <>
             <BackButtonMercurial />
-            {/* <h1 className="text-center create mt-4 mb-4">Ajouter un ingrédient</h1> */}
             {!loading && !ingredientCreated ?
                 <div className="container mt-3" >
                     {Number.isInteger(code)}
@@ -334,8 +333,10 @@ const CreateIngredient = () => {
                             </div>
                         </div>
 
-                        {(!(codes.includes(parseInt(code, 10))) && !(ingredients.map((element) => element.libelle.toLowerCase()).includes(libelle.toLowerCase())) && code && libelle && prixUnitaire && idCategorieIngredient && allergene && (unite === "PM")) ||
-                            (!(codes.includes(parseInt(code, 10))) && !(ingredients.map((element) => element.libelle.toLowerCase()).includes(libelle.toLowerCase())) && code && libelle && prixUnitaire && idCategorieIngredient && allergene && !(unite === "PM") && quantiteStockee) ?
+                        {(!(codes.includes(parseInt(code, 10))) && !(ingredients.map((element) => element.libelle.toLowerCase()).includes(libelle.toLowerCase())) && code && libelle && prixUnitaire && idCategorieIngredient && (allergene === "Oui") && (unite === "PM") && categorieAllergene && unite) ||
+                            (!(codes.includes(parseInt(code, 10))) && !(ingredients.map((element) => element.libelle.toLowerCase()).includes(libelle.toLowerCase())) && code && libelle && prixUnitaire && idCategorieIngredient && !(allergene === "Oui") && (unite === "PM") && unite) ||
+                            (!(codes.includes(parseInt(code, 10))) && !(ingredients.map((element) => element.libelle.toLowerCase()).includes(libelle.toLowerCase())) && code && libelle && prixUnitaire && idCategorieIngredient && allergene && !(unite === "PM") && quantiteStockee && (allergene === "Oui") && categorieAllergene && unite) ||
+                            (!(codes.includes(parseInt(code, 10))) && !(ingredients.map((element) => element.libelle.toLowerCase()).includes(libelle.toLowerCase())) && code && libelle && prixUnitaire && idCategorieIngredient && allergene && !(unite === "PM") && quantiteStockee && !(allergene === "Oui") && unite) ?
                             <div className="text-center">
                                 <Button type="button" size="lg" className="ingredient mt-3" onClick={IngredientCreate}><div>Créer ingrédient</div>
                                 </Button>

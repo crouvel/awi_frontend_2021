@@ -17,18 +17,18 @@ class TechnichalSheets extends Component {
     render() {
         return (
             <>
-                <div className="text-center mt-4">
+                <div className="text-center mt-5">
                     <h1>Fiches Techniques</h1>
                     <p className="intro">Ici, vous pouvez créer, consulter ainsi que modifier vos fiches techniques.</p>
                 </div>
-                <div className="button-container text-center mt-3">
+                <div className="button-container text-center mt-4">
                     <Link to={"/sheet/" + "creation"}>
                         <Button className="create-sheet" variant="contained" size="lg">
                             + Créer une fiche technique
                         </Button>
                     </Link>
                 </div>
-                <div className="sheetcontainer">
+                <div className="sheetcontainer mt-4">
                 <CategoryRecetteCards />
                 </div>
             </>
