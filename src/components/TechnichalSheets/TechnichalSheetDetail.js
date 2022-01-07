@@ -48,7 +48,6 @@ const TechnichalSheetDetail = () => {
                                 axios(`${serverURL}/api/sheet/${id}/ingredients`)
                                     .then((response) => {
                                         setIngredients(response.data);
-                                        //console.log(response.data);
                                         setLoading(false);
                                     })
                                     .catch((error) => {
@@ -239,8 +238,8 @@ const TechnichalSheetDetail = () => {
                                                 fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol"
                                             }} width="100%">
                                                 <th ><td width="380px" className="text-center">Denrées</td>
-                                                    <td width="120px" className="text-center">Unités</td>
-                                                    <td width="120px" className="text-center">Quantité</td></th>
+                                                    <td width="160px" className="text-center">Unités</td>
+                                                    <td width="140px" className="text-center">Quantité</td></th>
                                             </tr>
                                             <table>
                                                 <tbody>
@@ -251,23 +250,23 @@ const TechnichalSheetDetail = () => {
                                                                     <tr><td className="title-list">{element.nomListeIngredients} :</td>
                                                                         <td></td>
                                                                         <td></td></tr>
-                                                                    <td width="425px">{element.ingredients.split(",").map(
+                                                                    <td width="455px">{element.ingredients.split(",").map(
                                                                         (subelement) => {
                                                                             return <tr>{subelement}</tr>
                                                                         }
                                                                     )}</td>
-                                                                    <td width="110px">{element.unites.split(",").map(
+                                                                    <td width="160px">{element.unites.split(",").map(
                                                                         (subelement2) => {
                                                                             return <tr>{subelement2}</tr>
                                                                         }
                                                                     )}</td>
-                                                                    <td>{element.quantites.split(",").map(
+                                                                    <td width="110px">{element.quantites.split(",").map(
                                                                         (subelement3) => {
                                                                             return <tr>{subelement3}</tr>
                                                                         }
                                                                     )}</td>
                                                                 </>
-                                                            )
+                                                            );
                                                         })}
                                                 </tbody>
                                             </table>
@@ -294,8 +293,8 @@ const TechnichalSheetDetail = () => {
                                         <div style={{ minHeight: "200px", maxHeight: "auto" }}>
                                             <tr style={{ backgroundColor: "#73A4FF" }}>
                                                 <th><td width="70px" className="text-center">N° phase</td>
-                                                    <td width="510px" className="text-center">Technique de réalisation</td>
-                                                    <td width="50px" className="text-center">DUREE</td></th>
+                                                    <td width="540px" className="text-center">Technique de réalisation</td>
+                                                    <td width="70px" className="text-center">DUREE</td></th>
                                             </tr>
                                             <table>
                                                 <tbody className="body-gauche">
@@ -305,11 +304,11 @@ const TechnichalSheetDetail = () => {
                                                                 <>
                                                                     <tr className="souspartie-gauche text-center">
                                                                         <td width="90px ml-2">{element4.ordre}</td>
-                                                                        <td className="text-center" width="470px">
+                                                                        <td className="text-center" width="540px">
                                                                             <text className="title-list">{element4.titre}</text> <br />
                                                                             <text> {element4.description}</text>
                                                                         </td>
-                                                                        <td width="50px"><tr>{element4.temps}'</tr></td>
+                                                                        <td width="70px"><tr>{element4.temps}'</tr></td>
                                                                     </tr>
                                                                 </>
                                                             )
@@ -372,8 +371,6 @@ const TechnichalSheetDetail = () => {
                                                     onChange={(event) => {
                                                         setNomRecette(event.target.value);
                                                     }}
-                                                    //onBlur={formik.handleBlur}
-                                                    /*value={formik.values.NomAuteur}*/
                                                     className="inputsheet"
                                                     placeholder="Modifiez le nom de la recette ..."
                                                 />
@@ -390,7 +387,6 @@ const TechnichalSheetDetail = () => {
                                                     onChange={(event) => {
                                                         setNbCouvert(event.target.value);
                                                     }}
-                                                    //onBlur={formik.handleBlur}
                                                     className="inputsheet"
                                                     placeholder="Modifiez le nombre de couverts ..."
                                                 />
@@ -446,7 +442,7 @@ const TechnichalSheetDetail = () => {
                     </> :
                     <Loading />)}
         </>
-    )
+    );
 }
 
 export default TechnichalSheetDetail;

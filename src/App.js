@@ -5,7 +5,7 @@ import './App.css';
 import Home from './components/Home/Home';
 import TechnichalSheets from './components/TechnichalSheets/TechnichalSheets';
 import Mercurial from './components/Mercurial/Mercurial';
-// import AllergenList from './components/AllergenList/AllergenList';
+import AllergenList from './components/AllergenList/AllergenList';
 import {
   BrowserRouter as Router,
   Switch,
@@ -26,6 +26,7 @@ import CreateIngredient from './components/CreateIngredient/CreateIngredient';
 import TechnichalSheetCards from './components/TechnichalSheets/TechnichalSheetCards/TechnichalSheetCards';
 import EtiquetteVente from './components/TechnichalSheets/EtiquetteVente/EtiquetteVente';
 import EtiquetteAvecVente from './components/TechnichalSheets/EtiquetteVente/EtiquetteAvecVente';
+import IngredientAllergenList from './components/Ingredients/IngredientList/IngredientAllergenList';
 
 function App() {
   return (
@@ -42,9 +43,9 @@ function App() {
             <li>
               <Link to="/mercurial" className="li-element"><p >Mercurial</p></Link>
             </li>
-            {/* <li> */}
-            {/* <Link to="/allergens" className="li-element"><p>Allergènes</p></Link> */}
-            {/* </li> */}
+            <li>
+              <Link to="/allergens" className="li-element"><p>Allergènes</p></Link>
+            </li>
           </ul>
         </nav>
 
@@ -54,10 +55,12 @@ function App() {
         <Route exact path="/sheets">
           <TechnichalSheets />
         </Route>
-        {/* <Route path="/allergens"> */}
-        {/* <AllergenList /> */}
-        {/* </Route> */}
-        
+        <Route exact path="/allergens">
+        <AllergenList />
+        </Route>
+        <Route exact path="/allergens/:categoryAllergen">
+        <IngredientAllergenList />
+        </Route>
         <Route exact path="/mercurial/:id/ingredients">
           < IngredientsList />
         </Route>

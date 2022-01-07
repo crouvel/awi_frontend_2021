@@ -49,7 +49,7 @@ const TechnichalSheetCards = () => {
 
             return (
                 <>
-                    <h2 className="nocategory">Cette catégorie d'ingrédients ne possède pas de fiches techniques.</h2>
+                    <h2>Cette catégorie de recettes ne possède pas de fiches techniques.</h2>
 
                 </>);
         };
@@ -59,6 +59,7 @@ const TechnichalSheetCards = () => {
         <>
             <BackButtonTechnichalSheet />
             <h1 className="text-center">Fiches Techniques : {categorieNom}s</h1>
+            <h3 className="text-center">Imprimez, ainsi que calculez les coûts pour chacune de vos fiches techniques.<br /> <i className="mt-2">Ajoutez une progression aux fiches techniques qui n'en possèdent pas.</i></h3>
             <div className="sheetcontainer">
                 <div className="classContainer">
                     {showData()}

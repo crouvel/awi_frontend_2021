@@ -16,18 +16,18 @@ class Mercurials extends Component {
     render() {
         return (
             <>
-                <div className="text-center mt-4">
+                <div className="text-center mt-5">
                     <h1>Mercurial</h1>
                     <p className="intro">Ici, vous pouvez créer, consulter ainsi que modifier vos ingrédients.</p>
                 </div>
-                <div className="button-container text-center mt-3">
+                <div className="button-container text-center mt-4">
                     <Link to={"/mercurial/createIngredient"}>
                         <Button className="createIngredient" variant="contained" size="lg">
                             + Ajouter un ingrédient
                         </Button>
                     </Link>
                 </div>
-                <div className="sheetContainer">
+                <div className="sheetContainer mt-4">
                     <div className="classContainer">
                         <IngCategorycards />
                     </div>
