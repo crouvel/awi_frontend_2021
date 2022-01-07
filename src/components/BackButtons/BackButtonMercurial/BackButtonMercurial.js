@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import {
     Link,
 } from "react-router-dom";
+import './BackButtonMercurial.css';
 
 const BackButtonMercurial = () => {
     return (

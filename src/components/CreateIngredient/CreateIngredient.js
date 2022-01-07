@@ -163,7 +163,7 @@ const CreateIngredient = () => {
         <>
             <BackButtonMercurial />
             {!loading && !ingredientCreated ?
-                <div className="container mt-3" >
+                <div className="lilaccontainer2 mt-5" >
                     {Number.isInteger(code)}
                     <div className="text-center mb-4">
                         <h1>Ajouter un ingrédient</h1>

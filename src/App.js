@@ -27,9 +27,11 @@ import TechnichalSheetCards from './components/TechnichalSheets/TechnichalSheetC
 import EtiquetteVente from './components/TechnichalSheets/EtiquetteVente/EtiquetteVente';
 import EtiquetteAvecVente from './components/TechnichalSheets/EtiquetteVente/EtiquetteAvecVente';
 import IngredientAllergenList from './components/Ingredients/IngredientList/IngredientAllergenList';
+import Footer from './components/Footer/Footer';
 
 function App() {
   return (
+    <>
     <div className="App">
       <Router>
         <nav className="NavbarItems">
@@ -56,10 +58,10 @@ function App() {
           <TechnichalSheets />
         </Route>
         <Route exact path="/allergens">
-        <AllergenList />
+          <AllergenList />
         </Route>
         <Route exact path="/allergens/:categoryAllergen">
-        <IngredientAllergenList />
+          <IngredientAllergenList />
         </Route>
         <Route exact path="/mercurial/:id/ingredients">
           < IngredientsList />
@@ -104,8 +106,9 @@ function App() {
           <Home />
         </Route>
       </Router>
-    </div>
-
+    </div>  
+    {/* <footer>oui</footer> */}
+    </>
   );
 }
 
