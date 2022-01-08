@@ -36,49 +36,46 @@ const IngredientDetail = () => {
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
+                axios(`${serverURL}/api/ingredientCat`)
+                    .then((response) => {
+                        setCategorysIngredient(response.data);
+                        console.log(response.data);
+                        axios(`${serverURL}/api/unite`)
+                            .then((response) => {
+                                setUnites(response.data);
+                                console.log(response.data);
+                                axios(`${serverURL}/api/categoryAllergen`)
+                                    .then((response) => {
+                                        setCategorysAllergen(response.data);
+                                        console.log(response.data);
+                                        setLoading(false);
+                                    })
+                                    .catch((error) => {
+                                        console.error("Error fetching data: ", error);
+                                        setError(error);
+                                    })
+                                    .finally(() => {
+                                    });
+                            })
+                            .catch((error) => {
+                                console.error("Error fetching data: ", error);
+                                setError(error);
+                            })
+                            .finally(() => {
+                            });
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching data: ", error);
+                        setError(error);
+                    })
+                    .finally(() => {
+                    });
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
                 setError(error);
             })
             .finally(() => {
-            });
-        axios(`${serverURL}/api/ingredientCat`)
-            .then((response) => {
-                setCategorysIngredient(response.data);
-                console.log(response.data);
-
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-
-            });
-        axios(`${serverURL}/api/unite`)
-            .then((response) => {
-                setUnites(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-        axios(`${serverURL}/api/categoryAllergen`)
-            .then((response) => {
-                setCategorysAllergen(response.data);
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-                setLoading(false);
             });
     }, []);
 
@@ -222,8 +219,8 @@ const IngredientDetail = () => {
     const deleteIngredient = () => {
         setLoading(true);
         axios.delete(`${serverURL}/api/ingredients/delete/${id}`)
-        .then((response) => {
-        })
+            .then((response) => {
+            })
             .catch((error) => {
                 console.error("Error deleting data: ", error);
                 setError(error);
@@ -239,13 +236,12 @@ const IngredientDetail = () => {
         <>
             {!loading && data[0] != null ?
                 <>
-                    {/*console.log(categoryAllergen)*/}
                     <Link to={"/mercurial/" + data[0].idCategorieIngredient + "/ingredients"}>
                         <Button className="backmercurial m-3" variant="contained" size="lg">
                             <div>{"<< INGREDIENTS"}</div>
                         </Button>
                     </Link>
-                    <div className="text-center">
+                    <div className="text-center mt-5">
                         <h1>{data[0].libelle}</h1>
                     </div>
                     <div className="darkcontainer mt-4 d-flex" >
@@ -270,7 +266,6 @@ const IngredientDetail = () => {
                                         onChange={(event) => {
                                             setNewQuantite(event.target.value);
                                         }}
-                                        //onBlur={formik.handleBlur}
                                         className="input1"
                                         placeholder="Quantité ..."
                                     />
@@ -307,7 +302,6 @@ const IngredientDetail = () => {
                                         onChange={(event) => {
                                             setNewPrix(event.target.value);
                                         }}
-                                        //onBlur={formik.handleBlur}
                                         className="input1"
                                         placeholder="Prix Unitaire ..."
                                     />

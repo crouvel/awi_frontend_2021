@@ -28,9 +28,12 @@ const AddIngredientsStep = () => {
     const [ingredientAdded, setIngredientAdded] = useState(false);
     const [listIngredientsAdded, setListIngredientsAdded] = useState(false);
     const [addMoreIngredientsList, setAddMoreIngredientsList] = useState(true);
-    const [lastIngredientsListStep, setLastIngredientsListStep] = useState(0);
-    console.log(addMoreIngredientsList);
+    const [steps, setSteps] = useState([]);
+    //console.log(addMoreIngredientsList);
     console.log(referenceProgression);
+    const [idd, setIdd] = useState('');
+    const [detail, setDetail] = useState([]);
+    //ingredientPM();
 
     useEffect(() => {
         if (!(options.length > 0)) {
@@ -39,17 +42,33 @@ const AddIngredientsStep = () => {
                     console.log(response.data);
                     response.data.map((element) =>
                         options.push({ value: element.idIngredient, label: element.libelle }));
+                    setLoading(false);
+                    axios(`${serverURL}/api/sheet/${referenceProgression}/steps`)
+                        .then((response) => {
+                            console.log(response.data);
+                            setSteps(response.data);
+                            setLoading(false);
+                        })
+                        .catch((error) => {
+                            console.error("Error fetching data: ", error);
+                            setError(error);
+                        })
+                        .finally(() => {
+                        });
                 })
                 .catch((error) => {
                     console.error("Error fetching data: ", error);
                     setError(error);
                 })
                 .finally(() => {
-                    setLoading(false);
+
                 });
         }
         console.log(options);
+        console.log(idd);
     }, []);
+
+
 
     const ListCreation = () => {
         axios.post(`${serverURL}/api/ingredientsList/create`, {
@@ -75,32 +94,26 @@ const AddIngredientsStep = () => {
     const AssociateIngredientToStep = () => {
         axios(`${serverURL}/api/ingredientsList/last/${nomListe}`)
             .then((response) => {
-                setLastIngredientsListStep(response.data[0].idLastCreatedList);      
+                axios.post(`${serverURL}/api/ingredients/addToListStep`, {
+                    libelleIngredient,
+                    quantite,
+                    lastIngredientsListStep: response.data[0].idLastCreatedList,
+                    referenceProgression
+                }).catch((error) => {
+                    console.error("Error fetching data: ", error);
+                    setError(error);
+                })
+                    .finally(() => {
+                        setIngredientAdded(true);
+                    });
+                setLoading(false);
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
                 setError(error);
             })
             .finally(() => {
-                AddIngredientsToListStep();
-                setLoading(false);
             });
-    }
-
-    const AddIngredientsToListStep = () => {
-        axios.post(`${serverURL}/api/ingredients/addToListStep`, {
-            libelleIngredient,
-            quantite,
-            lastIngredientsListStep,
-            referenceProgression
-        }).catch((error) => {
-            console.error("Error fetching data: ", error);
-            setError(error);
-        })
-            .finally(() => {
-                setIngredientAdded(true);
-            });
-        //console.log(lastIngredientsListStep);
     }
 
     const displayInfo7 = () => {
@@ -110,6 +123,23 @@ const AddIngredientsStep = () => {
     const displayInfo9 = () => {
         setAddMoreIngredientsList(true);
     }
+
+    /*const ingredientPM = () => {
+        axios(`${serverURL}/api/ingredients/${idd}`)
+            .then((response) => {
+                console.log(idd);
+                console.log(response.data);
+                setDetail(response.data);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching data: ", error);
+                setError(error);
+            })
+            .finally({
+            });
+    }*/
+
     const validate = () => {
         const errors = {};
 
@@ -143,6 +173,16 @@ const AddIngredientsStep = () => {
             <div className="container mt-3 mb-2 text-center" >
                 <h2>Associez des ingrédients aux étapes créées</h2>
             </div>
+            {steps ?
+                <div className="container mt-3 mb-2 text-center" >
+                    <h3><b>Récapitulatif des étapes créées :</b></h3>
+                    {steps.map((step) => {
+                        return (
+                            <h3>{step.titre}</h3>
+                        );
+                    })}
+                </div> :
+                null}
             <div className="container mt-3 mb-2" >
                 {!ingredientAdded ?
                     (!addIngredient || addMoreIngredientsList ?
@@ -178,8 +218,7 @@ const AddIngredientsStep = () => {
                             </div>
                             <h3 className="mt-4">Ajouter un ingrédient</h3>
                             <div className="container2 mt-3">
-
-                                <div className="sub-container2 mt-1">
+                                <div className="sub-container2 mt-5">
                                     <label htmlFor="NomIngredient">Libellé de l'ingrédient</label>
                                     <Select
                                         options={options}
@@ -188,14 +227,19 @@ const AddIngredientsStep = () => {
                                         name="NomIngredient"
                                         onChange={(event) => {
                                             setLibelleIngredient(event.label);
+                                            setIdd(event.value);
+                                            //ingredientPM();
                                         }}
-                                        onBlur={formik.handleBlur} />
+                                        onBlur={formik.handleBlur}
+                                        placeholder="Recherchez ou selectionnez un ingrédient ..."
+                                    />
                                     {formik.errors.NomIngredient ? (
                                         <div className="erreur">{formik.errors.NomIngredient}</div>
                                     ) : null}
                                 </div>
+
                                 <div className="sub-container4">
-                                    <label htmlFor="Quantite">Quantité (cf. unité de l'ingrédient)</label>
+                                    <label htmlFor="Quantite">Quantité (cf. unité de l'ingrédient) : Indiquez 0 pour l'unité PM. Dans tous les cas, si une quantité a été indiquée pour ces ingrédients, elle ne sera pas prise en compte lors de vente(s).</label>
                                     <input
                                         id="Quantite"
                                         name="Quantite"

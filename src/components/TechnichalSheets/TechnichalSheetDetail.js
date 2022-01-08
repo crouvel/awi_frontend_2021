@@ -31,6 +31,8 @@ const TechnichalSheetDetail = () => {
     const [nomRecette, setNomRecette] = useState('');
     const [auteur, setAuteur] = useState('');
     const history = useHistory();
+    const [progression, setProgression] = useState('');
+    const [fiches, setFiches] = useState([]);
 
     useEffect(() => {
         axios(`${serverURL}/api/sheet/${id}`)
@@ -41,14 +43,29 @@ const TechnichalSheetDetail = () => {
                     .then((response) => {
                         setData(response.data);
                         console.log(response.data);
-                        axios(`${serverURL}/api/sheet/${id}/steps`)
+                        axios(`${serverURL}/api/sheet/${response.data[0].nomProgression}/steps`)
                             .then((response) => {
-                                setSteps(response.data);
                                 console.log(response.data);
+                                setSteps(response.data);
                                 axios(`${serverURL}/api/sheet/${id}/ingredients`)
                                     .then((response) => {
+                                        console.log(response.data);
                                         setIngredients(response.data);
-                                        setLoading(false);
+                                        axios(`${serverURL}/api/sheet`)
+                                            .then((response) => {
+                                                console.log(response.data.map((element) =>
+                                                    element.nomRecette));
+                                                setFiches(response.data.map((element) =>
+                                                    element.nomRecette.toLowerCase()
+                                                ));
+                                                setLoading(false);
+                                            })
+                                            .catch((error) => {
+                                                console.error("Error fetching data: ", error);
+                                                setError(error);
+                                            })
+                                            .finally(() => {
+                                            });
                                     })
                                     .catch((error) => {
                                         console.error("Error fetching data: ", error);
@@ -194,6 +211,10 @@ const TechnichalSheetDetail = () => {
         history.push(url);
     }
 
+    const getSteps = () => {
+
+    }
+
     return (
         <>
             {data.length === 0 ? <BackButtonTechnichalSheet className="mt-2" />
@@ -203,6 +224,7 @@ const TechnichalSheetDetail = () => {
                     </Button>
                 </Link>}
             {(!loading) && data.length > 0 ?
+
                 <>
                     <div className="text-center mt-2 mb-3">
                         <h1>Fiche Technique :<br /><i>{data[0].nomRecette}</i> </h1>
@@ -290,13 +312,13 @@ const TechnichalSheetDetail = () => {
                                                 <h4 className="text-center">{data[0].Nbre_couverts} </h4>
                                             </div>
                                         </div>
-                                        <div style={{ minHeight: "200px", maxHeight: "auto" }}>
+                                        <div style={{ minHeight: "200px", maxHeight: "auto", marginBottom: "20px" }}>
                                             <tr style={{ backgroundColor: "#73A4FF" }}>
                                                 <th><td width="70px" className="text-center">N° phase</td>
                                                     <td width="540px" className="text-center">Technique de réalisation</td>
                                                     <td width="70px" className="text-center">DUREE</td></th>
                                             </tr>
-                                            <table>
+                                            <table style={{ marginTop: "10px" }}>
                                                 <tbody className="body-gauche">
                                                     {steps.map(
                                                         (element4) => {
@@ -304,17 +326,23 @@ const TechnichalSheetDetail = () => {
                                                                 <>
                                                                     <tr className="souspartie-gauche text-center">
                                                                         <td width="90px ml-2">{element4.ordre}</td>
-                                                                        <td className="text-center" width="540px">
+                                                                        <td className="text-center" width="540px mr-4">
                                                                             <text className="title-list">{element4.titre}</text> <br />
                                                                             <text> {element4.description}</text>
                                                                         </td>
-                                                                        <td width="70px"><tr>{element4.temps}'</tr></td>
+                                                                        <td width="70px" style={{ marginLeft: "10px" }}><tr><b>{element4.temps}'</b></tr></td>
                                                                     </tr>
                                                                 </>
                                                             )
                                                         })}
                                                 </tbody>
                                             </table>
+                                        </div>
+                                        <div style={{ marginBottom: "10px" }}>
+                                            <tr style={{ marginTop: "10px" }}>
+                                                <td width="570px"><b>TOTAL TEMPS :</b></td>
+                                                <td> <b>{steps.map((element) => element.temps).reduce((a, b) => a + b, 0)}</b> minutes</td>
+                                            </tr>
                                         </div>
                                         <div style={{ backgroundColor: "#73A4FF" }}>
                                             <h3 className="headerFicheDroite text-center">MATERIELS DE DRESSAGE</h3>
@@ -342,15 +370,15 @@ const TechnichalSheetDetail = () => {
                                     </Button>
 
                                     <div className="text-center mt-4">
-                                    <Button className="etiquette btn-success" onClick={goEtiquette} variant="contained" size="lg">
-                                        <div>Imprimer une étiquette SANS vente</div>
-                                    </Button>
+                                        <Button className="etiquette btn-success" onClick={goEtiquette} variant="contained" size="lg">
+                                            <div>Imprimer une étiquette SANS vente</div>
+                                        </Button>
                                     </div>
-                                    
+
                                     <div className="text-center mt-3">
-                                    <Button className="etiquettevente" onClick={goEtiquetteVente} variant="contained" size="lg">
-                                        <div>Imprimer une étiquette AVEC vente</div>
-                                    </Button>
+                                        <Button className="etiquettevente" onClick={goEtiquetteVente} variant="contained" size="lg">
+                                            <div>Imprimer une étiquette AVEC vente</div>
+                                        </Button>
                                     </div>
                                 </> :
                                 <>
@@ -374,8 +402,15 @@ const TechnichalSheetDetail = () => {
                                                     className="inputsheet"
                                                     placeholder="Modifiez le nom de la recette ..."
                                                 />
-                                                {nomRecette ? <button className="modifierValue btn-lg btn-info" onClick={modifyNomRecette}>modifier</button> :
-                                                    <button className="modifierValue btn-lg btn-light" disabled>modifier</button>}
+                                                {nomRecette ?
+                                                    <>
+                                                        {!(fiches.includes(nomRecette.toLowerCase())) ?
+                                                            <button className="modifierValue btn-lg btn-info" onClick={modifyNomRecette}>modifier</button> :
+                                                            <p style={{color: "blue"}}>Le nom de la recette est déjà utilisé</p>}
+                                                    </>
+                                                    :
+                                                    <button className="modifierValue btn-lg btn-light" disabled>modifier</button>
+                                                }
                                             </div>
                                             <div className="d-flex subcontainer mt-2">
                                                 <label htmlFor="NbCouvert" className="font-weight-bold">Nombre de couverts</label>

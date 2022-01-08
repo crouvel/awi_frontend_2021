@@ -39,11 +39,11 @@ const TechnichalSheetCosts = () => {
     const [imprimer, setImprimer] = useState(false);
 
     useEffect(() => {
-        axios(`${serverURL}/api/sheet/${id}`)
+        axios(`${serverURL}/api/sheet/${id}/join`)
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
-                axios(`${serverURL}/api/sheet/${id}/steps`)
+                axios(`${serverURL}/api/sheet/${response.data[0].nomProgression}/steps`)
                     .then((response) => {
                         setSteps(response.data);
                         console.log(response.data);
@@ -359,46 +359,47 @@ const TechnichalSheetCosts = () => {
                                             </tbody>
                                         </table>
                                     </div>
+                                   {total && steps ?
                                     <div>
-                                        <tr><td width="60%"><b>Total denrées</b></td>
-                                            <td width="40%">{total[0].prix_total} €</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%"><b>ASS 5%</b></td>
-                                            <td width="40%">{total[0].prix_total * 0.05} €</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%"><b>Coût matière</b></td>
-                                            <td width="40%">{total[0].prix_total * 0.05 + total[0].prix_total} €</td>
-                                        </tr>
+                                    <tr><td width="60%"><b>Total denrées</b></td>
+                                        <td width="40%">{total[0].prix_total} €</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="60%"><b>ASS 5%</b></td>
+                                        <td width="40%">{total[0].prix_total * 0.05} €</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="60%"><b>Coût matière</b></td>
+                                        <td width="40%">{total[0].prix_total * 0.05 + total[0].prix_total} €</td>
+                                    </tr>
+                                    {fluidePersonnel ?
+                                        <>
+                                            <tr>
+                                                <td width="60%"><b>Coût personnel</b></td>
+                                                <td width="40%">{coutMoyen * ((steps.map((element) => element.temps).reduce((a,b) => a +b ,0)) / 60)} €</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="60%"><b>Coût fluide</b></td>
+                                                <td width="40%">{coutForfaitaire} €</td>
+                                            </tr>
+                                        </> :
+                                        null}
+                                    <tr>
+                                        <td width="60%"><b>Coût de production total</b></td>
+                                        <td width="40%">{Number.parseFloat(coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) => element.temps).reduce((a,b) => a +b ,0)) / 60))} €</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="60%"><b>Coût de production pour portion de 200g</b></td>
+                                        <td width="40%">{Number.parseFloat((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) => element.temps).reduce((a,b) => a +b ,0)) / 60)) / (total[0].qtetotale / 0.2))} €</td>
+                                    </tr>
+                                    <tr>
+                                        <td width="70%"><b>Prix de vente pour portion de 200g { }</b></td>
                                         {fluidePersonnel ?
-                                            <>
-                                                <tr>
-                                                    <td width="60%"><b>Coût personnel</b></td>
-                                                    <td width="40%">{coutMoyen * (steps[0].total_temps / 60)} €</td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="60%"><b>Coût fluide</b></td>
-                                                    <td width="40%">{coutForfaitaire} €</td>
-                                                </tr>
-                                            </> :
-                                            null}
-                                        <tr>
-                                            <td width="60%"><b>Coût de production total</b></td>
-                                            <td width="40%">{Number.parseFloat(coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60))} €</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="60%"><b>Coût de production pour portion de 200g</b></td>
-                                            <td width="40%">{Number.parseFloat((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60)) / (total[0].qtetotale / 0.2))} €</td>
-                                        </tr>
-                                        <tr>
-                                            <td width="70%"><b>Prix de vente pour portion de 200g { }</b></td>
-                                            {fluidePersonnel ?
-                                                <td width="40%">{Number.parseFloat(((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60)) / (total[0].qtetotale / 0.2)) * coefficientfp)} €</td>
-                                                :
-                                                <td width="40%">{((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * (steps[0].total_temps / 60)) / (total[0].qtetotale / 0.2)) * coefficient} €</td>}
-                                        </tr>
-                                    </div>
+                                            <td width="40%">{Number.parseFloat(((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) => element.temps).reduce((a,b) => a +b ,0)) / 60)) / (total[0].qtetotale / 0.2)) * coefficientfp)} €</td>
+                                            :
+                                            <td width="40%">{((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) => element.temps).reduce((a,b) => a +b ,0)) / 60)) / (total[0].qtetotale / 0.2)) * coefficient} €</td>}
+                                    </tr>
+                                </div> : null}   
                                 </div>
                             </div>
                         </div>
