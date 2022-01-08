@@ -20,7 +20,11 @@ const FinishCreateTechnichalSheet = () => {
 
     return (
         <>
-            <div className="greencontainer mt-5 mb-2 p-5 text-center" >
+            <BackButtonTechnichalSheet />
+            <div style={{marginTop: "30px"}}>
+                <h1 className="text-center">CREATION TERMINEE</h1>
+            </div>
+            <div className="greencontainer mt-4 mb-2 p-5 text-center" >
                 <div className="text-center mt-4 mb-4">
                     <h1>La création de la fiche technique {nomRecette}</h1> <h1>a bien été réalisée !</h1>
                     

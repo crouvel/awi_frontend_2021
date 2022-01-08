@@ -201,10 +201,8 @@ const CreateTechnichalSheet = () => {
 
                             {!(fiches.includes(nomRecette)) && nomRecette && nomAuteur && nombreCouverts && categorieRecette ?
                                 <div className="text-center">
-                                    {/* <Link to={"/sheets/creation/" + nomRecette}> */}
                                     <Button type="button" size="lg" onClick={TechnichalSheet} className="submit-button mt-3"><div>Créer fiche technique</div>
                                     </Button>
-                                    {/* </Link> */}
                                 </div> : null}
                         </form>
                     </div>
@@ -216,7 +214,7 @@ const CreateTechnichalSheet = () => {
                                     Voulez-vous ajouter une progression maintenant ?</h2>
                             </div>
                             <div className="mt-5 text-center">
-                                <button className="btn btn-success btn-lg m-2" onClick={goProgression}>Associer une progression</button>
+                                <button className="btn btn-success btn-lg m-2" style={{height: "75px", width: "380px"}} onClick={goProgression}>Associer une progression</button>
                             </div>
                             <div className=" text-center">
                                 <button className="btn btn-info btn-lg m-2" onClick={goSheets}>Ajouter ultérieurement</button>

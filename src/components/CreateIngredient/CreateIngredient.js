@@ -91,20 +91,37 @@ const CreateIngredient = () => {
     });
 
     const IngredientCreate = () => {
-        setLoading(true);
-        axios.post(`${serverURL}/api/ingredients/create`, {
-            code,
-            libelle,
-            quantiteStockee,
-            prixUnitaire,
-            allergene,
-            idCategorieIngredient,
-            categorieAllergene,
-            unite
-        }).then(() => {
-            setLoading(false);
-            setIngredientCreated(true);
-        })
+        if (allergene === "Non") {
+            setCategoryAllergene(null);
+            setLoading(true);
+            axios.post(`${serverURL}/api/ingredients/create`, {
+                code,
+                libelle,
+                quantiteStockee,
+                prixUnitaire,
+                allergene,
+                idCategorieIngredient,
+                categorieAllergene: null,
+                unite
+            }).then(() => {
+                setLoading(false);
+                setIngredientCreated(true);
+            });
+        } else {
+            axios.post(`${serverURL}/api/ingredients/create`, {
+                code,
+                libelle,
+                quantiteStockee,
+                prixUnitaire,
+                allergene,
+                idCategorieIngredient,
+                categorieAllergene,
+                unite
+            }).then(() => {
+                setLoading(false);
+                setIngredientCreated(true);
+            });
+        }
     }
 
     useEffect(() => {
@@ -162,12 +179,13 @@ const CreateIngredient = () => {
     return (
         <>
             <BackButtonMercurial />
+            {console.log(categorieAllergene)}
             {!loading && !ingredientCreated ?
                 <div className="lilaccontainer2 mt-5" >
                     {Number.isInteger(code)}
                     <div className="text-center mb-4">
                         <h1>Ajouter un ingrédient</h1>
-                        <p className="intro">Ici, vous pouvez créer un ingédient.</p>
+                        <p className="intro">Ici, vous pouvez créer un ingrédient.</p>
                     </div>
                     <form onSubmit={formik.handleSubmit}>
                         <div className="container-input1">
@@ -220,7 +238,6 @@ const CreateIngredient = () => {
                                         setPrix(event.target.value);
                                     }}
                                     onBlur={formik.handleBlur}
-                                    /*value={formik.values.Nbrecouverts}*/
                                     className="input-select"
                                 />
                                 {formik.errors.Prix ? (
@@ -323,7 +340,6 @@ const CreateIngredient = () => {
                                                 setQuantiteStockee(event.target.value);
                                             }}
                                             onBlur={formik.handleBlur}
-                                            /*value={formik.values.NomAuteur}*/
                                             className="input-select"
                                         />
                                         {formik.errors.Quantite ? (
