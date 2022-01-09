@@ -31,7 +31,7 @@ import Footer from './components/Footer/Footer';
 
 function App() {
   
-  useEffect(() => {
+  useEffect(async () => {
     const timer = setTimeout(() => {
       //setCount('Timeout called!');
     }, 5000);
