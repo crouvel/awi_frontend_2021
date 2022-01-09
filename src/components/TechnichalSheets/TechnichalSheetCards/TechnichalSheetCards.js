@@ -20,7 +20,7 @@ const TechnichalSheetCards = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+    useEffect(async () => {
         axios(`${serverURL}/api/sheet/byCategory/${categorieNom}`)
             .then((response) => {
                 setData(response.data);

@@ -9,7 +9,7 @@ const CategoryRecetteCards = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+    useEffect(async () => {
         axios(`${serverURL}/api/recetteCategories`)
             .then((response) => {
                 setData(response.data);

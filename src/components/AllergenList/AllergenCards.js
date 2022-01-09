@@ -9,7 +9,7 @@ const AllergenCards = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+    useEffect(async() => {
         axios(`${serverURL}/api/categoryAllergen`)
             .then((response) => {
                 setData(response.data);
