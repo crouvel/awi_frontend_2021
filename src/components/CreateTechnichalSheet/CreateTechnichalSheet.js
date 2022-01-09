@@ -29,7 +29,7 @@ const CreateTechnichalSheet = () => {
     const [sheetCreated, setSheetCreated] = useState(false);
     const history = useHistory();
 
-    useEffect(() => {
+    useEffect(async () => {
         axios(`${serverURL}/api/recetteCategories`)
             .then((response) => {
                 setData(response.data);

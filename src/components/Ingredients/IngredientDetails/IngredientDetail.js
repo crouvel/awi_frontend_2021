@@ -32,7 +32,7 @@ const IngredientDetail = () => {
     const [categoryAllergen, setCategoryAllergen] = useState('');
     const history = useHistory();
 
-    useEffect(() => {
+    useEffect(async () => {
         axios(`${serverURL}/api/ingredients/${id}`)
             .then((response) => {
                 setData(response.data);
