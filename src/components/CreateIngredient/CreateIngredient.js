@@ -124,7 +124,7 @@ const CreateIngredient = () => {
         }
     }
 
-    useEffect(() => {
+    useEffect(async () => {
         axios(`${serverURL}/api/ingredientCat`)
             .then((response) => {
                 setCategorysIngredient(response.data);

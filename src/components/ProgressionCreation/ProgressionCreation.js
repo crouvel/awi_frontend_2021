@@ -38,7 +38,7 @@ const ProgressionCreation = () => {
     const [options, setOptions] = useState([]);
     //console.log(options);
 
-    useEffect(() => {
+    useEffect(async () => {
         axios(`${serverURL}/api/progression`)
             .then((response) => {
                 setData(response.data.map((element) =>
