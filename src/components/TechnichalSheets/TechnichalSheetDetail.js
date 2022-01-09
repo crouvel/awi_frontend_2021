@@ -33,6 +33,7 @@ const TechnichalSheetDetail = () => {
     const history = useHistory();
     const [progression, setProgression] = useState('');
     const [fiches, setFiches] = useState([]);
+    console.log("steps" + steps);
 
     useEffect(() => {
         axios(`${serverURL}/api/sheet/${id}`)
@@ -43,29 +44,31 @@ const TechnichalSheetDetail = () => {
                     .then((response) => {
                         setData(response.data);
                         console.log(response.data);
-                        axios(`${serverURL}/api/sheet/${response.data[0].nomProgression}/steps`)
+                        if (response.data.length > 0) {
+                            axios(`${serverURL}/api/sheet/${response.data[response.data.length-1].nomProgression}/steps`)
+                                .then((response) => {
+                                    console.log(response.data);
+                                    setSteps(response.data);
+                                })
+                                .catch((error) => {
+                                    console.error("Error fetching data: ", error);
+                                    setError(error);
+                                })
+                                .finally(() => {
+                                });
+                        }
+                        axios(`${serverURL}/api/sheet/${id}/ingredients`)
                             .then((response) => {
                                 console.log(response.data);
-                                setSteps(response.data);
-                                axios(`${serverURL}/api/sheet/${id}/ingredients`)
+                                setIngredients(response.data);
+                                axios(`${serverURL}/api/sheet`)
                                     .then((response) => {
-                                        console.log(response.data);
-                                        setIngredients(response.data);
-                                        axios(`${serverURL}/api/sheet`)
-                                            .then((response) => {
-                                                console.log(response.data.map((element) =>
-                                                    element.nomRecette));
-                                                setFiches(response.data.map((element) =>
-                                                    element.nomRecette.toLowerCase()
-                                                ));
-                                                setLoading(false);
-                                            })
-                                            .catch((error) => {
-                                                console.error("Error fetching data: ", error);
-                                                setError(error);
-                                            })
-                                            .finally(() => {
-                                            });
+                                        console.log(response.data.map((element) =>
+                                            element.nomRecette));
+                                        setFiches(response.data.map((element) =>
+                                            element.nomRecette.toLowerCase()
+                                        ));
+                                        setLoading(false);
                                     })
                                     .catch((error) => {
                                         console.error("Error fetching data: ", error);
@@ -217,10 +220,10 @@ const TechnichalSheetDetail = () => {
 
     return (
         <>
-            {data.length === 0 ? <BackButtonTechnichalSheet className="mt-2" />
-                : <Link to={"/sheets/" + data[0].categorieRecette}>
+            {data2.length === 0 ? <BackButtonTechnichalSheet className="mt-2" />
+                : <Link to={"/sheets/" + data2[0].categorieRecette}>
                     <Button className="fichesByCategory m-3" variant="contained" size="lg">
-                        <div>{"<< FICHES TECHNIQUES"}</div>
+                        <div>{`<< ${data2[0].categorieRecette.toUpperCase()}S`}</div>
                     </Button>
                 </Link>}
             {(!loading) && data.length > 0 ?
@@ -321,19 +324,42 @@ const TechnichalSheetDetail = () => {
                                             <table style={{ marginTop: "10px" }}>
                                                 <tbody className="body-gauche">
                                                     {steps.map(
-                                                        (element4) => {
-                                                            return (
-                                                                <>
-                                                                    <tr className="souspartie-gauche text-center">
-                                                                        <td width="90px ml-2">{element4.ordre}</td>
-                                                                        <td className="text-center" width="540px mr-4">
-                                                                            <text className="title-list">{element4.titre}</text> <br />
-                                                                            <text> {element4.description}</text>
-                                                                        </td>
-                                                                        <td width="70px" style={{ marginLeft: "10px" }}><tr><b>{element4.temps}'</b></tr></td>
-                                                                    </tr>
-                                                                </>
-                                                            )
+                                                        (element4, index, array) => {
+                                                            if (element4.descriptionProgression === null) {
+                                                                return (
+                                                                    <>
+                                                                        <tr className="souspartie-gauche text-center">
+                                                                            <td width="90px ml-2">{element4.ordre1}</td>
+                                                                            <td className="text-center" width="540px mr-4">
+                                                                                <text className="title-list">{element4.titre1}</text> <br />
+                                                                                <text> {element4.description1}</text>
+                                                                            </td>
+                                                                            <td width="70px" style={{ marginLeft: "10px" }}><tr><b>{element4.temps1}'</b></tr></td>
+                                                                        </tr>
+                                                                    </>
+                                                                );
+                                                            } else {
+                                                                return (
+                                                                    <>
+                                                                        <tr className="souspartie-gauche text-center">
+                                                                            <td width="90px ml-2">{element4.ordre1}</td>
+
+                                                                            {((index - 1) >= 0) && (array[index - 1].titre1 != element4.titre1) || ((index) === 0) ?
+                                                                                <td className="text-center" width="540px mr-4">
+                                                                                    <text className="title-list">{element4.titre1}</text><br />
+                                                                                    <text><u>{element4.titre2}</u></text> <br />
+                                                                                    <text> {element4.description2}</text>
+                                                                                </td>
+                                                                                : <td className="text-center" width="540px mr-4">
+                                                                                    <text><u>{element4.titre2}</u></text> <br />
+                                                                                    <text> {element4.description2}</text>
+                                                                                </td>}
+
+                                                                            <td width="70px" style={{ marginLeft: "10px" }}><tr><b>{element4.temps2}'</b></tr></td>
+                                                                        </tr>
+                                                                    </>
+                                                                );
+                                                            }
                                                         })}
                                                 </tbody>
                                             </table>
@@ -341,7 +367,8 @@ const TechnichalSheetDetail = () => {
                                         <div style={{ marginBottom: "10px" }}>
                                             <tr style={{ marginTop: "10px" }}>
                                                 <td width="570px"><b>TOTAL TEMPS :</b></td>
-                                                <td> <b>{steps.map((element) => element.temps).reduce((a, b) => a + b, 0)}</b> minutes</td>
+                                                <td> <b>{steps.map((element) =>
+                                                    element.descriptionProgression ? element.temps2 : element.temps1).reduce((a, b) => a + b, 0)}</b> minutes</td>
                                             </tr>
                                         </div>
                                         <div style={{ backgroundColor: "#73A4FF" }}>
@@ -406,7 +433,7 @@ const TechnichalSheetDetail = () => {
                                                     <>
                                                         {!(fiches.includes(nomRecette.toLowerCase())) ?
                                                             <button className="modifierValue btn-lg btn-info" onClick={modifyNomRecette}>modifier</button> :
-                                                            <p style={{color: "blue"}}>Le nom de la recette est déjà utilisé</p>}
+                                                            <p style={{ color: "blue" }}>Le nom de la recette est déjà utilisé</p>}
                                                     </>
                                                     :
                                                     <button className="modifierValue btn-lg btn-light" disabled>modifier</button>
