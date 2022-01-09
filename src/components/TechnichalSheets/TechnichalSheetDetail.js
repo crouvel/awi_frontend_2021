@@ -35,7 +35,7 @@ const TechnichalSheetDetail = () => {
     const [fiches, setFiches] = useState([]);
     console.log("steps" + steps);
 
-    useEffect(() => {
+    useEffect(async () => {
         axios(`${serverURL}/api/sheet/${id}`)
             .then((response) => {
                 setData2(response.data);

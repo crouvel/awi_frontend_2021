@@ -39,7 +39,7 @@ const TechnichalSheetCosts = () => {
     const [newCoefficient, setNewCoefficient] = useState(0);
     const [imprimer, setImprimer] = useState(false);
 
-    useEffect(() => {
+    useEffect( async () => {
         axios(`${serverURL}/api/sheet/${id}/join`)
             .then((response) => {
                 setData(response.data);

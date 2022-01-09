@@ -1,5 +1,5 @@
 
-import React from 'react';
+import {React, useEffect} from 'react';
 import '@progress/kendo-theme-default/dist/all.css';
 import './App.css';
 import Home from './components/Home/Home';
@@ -30,6 +30,14 @@ import IngredientAllergenList from './components/Ingredients/IngredientList/Ingr
 import Footer from './components/Footer/Footer';
 
 function App() {
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      //setCount('Timeout called!');
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <>
     <div className="App">
