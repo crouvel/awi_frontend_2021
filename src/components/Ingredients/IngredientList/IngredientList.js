@@ -19,8 +19,8 @@ const IngredientsList = () => {
     let { id } = useParams();
 
     useEffect(() => {
-        const fetchData = () => {
-            dispatch(getIngredientByCategory(id));
+        async function fetchData() {
+         dispatch(getIngredientByCategory(id));
         };
         fetchData();
     }

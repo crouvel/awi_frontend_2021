@@ -327,7 +327,7 @@ const CreateIngredient = () => {
                                     : null}
                             </div>
                             <div className="sub-container">
-                                {!(unite === "PM") && unite != "" ?
+                                {!(unite === "PM") && unite !== "" ?
                                     <>
                                         <label htmlFor="Quantite" className="font-weight-bold">Quantité Stockée</label>
                                         <input
