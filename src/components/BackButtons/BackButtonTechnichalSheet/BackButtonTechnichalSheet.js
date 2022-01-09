@@ -8,7 +8,7 @@ const BackButtonTechnichalSheet = () => {
     return (
         <Link to="/sheets">
             <Button className="create-sheet2 m-3" variant="contained" size="lg">
-                <div>{"<< FICHES TECHNIQUES"}</div>
+                <div>{"<< CATEGORIES DE FICHES"}</div>
             </Button>
         </Link>
     );

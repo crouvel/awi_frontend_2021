@@ -17,6 +17,7 @@ import Loading from "../../Loading/Loading";
 const IngredientDetail = () => {
     let { id } = useParams();
     const [data, setData] = useState([]);
+    const [data1, setData1] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [categorysIngredient, setCategorysIngredient] = useState([]);
@@ -36,19 +37,29 @@ const IngredientDetail = () => {
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
-                axios(`${serverURL}/api/ingredientCat`)
+                axios(`${serverURL}/api/ingredientCat/${response.data[0].idCategorieIngredient}`)
                     .then((response) => {
-                        setCategorysIngredient(response.data);
-                        console.log(response.data);
-                        axios(`${serverURL}/api/unite`)
+                        setData1(response.data);
+                        axios(`${serverURL}/api/ingredientCat`)
                             .then((response) => {
-                                setUnites(response.data);
+                                setCategorysIngredient(response.data);
                                 console.log(response.data);
-                                axios(`${serverURL}/api/categoryAllergen`)
+                                axios(`${serverURL}/api/unite`)
                                     .then((response) => {
-                                        setCategorysAllergen(response.data);
+                                        setUnites(response.data);
                                         console.log(response.data);
-                                        setLoading(false);
+                                        axios(`${serverURL}/api/categoryAllergen`)
+                                            .then((response) => {
+                                                setCategorysAllergen(response.data);
+                                                console.log(response.data);
+                                                setLoading(false);
+                                            })
+                                            .catch((error) => {
+                                                console.error("Error fetching data: ", error);
+                                                setError(error);
+                                            })
+                                            .finally(() => {
+                                            });
                                     })
                                     .catch((error) => {
                                         console.error("Error fetching data: ", error);
@@ -63,8 +74,7 @@ const IngredientDetail = () => {
                             })
                             .finally(() => {
                             });
-                    })
-                    .catch((error) => {
+                    }).catch((error) => {
                         console.error("Error fetching data: ", error);
                         setError(error);
                     })
@@ -234,11 +244,11 @@ const IngredientDetail = () => {
 
     return (
         <>
-            {!loading && data[0] != null ?
+            {!loading && data[0] != null && data1[0] != null?
                 <>
                     <Link to={"/mercurial/" + data[0].idCategorieIngredient + "/ingredients"}>
                         <Button className="backmercurial m-3" variant="contained" size="lg">
-                            <div>{"<< INGREDIENTS"}</div>
+                            <div>{`<< ${data1[0].libelleCategorie.toUpperCase()}`}</div>
                         </Button>
                     </Link>
                     <div className="text-center mt-5">

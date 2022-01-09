@@ -15,6 +15,7 @@ import { useFormik } from 'formik';
 import BackButtonTechnichalSheet from '../BackButtons/BackButtonTechnichalSheet/BackButtonTechnichalSheet';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import Loading from '../Loading/Loading';
+import Select from 'react-select';
 
 const ProgressionCreation = () => {
     let { nomRecette } = useParams();
@@ -23,6 +24,7 @@ const ProgressionCreation = () => {
     const [description, setDescription] = useState('');
     const [temps, setTemps] = useState(0);
     const [ordre, setOrdre] = useState(0);
+    const [descriptionProgression, setDescriptionProgression] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [stepCreated, setStepCreated] = useState(false);
     const [addMoreStep, setAddMoreStep] = useState(false);
@@ -33,29 +35,45 @@ const ProgressionCreation = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
+    const [options, setOptions] = useState([]);
+    //console.log(options);
 
     useEffect(() => {
         axios(`${serverURL}/api/progression`)
-        .then((response) => {
-            setData(response.data.map((element) =>
-            element.refProgression.toLowerCase()));
-            console.log(response.data.map((element) =>
-                element.refProgression));
-        })
-        .catch((error) => {
-            console.error("Error fetching data: ", error);
-            setError(error);
-        })
-        .finally(() => {
-            setLoading(false);
-        });
+            .then((response) => {
+                setData(response.data.map((element) =>
+                    element.refProgression.toLowerCase()));
+                //console.log(response.data.map((element) =>
+                //element.refProgression));
+                axios(`${serverURL}/api/progression/progressionOrigin`)
+                    .then((response) => {
+                        //console.log(response.data);
+                        if (!(options.length > 0)) {
+                            response.data.map((element) =>
+                                options.push({ value: element.idProgression, label: element.refProgression }));
+                        }
+                        setLoading(false);
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching data: ", error);
+                        setError(error);
+                    })
+                    .finally(() => {
+                    });
+            })
+            .catch((error) => {
+                console.error("Error fetching data: ", error);
+                setError(error);
+            })
+            .finally(() => {
+            });
     });
-    
+
     const validate = () => {
         const errors = {};
         if (!referenceProgression) {
             errors.ReferenceProgression = 'Référence requise';
-        } else if(!loading && data.includes(referenceProgression.toLowerCase())) {
+        } else if (!loading && data.includes(referenceProgression.toLowerCase())) {
             errors.ReferenceProgression = 'Nom de progression déjà utilisé';
         }
         if (!titre) {
@@ -93,13 +111,20 @@ const ProgressionCreation = () => {
     }
 
     const StepCreation = () => {
+        setLoading(true);
         axios.post(`${serverURL}/api/step/create`, {
             titre,
             description,
             temps,
             ordre,
-            referenceProgression
-        });
+            referenceProgression,
+            descriptionProgression
+        }).then((response) => {
+            setLoading(false);
+        }).catch((error) => {
+            console.error("Error creating data: ", error);
+            setError(error);
+        })
         setStepCreated(true);
     }
 
@@ -128,38 +153,38 @@ const ProgressionCreation = () => {
         });
         return (
             <>
-            {!submitted ? 
-                <>
-                <div className="container mt-3 mb-2 p-5" >
-                    <div className="text-center">
-                        <h1>Ajouter une progression</h1>
-                        <h2>{nomRecette}</h2>
-                    </div>
-                    <form onSubmit={formik.handleSubmit}>
-                        <div className="container-input1">
-                            <div className="sub-container2">
-                                <label htmlFor="ReferenceProgression">Nom de la progression</label>
-                                <input
-                                    id="ReferenceProgression"
-                                    name="ReferenceProgression"
-                                    type="text"
-                                    onChange={(event) => {
-                                        setReferenceProgression(event.target.value);
-                                    }}
-                                    onBlur={formik.handleBlur}
-                                    className="input3"
-                                />
-                                {formik.errors.ReferenceProgression ? (
-                                    <div className="erreur">{formik.errors.ReferenceProgression}</div>
-                                ) : null}
+                {!submitted ?
+                    <>
+                        <div className="container mt-3 mb-2 p-5" >
+                            <div className="text-center">
+                                <h1>Ajouter une progression</h1>
+                                <h2>{nomRecette}</h2>
                             </div>
+                            <form onSubmit={formik.handleSubmit}>
+                                <div className="container-input1">
+                                    <div className="sub-container2">
+                                        <label htmlFor="ReferenceProgression">Nom de la progression</label>
+                                        <input
+                                            id="ReferenceProgression"
+                                            name="ReferenceProgression"
+                                            type="text"
+                                            onChange={(event) => {
+                                                setReferenceProgression(event.target.value);
+                                            }}
+                                            onBlur={formik.handleBlur}
+                                            className="input3"
+                                        />
+                                        {formik.errors.ReferenceProgression ? (
+                                            <div className="erreur">{formik.errors.ReferenceProgression}</div>
+                                        ) : null}
+                                    </div>
+                                </div>
+                                {!(data.includes(referenceProgression.toLowerCase())) && referenceProgression ? <Button type="button" size="lg" onClick={ProgressionCreation} className="submit-button mt-3"><div>Ajouter progression</div></Button>
+                                    : <Button type="button" size="lg" className="button-disabled mt-3" disabled><div>Ajouter progression</div></Button>}
+                            </form>
                         </div>
-                        {!(data.includes(referenceProgression.toLowerCase())) && referenceProgression ? <Button type="button" size="lg" onClick={ProgressionCreation} className="submit-button mt-3"><div>Ajouter progression</div></Button>
-                            : <Button type="button" size="lg" className="button-disabled mt-3" disabled><div>Ajouter progression</div></Button>}
-                    </form>
-                </div>
-               </>  : null}
-           </>     
+                    </> : null}
+            </>
         );
     }
 
@@ -215,12 +240,25 @@ const ProgressionCreation = () => {
                                         onBlur={formik.handleBlur}
                                         className="longinput"
                                     />
-                                    <label htmlFor="Temps" className="mt-2">Temps (en min)</label>
+                                    <label htmlFor="NomIngredient" className="mt-4">PROGRESSION (remplace la description de l'étape)</label>
+                                    <Select
+                                        options={options}
+                                        className="input3"
+                                        id="NomIngredient"
+                                        name="NomIngredient"
+                                        onChange={(event) => {
+                                            setDescriptionProgression(event.label);
+                                        }}
+                                        onBlur={formik.handleBlur}
+                                        placeholder="Recherchez ou sélectionnez une progression qui représente la description d'une étape ..."
+                                    />
+                                    <label htmlFor="Temps" className="mt-5">Temps (en min)</label>
                                     <input
                                         id="Temps"
                                         name="Temps"
                                         type="number"
-                                        min="1"
+                                        min="0"
+                                        step="5"
                                         onChange={(event) => {
                                             setTemps(event.target.value);
                                         }}
@@ -279,14 +317,14 @@ const ProgressionCreation = () => {
 
     return (
         <>
-             <BackButtonTechnichalSheet />
-             {/* <h1 className="text-center create mt-5 ">CREER UNE PROGRESSION <br /></h1> */}
+            {/* <BackButtonTechnichalSheet /> */}
+            {/* <h1 className="text-center create mt-5 ">CREER UNE PROGRESSION <br /></h1> */}
             <div className="text-center mt-3">
                 <Button className="sheet-name mt-3 mb-3" variant="contained" size="lg">
-                    <h1 style={{fontSize:"30px"}}>Fiche technique - {nomRecette.toUpperCase()}</h1>
+                    <h1 style={{ fontSize: "30px" }}>Fiche technique - {nomRecette.toUpperCase()}</h1>
                 </Button>
             </div>
-           {loading? <Loading/> : null}
+            {loading ? <Loading /> : null}
             {!submitted && !addingStepFinished ? CreationProgression() : null}
             {submitted && !addingStepFinished ? AddSteps() : null}
             {stepCreated && !addingStepFinished ? AddMoreSteps() : null}

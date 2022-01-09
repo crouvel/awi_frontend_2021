@@ -57,8 +57,8 @@ const IngredientsList = () => {
         <>
             <BackButtonMercurial />
             {ingredientsByCategoryList.data.length > 0 ?
-                <div className="text-center mt-1">
-                    <h1>Ingrédients par catégorie</h1>
+                <div className="text-center mt-3">
+                    <h1>Ingrédients catégorie : {ingredientsByCategoryList.data[0].libelleCategorie} </h1>
                 </div>
                 : null}
             {

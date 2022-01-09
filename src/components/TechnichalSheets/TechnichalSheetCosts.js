@@ -23,6 +23,7 @@ const TechnichalSheetCosts = () => {
     const [data, setData] = useState([]);
     const [steps, setSteps] = useState([]);
     const [ingredients, setIngredients] = useState([]);
+    const [ingredients1, setIngredients1] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const container = React.useRef(null);
@@ -47,15 +48,27 @@ const TechnichalSheetCosts = () => {
                     .then((response) => {
                         setSteps(response.data);
                         console.log(response.data);
-                        axios(`${serverURL}/api/sheet/${id}/ingredients`)
+                        axios(`${serverURL}/api/sheet/${id}/ingredientsCost`)
                             .then((response) => {
-                                setIngredients(response.data);
+                                setIngredients1(response.data);
                                 console.log(response.data);
                                 axios(`${serverURL}/api/sheet/${id}/total`)
                                     .then((response) => {
                                         setTotal(response.data);
                                         console.log(response.data);
-                                        setLoading(false);
+                                        axios(`${serverURL}/api/sheet/${id}/ingredients`)
+                                            .then((response) => {
+                                                setIngredients(response.data);
+                                                console.log(response.data);
+                                                setLoading(false);
+                                            })
+                                            .catch((error) => {
+                                                console.error("Error fetching data: ", error);
+                                                setError(error);
+                                            })
+                                            .finally(() => {
+
+                                            });
                                     })
                                     .catch((error) => {
                                         console.error("Error fetching data: ", error);
@@ -237,12 +250,12 @@ const TechnichalSheetCosts = () => {
                                                                 return (
                                                                     <>
                                                                         <tr className="souspartie-gauche text-center">
-                                                                            <td width="90px ml-2">{element4.ordre}</td>
+                                                                            <td width="90px ml-2">{element4.ordre1}</td>
                                                                             <td className="text-center" width="470px">
-                                                                                <text className="title-list">{element4.titre}</text> <br />
-                                                                                <text> {element4.description}</text>
+                                                                                <text className="title-list">{element4.titre1}</text> <br />
+                                                                                <text> {element4.description1}</text>
                                                                             </td>
-                                                                            <td width="70px"><tr>{element4.temps}'</tr></td>
+                                                                            <td width="70px"><tr>{element4.temps1}'</tr></td>
                                                                         </tr>
                                                                     </>
                                                                 )
@@ -331,7 +344,7 @@ const TechnichalSheetCosts = () => {
                                         </tr>
                                         <table>
                                             <tbody>
-                                                {ingredients.map(
+                                                {ingredients1.map(
                                                     (element) => {
                                                         return (
                                                             <>
@@ -359,62 +372,67 @@ const TechnichalSheetCosts = () => {
                                             </tbody>
                                         </table>
                                     </div>
-                                   {total && steps ?
-                                    <div>
-                                    <tr><td width="60%"><b>Total denrées</b></td>
-                                        <td width="40%">{total[0].prix_total} €</td>
-                                    </tr>
-                                    <tr>
-                                        <td width="60%"><b>ASS 5%</b></td>
-                                        <td width="40%">{total[0].prix_total * 0.05} €</td>
-                                    </tr>
-                                    <tr>
-                                        <td width="60%"><b>Coût matière</b></td>
-                                        <td width="40%">{total[0].prix_total * 0.05 + total[0].prix_total} €</td>
-                                    </tr>
-                                    {fluidePersonnel ?
-                                        <>
-                                            <tr>
-                                                <td width="60%"><b>Coût personnel</b></td>
-                                                <td width="40%">{coutMoyen * ((steps.map((element) => element.temps).reduce((a,b) => a +b ,0)) / 60)} €</td>
+                                    {total && steps ?
+                                        <div>
+                                            <tr><td width="60%"><b>Total denrées</b></td>
+                                                <td width="40%">{total[0].prix_total} €</td>
                                             </tr>
                                             <tr>
-                                                <td width="60%"><b>Coût fluide</b></td>
-                                                <td width="40%">{coutForfaitaire} €</td>
+                                                <td width="60%"><b>ASS 5%</b></td>
+                                                <td width="40%">{total[0].prix_total * 0.05} €</td>
                                             </tr>
-                                        </> :
-                                        null}
-                                    <tr>
-                                        <td width="60%"><b>Coût de production total</b></td>
-                                        <td width="40%">{Number.parseFloat(coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) => element.temps).reduce((a,b) => a +b ,0)) / 60))} €</td>
-                                    </tr>
-                                    <tr>
-                                        <td width="60%"><b>Coût de production pour portion de 200g</b></td>
-                                        <td width="40%">{Number.parseFloat((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) => element.temps).reduce((a,b) => a +b ,0)) / 60)) / (total[0].qtetotale / 0.2))} €</td>
-                                    </tr>
-                                    <tr>
-                                        <td width="70%"><b>Prix de vente pour portion de 200g { }</b></td>
-                                        {fluidePersonnel ?
-                                            <td width="40%">{Number.parseFloat(((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) => element.temps).reduce((a,b) => a +b ,0)) / 60)) / (total[0].qtetotale / 0.2)) * coefficientfp)} €</td>
-                                            :
-                                            <td width="40%">{((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) => element.temps).reduce((a,b) => a +b ,0)) / 60)) / (total[0].qtetotale / 0.2)) * coefficient} €</td>}
-                                    </tr>
-                                </div> : null}   
+                                            <tr>
+                                                <td width="60%"><b>Coût matière</b></td>
+                                                <td width="40%">{total[0].prix_total * 0.05 + total[0].prix_total} €</td>
+                                            </tr>
+                                            {fluidePersonnel ?
+                                                <>
+                                                    <tr>
+                                                        <td width="60%"><b>Coût personnel</b></td>
+                                                        <td width="40%">{coutMoyen * (steps.map((element) =>
+                                                            element.descriptionProgression ? element.temps2 : element.temps1).reduce((a, b) => a + b, 0) / 60)} €</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td width="60%"><b>Coût fluide</b></td>
+                                                        <td width="40%">{coutForfaitaire} €</td>
+                                                    </tr>
+                                                </> :
+                                                null}
+                                            <tr>
+                                                <td width="60%"><b>Coût de production total</b></td>
+                                                <td width="40%">{Number.parseFloat(coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) =>
+                                                    element.descriptionProgression ? element.temps2 : element.temps1).reduce((a, b) => a + b, 0)) / 60))} €</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="60%"><b>Coût de production pour portion de 200g</b></td>
+                                                <td width="40%">{Number.parseFloat((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) =>
+                                                    element.descriptionProgression ? element.temps2 : element.temps1).reduce((a, b) => a + b, 0)) / 60)) / (total[0].qtetotale / 0.2))} €</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="70%"><b>Prix de vente pour portion de 200g { }</b></td>
+                                                {fluidePersonnel ?
+                                                    <td width="40%">{Number.parseFloat(((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) =>
+                                                        element.descriptionProgression ? element.temps2 : element.temps1).reduce((a, b) => a + b, 0)) / 60)) / (total[0].qtetotale / 0.2)) * coefficientfp)} €</td>
+                                                    :
+                                                    <td width="40%">{((coutForfaitaire + total[0].prix_total * 0.05 + total[0].prix_total + coutMoyen * ((steps.map((element) =>
+                                                        element.descriptionProgression ? element.temps2 : element.temps1).reduce((a, b) => a + b, 0)) / 60)) / (total[0].qtetotale / 0.2)) * coefficient} €</td>}
+                                            </tr>
+                                        </div> : null}
                                 </div>
                             </div>
                         </div>
                     </PDFExport>
-                    {imprimer ? 
-                    <>
-                    <div className="text-center">
-                        <Button className="imprimer btn-lg mt-5" onClick={exportPDFWithComponent} variant="contained">
-                            <h3 className="mt-2">IMPRIMER LA FICHE</h3>
-                        </Button>
-                         <div className="mt-2">
-                         <button className="comeback3 btn-primary btn-lg" onClick={comeBack3}>Annuler</button>
-                         </div>
-                    </div>
-                    </> : null}
+                    {imprimer ?
+                        <>
+                            <div className="text-center">
+                                <Button className="imprimer btn-lg mt-5" onClick={exportPDFWithComponent} variant="contained">
+                                    <h3 className="mt-2">IMPRIMER LA FICHE</h3>
+                                </Button>
+                                <div className="mt-2">
+                                    <button className="comeback3 btn-primary btn-lg" onClick={comeBack3}>Annuler</button>
+                                </div>
+                            </div>
+                        </> : null}
                     {!applyCoefficient1 && !applyCoefficient2 && !imprimer ?
                         <>
                             <div className="text-center mt-4">
