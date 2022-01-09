@@ -36,7 +36,7 @@ const TechnichalSheetDetail = () => {
     console.log("steps" + steps);
 
     useEffect(async () => {
-        axios(`${serverURL}/api/sheet/${id}`)
+        const res = await axios(`${serverURL}/api/sheet/${id}`)
             .then((response) => {
                 setData2(response.data);
                 console.log(response.data);
@@ -97,6 +97,7 @@ const TechnichalSheetDetail = () => {
             })
             .finally(() => {
             });
+            return await res;
     }, []);
 
     const exportPDFWithComponent = () => {

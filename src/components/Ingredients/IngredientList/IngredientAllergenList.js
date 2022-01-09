@@ -15,7 +15,7 @@ const IngredientAllergenList = () => {
     const [error, setError] = useState(null);
 
     useEffect(async () => {
-        axios(`${serverURL}/api/ingredients/byAllergen/${categoryAllergen}`)
+       const res = await axios(`${serverURL}/api/ingredients/byAllergen/${categoryAllergen}`)
             .then((response) => {
                 setData(response.data);
             })
@@ -26,6 +26,7 @@ const IngredientAllergenList = () => {
             .finally(() => {
                 setLoading(false);
             });
+        return await res;
     }, [])
 
     const showData = () => {

@@ -40,7 +40,7 @@ const TechnichalSheetCosts = () => {
     const [imprimer, setImprimer] = useState(false);
 
     useEffect( async () => {
-        axios(`${serverURL}/api/sheet/${id}/join`)
+        const res = await axios(`${serverURL}/api/sheet/${id}/join`)
             .then((response) => {
                 setData(response.data);
                 console.log(response.data);
@@ -98,6 +98,7 @@ const TechnichalSheetCosts = () => {
             })
             .finally(() => {
             });
+        return await res;
         console.log(coefficient);
         console.log(fluidePersonnel);
     }, []);
