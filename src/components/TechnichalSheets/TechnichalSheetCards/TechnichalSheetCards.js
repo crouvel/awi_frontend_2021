@@ -21,7 +21,7 @@ const TechnichalSheetCards = () => {
     const [error, setError] = useState(null);
 
     useEffect(async () => {
-        axios(`${serverURL}/api/sheet/byCategory/${categorieNom}`)
+        const res = await axios(`${serverURL}/api/sheet/byCategory/${categorieNom}`)
             .then((response) => {
                 setData(response.data);
             })
@@ -32,6 +32,7 @@ const TechnichalSheetCards = () => {
             .finally(() => {
                 setLoading(false);
             });
+            return await res;
     }, [])
 
     const showData = () => {

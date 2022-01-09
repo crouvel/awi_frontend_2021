@@ -8,7 +8,7 @@ import {
     Route,
     Link,
     useParams,
-    Redirect, 
+    Redirect,
     useHistory
 } from "react-router-dom";
 import { useFormik } from 'formik';
@@ -30,29 +30,30 @@ const CreateTechnichalSheet = () => {
     const history = useHistory();
 
     useEffect(async () => {
-        axios(`${serverURL}/api/recetteCategories`)
+        const res = await axios(`${serverURL}/api/recetteCategories`)
             .then((response) => {
                 setData(response.data);
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
                 setError(error);
-            })
-            .finally(() => {
-            });
-        axios(`${serverURL}/api/sheet`)
-            .then((response) => {
-                setFiches(response.data.map((element) => element.nomRecette));
-                console.log(response.data.map((element) => element.nomRecette));
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+                axios(`${serverURL}/api/sheet`)
+                    .then((response) => {
+                        setFiches(response.data.map((element) => element.nomRecette));
+                        console.log(response.data.map((element) => element.nomRecette));
+                        setLoading(false);
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching data: ", error);
+                        setError(error);
+                    })
+                    .finally(() => {
 
+                    });
+            })
+            .finally(() => {
+            });
+        return await res;
     }, []);
 
     const validate = () => {
@@ -214,7 +215,7 @@ const CreateTechnichalSheet = () => {
                                     Voulez-vous ajouter une progression maintenant ?</h2>
                             </div>
                             <div className="mt-5 text-center">
-                                <button className="btn btn-success btn-lg m-2" style={{height: "75px", width: "380px"}} onClick={goProgression}>Associer une progression</button>
+                                <button className="btn btn-success btn-lg m-2" style={{ height: "75px", width: "380px" }} onClick={goProgression}>Associer une progression</button>
                             </div>
                             <div className=" text-center">
                                 <button className="btn btn-info btn-lg m-2" onClick={goSheets}>Ajouter ultérieurement</button>

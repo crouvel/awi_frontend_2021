@@ -125,7 +125,7 @@ const CreateIngredient = () => {
     }
 
     useEffect(async () => {
-        axios(`${serverURL}/api/ingredientCat`)
+        const res = await axios(`${serverURL}/api/ingredientCat`)
             .then((response) => {
                 setCategorysIngredient(response.data);
                 console.log(response.data);
@@ -174,6 +174,7 @@ const CreateIngredient = () => {
             .finally(() => {
 
             });
+            return await res;
     }, []);
 
     return (

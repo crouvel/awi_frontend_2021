@@ -37,33 +37,33 @@ const AddIngredientsStep = () => {
 
     useEffect(async () => {
         if (!(options.length > 0)) {
-            axios(`${serverURL}/api/ingredients`)
+             axios(`${serverURL}/api/ingredients`)
                 .then((response) => {
                     console.log(response.data);
                     response.data.map((element) =>
                         options.push({ value: element.idIngredient, label: element.libelle }));
                     setLoading(false);
-                    axios(`${serverURL}/api/sheet/${referenceProgression}/steps`)
-                        .then((response) => {
-                            console.log(response.data);
-                            setSteps(response.data);
-                            setLoading(false);
-                        })
-                        .catch((error) => {
-                            console.error("Error fetching data: ", error);
-                            setError(error);
-                        })
-                        .finally(() => {
-                        });
                 })
                 .catch((error) => {
                     console.error("Error fetching data: ", error);
                     setError(error);
                 })
                 .finally(() => {
-
                 });
         }
+        const res2 = axios(`${serverURL}/api/sheet/${referenceProgression}/steps`)
+        .then((response) => {
+            console.log(response.data);
+            setSteps(response.data);
+            setLoading(false);
+        })
+        .catch((error) => {
+            console.error("Error fetching data: ", error);
+            setError(error);
+        })
+        .finally(() => {
+        });
+        return await res2;
         console.log(options);
         console.log(idd);
     }, []);

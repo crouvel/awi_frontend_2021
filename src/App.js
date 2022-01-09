@@ -35,7 +35,9 @@ function App() {
     const timer = setTimeout(() => {
       //setCount('Timeout called!');
     }, 5000);
-    return () => clearTimeout(timer);
+    return async () => {
+      return clearTimeout(timer);
+    };
   }, []);
 
   return (
