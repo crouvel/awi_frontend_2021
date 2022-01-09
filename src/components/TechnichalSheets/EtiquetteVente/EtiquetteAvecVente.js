@@ -29,7 +29,7 @@ const EtiquetteAvecVente = () => {
     const pdfExportComponent = React.useRef(null);
 
 
-    useEffect(() => {
+    useEffect(async () => {
         axios(`${serverURL}/api/sheet/${id}/join`)
             .then((response) => {
                 setData1(response.data);

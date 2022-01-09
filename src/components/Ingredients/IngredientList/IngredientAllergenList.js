@@ -14,7 +14,7 @@ const IngredientAllergenList = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
+    useEffect(async () => {
         axios(`${serverURL}/api/ingredients/byAllergen/${categoryAllergen}`)
             .then((response) => {
                 setData(response.data);

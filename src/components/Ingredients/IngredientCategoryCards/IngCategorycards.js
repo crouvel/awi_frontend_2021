@@ -11,7 +11,7 @@ const IngCategorycards = () => {
   const categoriesIngredientList = useSelector((state) => state.IngredientCategories);
 
   useEffect(() => {
-    const fetchData = () => {
+    async function fetchData() {
       dispatch(getIngredientCategories());
     };
     fetchData();
