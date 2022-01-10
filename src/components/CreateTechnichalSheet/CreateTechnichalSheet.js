@@ -34,10 +34,6 @@ const CreateTechnichalSheet = () => {
         const res = await axios(`${serverURL}/api/recetteCategories`)
             .then((response) => {
                 setData(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
                 axios(`${serverURL}/api/sheet`)
                     .then((response) => {
                         setFiches(response.data.map((element) => element.nomRecette));
@@ -51,6 +47,10 @@ const CreateTechnichalSheet = () => {
                     .finally(() => {
 
                     });
+            })
+            .catch((error) => {
+                console.error("Error fetching data: ", error);
+                setError(error);
             })
             .finally(() => {
             });

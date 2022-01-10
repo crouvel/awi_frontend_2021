@@ -28,16 +28,22 @@ import EtiquetteVente from './components/TechnichalSheets/EtiquetteVente/Etiquet
 import EtiquetteAvecVente from './components/TechnichalSheets/EtiquetteVente/EtiquetteAvecVente';
 import IngredientAllergenList from './components/Ingredients/IngredientList/IngredientAllergenList';
 import Footer from './components/Footer/Footer';
+import { AsyncStorage } from 'AsyncStorage';
 
 function App() {
   
   useEffect(async () => {
+    const firstTime = await AsyncStorage.getItem("isFirstTime");
+    if (firstTime != null){ 
+      await AsyncStorage.setItem("isFirstTime", 'true');
+    }else{
+      window.location.reload(); 
+      await AsyncStorage.setItem("isFirstTime", 'false');
+    }
     const timer = setTimeout(() => {
-      //setCount('Timeout called!');
-    }, 5000);
-    return async () => {
-      return clearTimeout(timer);
-    };
+      //setCount('Timeout called!');  
+    }, 5000); 
+    return clearTimeout(timer);
   }, []);
 
   return (

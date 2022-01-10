@@ -81,6 +81,7 @@ const EtiquetteAvecVente = () => {
     };
 
     const cancelPlat = () => {
+        setPlatVendu(null);
         setPlat(false);
     };
 

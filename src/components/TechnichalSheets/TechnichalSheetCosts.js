@@ -134,10 +134,12 @@ const TechnichalSheetCosts = () => {
     }
 
     const comeBack2 = () => {
+        setCoefficientfp(null);
         setApplyCoefficient2(false);
     }
 
     const comeBack1 = () => {
+        setCoefficient(null);
         setApplyCoefficient1(false);
     }
 
@@ -485,8 +487,8 @@ const TechnichalSheetCosts = () => {
                                 {newCoefficient ? <button className="appliquer btn-lg btn-success" onClick={changeCoefficient1}>appliquer</button> :
                                     <button className="appliquer btn-lg btn-light" disabled>appliquer</button>}
                             </div>
-                            <div className="text-center">
-                                <button className="comeback1 btn-lg" onClick={comeBack1}>Annuler</button>
+                            <div className="text-center mt-2">
+                                <button className="comeback1 btn-warning btn-lg" onClick={comeBack1}>Annuler</button>
                             </div>
                         </>
                         : null}
@@ -534,12 +536,12 @@ const TechnichalSheetCosts = () => {
                                     placeholder="Coût Moyen ..."
                                 />
                             </div>
-                            <div className="text-center">
+                            <div className="text-center mt-2">
                                 {coefficientfp && coutForfaitaire && coutMoyen ? <button className="appliquer btn-lg btn-success" onClick={changeCoefficient2}>appliquer</button> :
                                     <button className="appliquer btn-lg btn-light" disabled>appliquer</button>}
                             </div>
-                            <div className="text-center">
-                                <button className="comeback2 btn-succes btn-lg" onClick={comeBack2}>Annuler</button>
+                            <div className="text-center mt-2 ml-2">
+                                <button className="comeback2 btn-warning btn-lg" onClick={comeBack2}>Annuler</button>
                             </div>
                         </>
                         : null}

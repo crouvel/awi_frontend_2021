@@ -73,9 +73,12 @@ const AddIngredientsStep = () => {
 
 
     const ListCreation = () => {
+        setLoading(true);
         axios.post(`${serverURL}/api/ingredientsList/create`, {
             nomListe,
             referenceProgression
+        }).then((response) => {
+            setLoading(false);
         })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
@@ -94,6 +97,7 @@ const AddIngredientsStep = () => {
     }
 
     const AssociateIngredientToStep = () => {
+        setLoading(true);
         axios(`${serverURL}/api/ingredientsList/last/${nomListe}`)
             .then((response) => {
                 axios.post(`${serverURL}/api/ingredients/addToListStep`, {
@@ -101,14 +105,18 @@ const AddIngredientsStep = () => {
                     quantite,
                     lastIngredientsListStep: response.data[0].idLastCreatedList,
                     referenceProgression
-                }).catch((error) => {
+                }).then((response) => 
+                {
+                    setLoading(false);
+                    setQuantite("");
+                })
+                .catch((error) => {
                     console.error("Error fetching data: ", error);
                     setError(error);
                 })
                     .finally(() => {
                         setIngredientAdded(true);
                     });
-                setLoading(false);
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
@@ -125,22 +133,6 @@ const AddIngredientsStep = () => {
     const displayInfo9 = () => {
         setAddMoreIngredientsList(true);
     }
-
-    /*const ingredientPM = () => {
-        axios(`${serverURL}/api/ingredients/${idd}`)
-            .then((response) => {
-                console.log(idd);
-                console.log(response.data);
-                setDetail(response.data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error);
-                setError(error);
-            })
-            .finally({
-            });
-    }*/
 
     const validate = () => {
         const errors = {};
@@ -173,18 +165,9 @@ const AddIngredientsStep = () => {
                 <h1>Progression : {referenceProgression}</h1>
             </div>
             <div className="container mt-3 mb-2 text-center" >
-                <h2>Associez des ingrédients aux étapes créées</h2>
+                <h2>Associez des ingrédients aux étapes créées <br />
+                <i>Si vous avez ajouté une progression à une étape, veuillez créer les listes d'ingrédients correspondantes</i></h2>
             </div>
-            {steps ?
-                <div className="container mt-3 mb-2 text-center" >
-                    <h3><b>Récapitulatif des étapes créées :</b></h3>
-                    {steps.map((step) => {
-                        return (
-                            <h3>{step.titre}</h3>
-                        );
-                    })}
-                </div> :
-                null}
             <div className="container mt-3 mb-2" >
                 {!ingredientAdded ?
                     (!addIngredient || addMoreIngredientsList ?
@@ -260,7 +243,7 @@ const AddIngredientsStep = () => {
                                 </div>
                             </div>
                             <div className="text-center">
-                                {quantite && libelleIngredient ? <Button type="button" size="lg" onClick={AssociateIngredientToStep} className="step-create mt-1"><div>Ajouter l'ingrédient</div></Button>
+                                {quantite && libelleIngredient && libelleIngredient !=="" ? <Button type="button" size="lg" onClick={AssociateIngredientToStep} className="step-create mt-1"><div>Ajouter l'ingrédient</div></Button>
                                     : <Button type="button" size="lg" className="step-create mt-1" disabled><div>Ajouter l'ingrédient</div></Button>}
                             </div>
                         </>

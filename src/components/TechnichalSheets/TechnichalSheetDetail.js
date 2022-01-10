@@ -329,7 +329,7 @@ const TechnichalSheetDetail = () => {
                                                 <tbody className="body-gauche">
                                                     {steps.map(
                                                         (element4, index, array) => {
-                                                            if (element4.descriptionProgression === null) {
+                                                            if (element4.descriptionProgression == null) {
                                                                 return (
                                                                     <>
                                                                         <tr className="souspartie-gauche text-center">

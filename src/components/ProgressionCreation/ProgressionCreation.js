@@ -128,6 +128,7 @@ const ProgressionCreation = () => {
             console.error("Error creating data: ", error);
             setError(error);
         })
+        setDescriptionProgression(null);
         setStepCreated(true);
     }
 
@@ -255,7 +256,7 @@ const ProgressionCreation = () => {
                                         onBlur={formik.handleBlur}
                                         placeholder="Recherchez ou sélectionnez une progression qui représente la description d'une étape ..."
                                     />
-                                    <label htmlFor="Temps" className="mt-5">Temps (en min)</label>
+                                    <label htmlFor="Temps" className="mt-5">Temps (en min) (Vous pouvez mettre 0 si vous avez ajouté une progression à l'étape, les temps seront calculés selon les sous-étapes)</label>
                                     <input
                                         id="Temps"
                                         name="Temps"
@@ -276,7 +277,7 @@ const ProgressionCreation = () => {
                                         id="Ordre"
                                         name="Ordre"
                                         type="number"
-                                        min="1"
+                                        min="0"
                                         onChange={(event) => {
                                             setOrdre(event.target.value);
                                         }}
