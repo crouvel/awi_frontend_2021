@@ -29,7 +29,8 @@ const CreateTechnichalSheet = () => {
     const [sheetCreated, setSheetCreated] = useState(false);
     const history = useHistory();
 
-    useEffect(async () => {
+    useEffect(() => {
+        async function fetchData() {
         const res = await axios(`${serverURL}/api/recetteCategories`)
             .then((response) => {
                 setData(response.data);
@@ -54,6 +55,8 @@ const CreateTechnichalSheet = () => {
             .finally(() => {
             });
         return await res;
+        }
+        fetchData();
     }, []);
 
     const validate = () => {

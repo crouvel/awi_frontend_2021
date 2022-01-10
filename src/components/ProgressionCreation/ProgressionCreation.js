@@ -38,7 +38,8 @@ const ProgressionCreation = () => {
     const [options, setOptions] = useState([]);
     //console.log(options);
 
-    useEffect(async () => {
+    useEffect(() => {
+        async function fetchData (){
         axios(`${serverURL}/api/progression`)
             .then((response) => {
                 setData(response.data.map((element) =>
@@ -67,6 +68,8 @@ const ProgressionCreation = () => {
             })
             .finally(() => {
             });
+        }
+        fetchData();
     });
 
     const validate = () => {

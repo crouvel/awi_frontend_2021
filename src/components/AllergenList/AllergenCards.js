@@ -9,7 +9,8 @@ const AllergenCards = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(async() => {
+    useEffect(() => {
+        async function fetchData() {
         const res = await axios(`${serverURL}/api/categoryAllergen`)
             .then((response) => {
                 setData(response.data);
@@ -22,6 +23,8 @@ const AllergenCards = () => {
                 setLoading(false);
             });
         return await res;
+        }
+        fetchData();
     }, [])
 
     const showData = () => {

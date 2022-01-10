@@ -27,7 +27,8 @@ const EtiquetteVente = () => {
     const container = React.useRef(null);
     const pdfExportComponent = React.useRef(null);
 
-    useEffect(async () => {
+    useEffect(() => {
+        async function fetchData(){
         axios(`${serverURL}/api/sheet/${id}`)
             .then((response) => {
                 setData1(response.data);
@@ -53,6 +54,8 @@ const EtiquetteVente = () => {
             })
             .finally(() => {
             });
+        }
+        fetchData();
     }, []);
 
     const exportPDFWithComponent = () => {

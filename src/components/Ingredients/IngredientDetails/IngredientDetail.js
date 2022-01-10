@@ -32,7 +32,9 @@ const IngredientDetail = () => {
     const [categoryAllergen, setCategoryAllergen] = useState('');
     const history = useHistory();
 
-    useEffect(async () => {
+    useEffect(() => {
+        
+        async function fetchData (){
         axios(`${serverURL}/api/ingredients/${id}`)
             .then((response) => {
                 setData(response.data);
@@ -87,6 +89,8 @@ const IngredientDetail = () => {
             })
             .finally(() => {
             });
+        }
+        fetchData();
     }, []);
 
     const modification = () => {
