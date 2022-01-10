@@ -51,8 +51,6 @@ const AddIngredientsStep = () => {
                     });
                 return await res;
             }
-        }
-        async function fetchData2() {
             const res2 = await axios(`${serverURL}/api/sheet/${referenceProgression}/steps`)
                 .then((response) => {
                     console.log(response.data);
@@ -68,7 +66,6 @@ const AddIngredientsStep = () => {
             return await res2;
         }
         fetchData1();
-        fetchData2();
         console.log(options);
         console.log(idd);
     }, []);
