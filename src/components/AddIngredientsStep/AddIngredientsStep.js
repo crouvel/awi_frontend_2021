@@ -29,21 +29,34 @@ const AddIngredientsStep = () => {
     const [listIngredientsAdded, setListIngredientsAdded] = useState(false);
     const [addMoreIngredientsList, setAddMoreIngredientsList] = useState(true);
     const [steps, setSteps] = useState([]);
-    //console.log(addMoreIngredientsList);
     console.log(referenceProgression);
     const [idd, setIdd] = useState('');
     const [detail, setDetail] = useState([]);
-    //ingredientPM();
 
     useEffect(() => {
-        
-        async function fetchData (){
-        if (!(options.length > 0)) {
-             axios(`${serverURL}/api/ingredients`)
+        async function fetchData1() {
+            if (!(options.length > 0)) {
+                const res = await axios(`${serverURL}/api/ingredients`)
+                    .then((response) => {
+                        console.log(response.data);
+                        response.data.map((element) =>
+                            options.push({ value: element.idIngredient, label: element.libelle }));
+                        setLoading(false);
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching data: ", error);
+                        setError(error);
+                    })
+                    .finally(() => {
+                    });
+                return await res;
+            }
+        }
+        async function fetchData2() {
+            const res2 = await axios(`${serverURL}/api/sheet/${referenceProgression}/steps`)
                 .then((response) => {
                     console.log(response.data);
-                    response.data.map((element) =>
-                        options.push({ value: element.idIngredient, label: element.libelle }));
+                    setSteps(response.data);
                     setLoading(false);
                 })
                 .catch((error) => {
@@ -52,24 +65,12 @@ const AddIngredientsStep = () => {
                 })
                 .finally(() => {
                 });
+            return await res2;
         }
-        const res2 = axios(`${serverURL}/api/sheet/${referenceProgression}/steps`)
-        .then((response) => {
-            console.log(response.data);
-            setSteps(response.data);
-            setLoading(false);
-        })
-        .catch((error) => {
-            console.error("Error fetching data: ", error);
-            setError(error);
-        })
-        .finally(() => {
-        });
-        return await res2;
+        fetchData1();
+        fetchData2();
         console.log(options);
         console.log(idd);
-    }
-    fetchData();
     }, []);
 
 
