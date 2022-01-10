@@ -9,7 +9,8 @@ const CategoryRecetteCards = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    useEffect(async () => {
+    useEffect(() => {
+        async function fetchData () {
         axios(`${serverURL}/api/recetteCategories`)
             .then((response) => {
                 setData(response.data);
@@ -21,6 +22,8 @@ const CategoryRecetteCards = () => {
             .finally(() => {
                 setLoading(false);
             });
+        }
+        fetchData();
     }, [])
 
     const showData = () => {

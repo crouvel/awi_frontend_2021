@@ -35,7 +35,9 @@ const AddIngredientsStep = () => {
     const [detail, setDetail] = useState([]);
     //ingredientPM();
 
-    useEffect(async () => {
+    useEffect(() => {
+        
+        async function fetchData (){
         if (!(options.length > 0)) {
              axios(`${serverURL}/api/ingredients`)
                 .then((response) => {
@@ -66,6 +68,8 @@ const AddIngredientsStep = () => {
         return await res2;
         console.log(options);
         console.log(idd);
+    }
+    fetchData();
     }, []);
 
 

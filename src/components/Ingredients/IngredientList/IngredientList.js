@@ -18,7 +18,7 @@ const IngredientsList = () => {
     const ingredientsByCategoryList = useSelector((state) => state.IngredientsByCategory);
     let { id } = useParams();
 
-    useEffect(async () => {
+    useEffect(() => {
         async function fetchData() {
          dispatch(getIngredientByCategory(id));
         };

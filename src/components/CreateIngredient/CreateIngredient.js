@@ -124,7 +124,8 @@ const CreateIngredient = () => {
         }
     }
 
-    useEffect(async () => {
+    useEffect(() => {
+        async function fetchData() {
         const res = await axios(`${serverURL}/api/ingredientCat`)
             .then((response) => {
                 setCategorysIngredient(response.data);
@@ -175,6 +176,8 @@ const CreateIngredient = () => {
 
             });
             return await res;
+        }
+        fetchData();
     }, []);
 
     return (
