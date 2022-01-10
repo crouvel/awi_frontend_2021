@@ -1,3 +1,12 @@
+# PROJET AWI 2021
+
+Application front-end en ReactJS développée par Alex BENBOUAZZA et Clarence ROUVEL.
+Les sections qui suivent expliquent en anglais comment démarrer l'application en local.
+
+## But de l'applcation
+
+Au nom de "Gestion fiches techniques", le but est de permettre la création de recettes, ainsi que le calcul des coûts et la gestion des stockes et ingrédients.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

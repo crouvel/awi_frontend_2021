@@ -10,7 +10,9 @@ class AllergenList extends Component {
             <>
                 <div className="text-center mt-5">
                     <h1>Allergènes</h1>
-                    <p className="intro">Ici, vous pouvez consulter la liste des ingrédients allergènes.</p>
+                    <p className="intro">Ici, vous pouvez consulter la liste des ingrédients allergènes. <br />
+                    <i>Si vous souhaitez ajouter une catégorie d'ingrédient, vauillez contacter :
+                        clarence.rouvel@etu.umontpellier.fr ou alex.benbouzza@etu.umontpellier.fr</i></p>
                 </div>
                 <AllergenCards />
             </>
