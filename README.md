@@ -2,6 +2,7 @@
 
 Application front-end en ReactJS développée par Alex BENBOUAZZA et Clarence ROUVEL.
 Les sections qui suivent expliquent en anglais comment démarrer l'application en local.
+Pour plus d'informations, veuillez contacter les membres du groupe nommés ci-dessus.
 
 ## But de l'applcation
 
